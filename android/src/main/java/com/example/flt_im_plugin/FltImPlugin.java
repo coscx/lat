@@ -21,8 +21,6 @@ import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
-import com.beetle.NettyClient;
-import com.beetle.NettyLog;
 import com.beetle.bauhinia.api.IMHttpAPI;
 import com.beetle.bauhinia.api.body.PostDeviceToken;
 import com.beetle.bauhinia.db.CustomerMessageDB;
@@ -108,7 +106,6 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-import io.netty.buffer.Unpooled;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
