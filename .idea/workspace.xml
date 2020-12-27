@@ -26,8 +26,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/android/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/FltImPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/FltImPlugin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608905760842</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="code">
+      <created>1608981298262</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1608981298262</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -158,14 +167,15 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="433" y="121" key="AndroidProcessChooserDialog/0.0.1280.800@0.0.1280.800" timestamp="1603377905948" />
-    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1608905759704">
+    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1608981297145">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1608905759704" />
-    <state width="597" height="761" key="DebuggerActiveHint" timestamp="1603456895629">
-      <screen x="0" y="0" width="1280" height="800" />
+    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1608981297145" />
+    <state width="1194" height="1332" key="DebuggerActiveHint" timestamp="1609039048193">
+      <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="597" height="761" key="DebuggerActiveHint/0.0.1280.800@0.0.1280.800" timestamp="1603456895628" />
+    <state width="1194" height="1332" key="DebuggerActiveHint/0.0.2560.1400@0.0.2560.1400" timestamp="1609039048193" />
     <state x="88" y="126" width="1080" height="577" key="DiffContextDialog" timestamp="1603006048379">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
@@ -174,39 +184,39 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1608903866273" />
-    <state width="2518" height="399" key="GridCell.Tab.0.bottom" timestamp="1608905780953">
+    <state width="2518" height="399" key="GridCell.Tab.0.bottom" timestamp="1609038907923">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="1503" height="137" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1603514335871" />
     <state width="1388" height="26" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1603781003334" />
-    <state width="2518" height="399" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1608905780953" />
-    <state width="2518" height="399" key="GridCell.Tab.0.center" timestamp="1608905780953">
+    <state width="2518" height="399" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1609038907923" />
+    <state width="2518" height="399" key="GridCell.Tab.0.center" timestamp="1609038907923">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="1503" height="137" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1603514335870" />
     <state width="1388" height="26" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1603781003334" />
-    <state width="2518" height="399" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1608905780953" />
-    <state width="2518" height="399" key="GridCell.Tab.0.left" timestamp="1608905780953">
+    <state width="2518" height="399" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1609038907923" />
+    <state width="2518" height="399" key="GridCell.Tab.0.left" timestamp="1609038907923">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="1503" height="137" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1603514335870" />
     <state width="1388" height="26" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1603781003334" />
-    <state width="2518" height="399" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1608905780953" />
-    <state width="2518" height="399" key="GridCell.Tab.0.right" timestamp="1608905780953">
+    <state width="2518" height="399" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1609038907923" />
+    <state width="2518" height="399" key="GridCell.Tab.0.right" timestamp="1609038907923">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="1503" height="137" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1603514335870" />
     <state width="1388" height="26" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1603781003334" />
-    <state width="2518" height="399" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1608905780953" />
+    <state width="2518" height="399" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1609038907923" />
     <state x="63" y="0" key="SettingsEditor" timestamp="1603781439024">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="0" y="0" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1603368936253" />
     <state x="63" y="0" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1603781439024" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1608905768601">
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1608981305196">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1608905768601" />
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1608981305196" />
     <state width="735" height="394" key="XDebugger.FullValuePopup" timestamp="1603456937065">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
@@ -220,6 +230,10 @@
     </state>
     <state x="289" y="60" width="771" height="656" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1603027268242" />
     <state x="578" y="105" width="1542" height="1148" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1607409735297" />
+    <state x="938" y="331" key="run.anything.popup" timestamp="1608990103701">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="938" y="331" key="run.anything.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1608990103701" />
     <state x="246" y="0" key="search.everywhere.popup" timestamp="1603514502413">
       <screen x="0" y="0" width="1280" height="800" />
     </state>

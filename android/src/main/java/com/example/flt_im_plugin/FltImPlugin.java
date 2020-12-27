@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.HandlerThread;
 import android.text.TextUtils;
@@ -108,6 +109,8 @@ import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 import static android.provider.Settings.Secure;
 import static android.provider.Settings.Secure.ANDROID_ID;
@@ -598,7 +601,7 @@ public class FltImPlugin implements FlutterPlugin,
     Map params = (Map)arg;
     Map argMap = (Map)params.get("message");
     MessageContent.MessageType type = _getMessageTypeFromNumber((int)params.get("type"));
-    IMessage imsg = newOutMessage(argMap);
+    final IMessage imsg = newOutMessage(argMap);
 
     if (type == MessageContent.MessageType.MESSAGE_TEXT) {
       String rawContent = (String)argMap.get("rawContent");
@@ -607,9 +610,16 @@ public class FltImPlugin implements FlutterPlugin,
     } else if (type == MessageContent.MessageType.MESSAGE_IMAGE) {
       byte[] bitmap = (byte[])argMap.get("image");
       Bitmap bmp = BitmapFactory.decodeByteArray(bitmap, 0, bitmap.length);
+      if(bmp.getWidth()>bmp.getHeight()) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+      }
       double w = bmp.getWidth();
       double h = bmp.getHeight();
       double rate = w > h ? w/h : h/w;
+
+
       int scalePolicy = -1;// 0 origin, 1 max 1280, 2  min 800
       if (w <= 1280 && h <= 1280) {
         scalePolicy = 0;
@@ -664,15 +674,17 @@ public class FltImPlugin implements FlutterPlugin,
         newWidth = bmp.getWidth();
         newHeight = bmp.getHeight();
       }
-
+      bigBMP = bmp;
+      newHeight= bmp.getWidth();
+      newWidth = bmp.getHeight();
       double sw = 256.0;
       double sh = 256.0*h/w;
 
       Bitmap thumbnail = Bitmap.createScaledBitmap(bmp, (int)sw, (int)sh, true);
       ByteArrayOutputStream os = new ByteArrayOutputStream();
-      bigBMP.compress(Bitmap.CompressFormat.JPEG, 50, os);
+      bigBMP.compress(Bitmap.CompressFormat.JPEG, 100, os);
       ByteArrayOutputStream os2 = new ByteArrayOutputStream();
-      thumbnail.compress(Bitmap.CompressFormat.JPEG, 50, os2);
+      thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, os2);
       String originURL = localImageURL();
       String thumbURL = localImageURL();
       try {
@@ -681,12 +693,35 @@ public class FltImPlugin implements FlutterPlugin,
         String path = FileCache.getInstance().getCachedFilePath(originURL);
         String thumbPath = FileCache.getInstance().getCachedFilePath(thumbURL);
 
-        String tpath = path + "@256w_256h_0c";
+        String tpath = path ;//+ "@256w_256h_0c";
         File f = new File(thumbPath);
         File t = new File(tpath);
-        f.renameTo(t);
-        imsg.setContent(Image.newImage("file:" + path, (int)newWidth, (int)newHeight));
-        _sendMessage(imsg, result);
+        //f.renameTo(t);
+        final String[] newPath = new String[1];
+        final double finalNewWidth = newWidth;
+        final double finalNewHeight = newHeight;
+        Luban.with(context) // 初始化
+                .load(t) // 要压缩的图片
+                .ignoreBy(100)
+                .putGear(3)
+                .setCompressListener(new OnCompressListener() {
+                  @Override
+                  public void onStart() {
+                  }
+                  @Override
+                  public void onSuccess(File newFile) {
+                    // 压缩成功后调用，返回压缩后的图片文件
+                    // 获取返回的图片地址 newfile
+                    newPath[0] =newFile.getAbsolutePath();
+                    imsg.setContent(Image.newImage("file:" +  newPath[0], (int) finalNewWidth, (int) finalNewHeight));
+                    _sendMessage(imsg, result);
+                  }
+                  @Override
+                  public void onError(Throwable e) {
+                  }
+                }).launch(); // 启动压缩
+
+
       } catch (IOException e) {
         result.success(resultError("发送失败", 1));
       }

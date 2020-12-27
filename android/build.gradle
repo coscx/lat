@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.netflix.rxjava:rxjava-core:0.20.7'
     implementation 'com.netflix.rxjava:rxjava-android:0.20.7'
     implementation 'com.alibaba:fastjson:1.1.72.android'
+    implementation 'top.zibin:Luban:1.1.8'
     implementation project(path: ':flutter_plugin_android_lifecycle')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
