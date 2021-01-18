@@ -17,11 +17,11 @@ import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.amap.api.services.core.LatLonPoint;
-import com.amap.api.services.geocoder.GeocodeResult;
-import com.amap.api.services.geocoder.GeocodeSearch;
-import com.amap.api.services.geocoder.RegeocodeQuery;
-import com.amap.api.services.geocoder.RegeocodeResult;
+//import com.amap.api.services.core.LatLonPoint;
+//import com.amap.api.services.geocoder.GeocodeResult;
+//import com.amap.api.services.geocoder.GeocodeSearch;
+//import com.amap.api.services.geocoder.RegeocodeQuery;
+//import com.amap.api.services.geocoder.RegeocodeResult;
 import com.beetle.bauhinia.api.IMHttpAPI;
 import com.beetle.bauhinia.api.body.PostDeviceToken;
 import com.beetle.bauhinia.db.CustomerMessageDB;
@@ -1372,34 +1372,34 @@ public class FltImPlugin implements FlutterPlugin,
   }
 
   protected void queryLocation(final IMessage msg) {
-    final Location loc = (Location)msg.content;
-
-    msg.setGeocoding(true);
-    // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
-    RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(loc.latitude, loc.longitude), 200, GeocodeSearch.AMAP);
-
-    GeocodeSearch mGeocodeSearch = new GeocodeSearch(this.context);
-    mGeocodeSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
-      @Override
-      public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
-        if (i == 0 && regeocodeResult != null && regeocodeResult.getRegeocodeAddress() != null
-                && regeocodeResult.getRegeocodeAddress().getFormatAddress() != null) {
-          String address = regeocodeResult.getRegeocodeAddress().getFormatAddress();
-          loc.address = address;
-          saveMessageAttachment(msg, address);
-        } else {
-          // 定位失败;
-        }
-        msg.setGeocoding(false);
-      }
-
-      @Override
-      public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
-
-      }
-    });
-
-    mGeocodeSearch.getFromLocationAsyn(query);// 设置同步逆地理编码请求
+//    final Location loc = (Location)msg.content;
+//
+//    msg.setGeocoding(true);
+//    // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+//    RegeocodeQuery query = new RegeocodeQuery(new LatLonPoint(loc.latitude, loc.longitude), 200, GeocodeSearch.AMAP);
+//
+//    GeocodeSearch mGeocodeSearch = new GeocodeSearch(this.context);
+//    mGeocodeSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
+//      @Override
+//      public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+//        if (i == 0 && regeocodeResult != null && regeocodeResult.getRegeocodeAddress() != null
+//                && regeocodeResult.getRegeocodeAddress().getFormatAddress() != null) {
+//          String address = regeocodeResult.getRegeocodeAddress().getFormatAddress();
+//          loc.address = address;
+//          saveMessageAttachment(msg, address);
+//        } else {
+//          // 定位失败;
+//        }
+//        msg.setGeocoding(false);
+//      }
+//
+//      @Override
+//      public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+//
+//      }
+//    });
+//
+//    mGeocodeSearch.getFromLocationAsyn(query);// 设置同步逆地理编码请求
   }
 
   protected void updateNotificationDesc(IMessage imsg) {
