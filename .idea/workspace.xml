@@ -151,7 +151,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611203767604</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="del amap">
+      <created>1611218657930</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1611218657930</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -232,10 +239,10 @@
     </state>
     <state x="0" y="0" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1603368936253" />
     <state x="63" y="0" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1603781439024" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1611203777103">
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1611218664316">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1611203777103" />
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1611218664316" />
     <state width="735" height="394" key="XDebugger.FullValuePopup" timestamp="1603456937065">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
