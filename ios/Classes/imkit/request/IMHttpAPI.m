@@ -27,7 +27,7 @@
 }
 +(NSOperation*)uploadImageData:(NSData*)data success:(void (^)(NSString *url))success fail:(void (^)(void))fail {
     IMHttpOperation *request = [IMHttpOperation httpOperationWithTimeoutInterval:60];
-    request.targetURL = [[IMHttpAPI instance].apiURL stringByAppendingString:@"/images"];
+    request.targetURL = [[IMHttpAPI instance].apiURL stringByAppendingString:@"/v1/chat/images"];
     request.method = @"POST";
     request.postBody = data;
     
@@ -62,7 +62,7 @@
 
 +(NSOperation*)uploadAudio:(NSData*)data success:(void (^)(NSString *url))success fail:(void (^)(void))fail {
     IMHttpOperation *request = [IMHttpOperation httpOperationWithTimeoutInterval:60];
-    request.targetURL = [[IMHttpAPI instance].apiURL stringByAppendingString:@"/audios"];
+    request.targetURL = [[IMHttpAPI instance].apiURL stringByAppendingString:@"/v1/chat/audios"];
     request.method = @"POST";
     request.postBody = data;
     
@@ -98,7 +98,7 @@ static NSString * AFCreateMultipartFormBoundary() {
 }
 
 +(void)uploadFile:(NSData*)fileData filename:(NSString*)filename success:(void(^)(NSString* url))success fail:(void(^)(void))fail {
-    NSString *url = [[IMHttpAPI instance].apiURL stringByAppendingString:@"/files"];
+    NSString *url = [[IMHttpAPI instance].apiURL stringByAppendingString:@"/v1/chat/files"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     
     NSString *auth = [NSString stringWithFormat:@"Bearer %@", [IMHttpAPI instance].accessToken];
