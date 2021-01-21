@@ -145,6 +145,9 @@ GroupMessageObserver>
     else if ([@"deleteConversation" isEqualToString:call.method]) {
         [self deleteConversation:call.arguments result:result];
     }
+    else if ([@"clearReadCount" isEqualToString:call.method]) {
+        [self clearReadCount:call.arguments result:result];
+    }
     else {
         result(FlutterMethodNotImplemented);
     }
@@ -167,7 +170,10 @@ GroupMessageObserver>
     self.conversations = convs;
     result([self resultSuccess:@"完成"]);
 }
-
+- (void)clearReadCount:(NSDictionary *)args result:(FlutterResult)result {
+    int cid = [self getIntValueFromArgs:args forKey:@"cid"];
+    result([self resultSuccess:@"完成"]);
+}
 - (void)getConversations:(NSDictionary *)args result:(FlutterResult)result {
     result([self resultSuccess:[Conversation mj_keyValuesArrayWithObjectArray:self.conversations]]);
 }
