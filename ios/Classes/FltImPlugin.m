@@ -7,6 +7,7 @@
 #import "CustomerMessageDB.h"
 #import "CustomerOutbox.h"
 #import "GOReachability.h"
+#import "ConversationDB.h"
 #import "PeerMessageDB.h"
 #import "GroupMessageDB.h"
 #import "CustomerMessageDB.h"
@@ -15,7 +16,7 @@
 #import "CustomerMessageHandler.h"
 #import "SyncKeyHandler.h"
 #import "IMessageDB.h"
-
+#import "IConversationDB.h"
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -65,6 +66,7 @@ GroupMessageObserver>
 @property (strong, nonatomic) NSData *deviceToken;
 
 @property (nonatomic) id<IMessageDB> messageDB;
+@property (nonatomic) id<IConversitionDB> conversationDB;
 @property (nonatomic, assign) NSInteger conversationID;
 @property (nonatomic, assign) NSInteger currentUID;
 @property (nonatomic) NSMutableDictionary *attachments;
@@ -175,6 +177,28 @@ GroupMessageObserver>
     result([self resultSuccess:@"完成"]);
 }
 - (void)getConversations:(NSDictionary *)args result:(FlutterResult)result {
+    NSMutableArray *convs = [NSMutableArray arrayWithCapacity:30];
+    int count = 0;
+    id<IConversationIterator> iterator;
+    iterator = [[ConversationDB instance] getConvIterator:self.conversationID];
+    Conversation *con = [iterator next];
+    while (con) {
+        if (con.type == CONVERSATION_PEER) {
+            
+           
+            IMessage *msg = [[PeerMessageDB instance] getLastMessage:con.cid];
+            con.message = msg;
+            [self updateConvNotificationDesc:con];
+            [self updateConversationDetail:con];
+            [convs insertObject:con atIndex:0];
+            
+        } else {
+          
+        }
+
+        con = [iterator next];
+    }
+    self.conversations = convs;
     result([self resultSuccess:[Conversation mj_keyValuesArrayWithObjectArray:self.conversations]]);
 }
 
@@ -406,7 +430,7 @@ GroupMessageObserver>
         db = nil;
         NSAssert(NO, @"");
     }
-
+    [ConversationDB instance].db = db;
     [PeerMessageDB instance].db = db;
     [GroupMessageDB instance].db = db;
     [CustomerMessageDB instance].db = db;
@@ -789,7 +813,6 @@ GroupMessageObserver>
     if (index != -1) {
         Conversation *con = [self.conversations objectAtIndex:index];
         con.message = msg;
-
         [self updateConversationDetail:con];
 
         if (self.currentUID == msg.receiver) {
@@ -809,10 +832,11 @@ GroupMessageObserver>
 
         [self updateConvNotificationDesc:con];
         [self updateConversationDetail:con];
-
+        
         if (self.currentUID == msg.receiver) {
             con.newMsgCount += 1;
         }
+        bool re=  [[ConversationDB instance] addConversation:con];
         [self.conversations insertObject:con atIndex:0];
     }
     [self callFlutter:[self resultSuccess:@{

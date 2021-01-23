@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IMessage.h"
-//由近到远遍历消息
-@protocol IMessageIterator
--(IMessage*)next;
-@end
+#import "Conversation.h"
 
+//由近到远遍历消息
+@protocol IConversationIterator
+-(Conversation*)next;
+@end

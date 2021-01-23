@@ -11,6 +11,7 @@
 
 #define PAGE_COUNT 10
 @protocol IMessageDB<NSObject>
+
 -(id<IMessageIterator>)newMessageIterator:(int64_t)conversationID;
 //下拉刷新
 -(id<IMessageIterator>)newForwardMessageIterator:(int64_t)conversationID last:(int)lastMsgID;

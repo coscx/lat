@@ -15,6 +15,7 @@
 #define CONVERSATION_CUSTOMER_SERVICE 4
 
 @interface Conversation : NSObject
+@property(nonatomic, assign) int64_t id;
 @property(nonatomic) int type;
 @property(nonatomic, assign) int64_t cid;
 @property(nonatomic, copy) NSString *name;

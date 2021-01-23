@@ -63,6 +63,8 @@
     if (!r) {
         return nil;
     }
+    
+
  
     IMessage *msg = [[IMessage alloc] init];
     msg.sender = [self.rs longLongIntForColumn:@"sender"];
