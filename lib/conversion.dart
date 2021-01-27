@@ -45,6 +45,7 @@ extension ConversionTypeIntParse on int {
 }
 
 class Conversion {
+  String memId;
   String cid;
   String name;
   String avatarURL;
@@ -61,6 +62,7 @@ class Conversion {
     } else {
       type = ValueUtil.toStr(typeObj).conversionType;
     }
+    memId = ValueUtil.toStr(json['memId']);
     cid = ValueUtil.toStr(json['cid']);
     name = ValueUtil.toStr(json['name']);
     avatarURL = ValueUtil.toStr(json['avatarURL']);

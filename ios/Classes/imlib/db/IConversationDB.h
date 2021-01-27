@@ -9,7 +9,7 @@
 #import "IMessage.h"
 #import "IConversationIterator.h"
 
-#define PAGE_COUNT 10
+#define PAGE_COUNT 20
 @protocol IConversitionDB<NSObject>
 -(id<IConversationIterator>)getConvIterator:(int64_t)uid;
 -(BOOL)addConversation:(Conversation*)conv;
