@@ -11,8 +11,13 @@
 
 #define PAGE_COUNT 20
 @protocol IConversitionDB<NSObject>
--(id<IConversationIterator>)getConvIterator:(int64_t)uid;
+-(id<IConversationIterator>)getConvIterator:(int64_t)ids;
 -(BOOL)addConversation:(Conversation*)conv;
+-(BOOL)removeConversation:(Conversation*)conv;
+-(Conversation*)getConversation:(int)cid type:(int)type;
+-(BOOL)setNewCount:(int)rowid:(int)count;
+-(BOOL)setState:(int)rowid state:(int)state;
+-(BOOL)resetState:(int)state;
 -(IMessage*)getMessage:(int64_t)msgID;
 -(void)saveMessageAttachment:(IMessage*)msg address:(NSString*)address;
 -(BOOL)saveMessage:(IMessage*)msg;

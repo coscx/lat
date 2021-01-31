@@ -100,6 +100,65 @@
     r = [db commit];
     return r;
 }
+-(BOOL)removeConversation:(Conversation *)con {
+    FMDatabase *db = self.db;
+    BOOL r = [db executeUpdate:@"DELETE FROM conversation WHERE id=?",  [cov intForColumn:@"id"];];
+    if (!r) {
+        NSLog(@"error = %@", [db lastErrorMessage]);
+        return NO;
+    }
+    return YES;
+}
+-(Conversation*)getConversation:(int)cid type:(int)type {
+    FMResultSet *rs = [self.db executeQuery:@"SELECT * FROM conversation WHERE cid = ? AND type = ?", @(cid), @(type)];
+    if ([rs next]) {
+        Conversation *con = [[Conversation alloc] init];
+        con.type = CONVERSATION_PEER;
+        con.id = [self.rs longLongIntForColumn:@"id"];
+        con.cid = [self.rs longLongIntForColumn:@"cid"];
+        con.type = [self.rs intForColumn:@"type"];
+        con.name = [self.rs stringForColumn:@"name"];
+        con.newMsgCount = [self.rs intForColumn:@"unread"];
+        return  con;
+    }
+    [rs close];
+    return nil;
+}
+-(BOOL)setNewCount:(int)id count:(int)count {
+    FMDatabase *db = self.db;
+
+    BOOL r = [db executeUpdate:@"UPDATE conversation SET unread=? WHERE id=?", @(count), @(id)];
+    if (!r) {
+        NSLog(@"error = %@", [db lastErrorMessage]);
+        return NO;
+    }
+
+    return [db changes] == 1;
+}
+
+-(BOOL)setState:(int)id state:(int)state {
+    FMDatabase *db = self.db;
+
+    BOOL r = [db executeUpdate:@"UPDATE conversation SET state=? WHERE id=?", @(state), @(id)];
+    if (!r) {
+        NSLog(@"error = %@", [db lastErrorMessage]);
+        return NO;
+    }
+
+    return [db changes] == 1;
+}
+-(BOOL)resetState:(int)state {
+    FMDatabase *db = self.db;
+
+    BOOL r = [db executeUpdate:@"UPDATE conversation SET state=? ", @(state)];
+    if (!r) {
+        NSLog(@"error = %@", [db lastErrorMessage]);
+        return NO;
+    }
+
+    return [db changes] == 1;
+}
+
 -(BOOL)insertMessage:(IMessage*)msg uid:(int64_t)uid{
     FMDatabase *db = self.db;
     
