@@ -118,7 +118,7 @@
         con.cid = [rs longLongIntForColumn:@"cid"];
         con.type = [rs intForColumn:@"type"];
         con.name = [rs stringForColumn:@"name"];
-        con.newMsgCount = [self.rs intForColumn:@"unread"];
+        con.newMsgCount = [rs intForColumn:@"unread"];
         return  con;
     }
     [rs close];
