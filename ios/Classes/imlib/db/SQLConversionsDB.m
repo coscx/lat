@@ -102,7 +102,7 @@
 }
 -(BOOL)removeConversation:(Conversation *)con {
     FMDatabase *db = self.db;
-    BOOL r = [db executeUpdate:@"DELETE FROM conversation WHERE id=?",  [con id];
+    BOOL r = [db executeUpdate:@"DELETE FROM conversation WHERE id=?",  [con id]];
     if (!r) {
         NSLog(@"error = %@", [db lastErrorMessage]);
         return NO;
