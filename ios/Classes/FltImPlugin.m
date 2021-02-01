@@ -174,7 +174,11 @@ GroupMessageObserver>
 }
 - (void)clearReadCount:(NSDictionary *)args result:(FlutterResult)result {
     int cid = [self getIntValueFromArgs:args forKey:@"cid"]
-    [[ConversationDB instance] setNewCount:cid count:0];
+    Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
+        if (con) {
+            [[ConversationDB instance] setNewCount:con.id count:0];
+        }
+
     result([self resultSuccess:@"完成"]);
 }
 - (void)getConversations:(NSDictionary *)args result:(FlutterResult)result {
@@ -185,16 +189,16 @@ GroupMessageObserver>
     Conversation *con = [iterator next];
     while (con) {
         if (con.type == CONVERSATION_PEER) {
-            
-           
+
+
             IMessage *msg = [[PeerMessageDB instance] getLastMessage:con.cid];
             con.message = msg;
             [self updateConvNotificationDesc:con];
             [self updateConversationDetail:con];
             [convs insertObject:con atIndex:0];
-            
+
         } else {
-          
+
         }
 
         con = [iterator next];
