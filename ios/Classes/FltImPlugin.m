@@ -173,7 +173,7 @@ GroupMessageObserver>
     result([self resultSuccess:@"完成"]);
 }
 - (void)clearReadCount:(NSDictionary *)args result:(FlutterResult)result {
-    int cid = [self getIntValueFromArgs:args forKey:@"cid"]
+    int cid = [self getIntValueFromArgs:args forKey:@"cid"];
     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
         if (con) {
             [[ConversationDB instance] setNewCount:con.id count:0];

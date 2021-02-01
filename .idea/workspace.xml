@@ -25,10 +25,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
-      <change beforePath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" afterDir="false" />
-    </list>
+    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -166,7 +163,21 @@
       <option name="project" value="LOCAL" />
       <updated>1612151515049</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="code">
+      <created>1612152131319</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1612152131319</updated>
+    </task>
+    <task id="LOCAL-00014" summary="code">
+      <created>1612152426599</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1612152426599</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -240,11 +251,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="63" y="0" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1603781439024" />
-    <state x="655" y="324" key="Vcs.Push.Dialog.v2" timestamp="1612151519213">
+    <state x="655" y="324" key="Vcs.Push.Dialog.v2" timestamp="1612152431211">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1609045305393" />
-    <state x="655" y="324" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1612151519213" />
+    <state x="655" y="324" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1612152431211" />
     <state x="809" y="449" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612150887482">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
