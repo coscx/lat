@@ -15,7 +15,7 @@
 -(BOOL)addConversation:(Conversation*)conv;
 -(BOOL)removeConversation:(Conversation*)conv;
 -(Conversation*)getConversation:(int)cid type:(int)type;
--(BOOL)setNewCount:(int)rowid:(int)count;
+-(BOOL)setNewCount:(int)rowid count: (int)count;
 -(BOOL)setState:(int)rowid state:(int)state;
 -(BOOL)resetState:(int)state;
 -(IMessage*)getMessage:(int64_t)msgID;
