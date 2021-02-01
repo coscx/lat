@@ -124,10 +124,10 @@
     [rs close];
     return nil;
 }
--(BOOL)setNewCount:(int)id count:(int)count {
+-(BOOL)setNewCount:(int)cid count:(int)count {
     FMDatabase *db = self.db;
 
-    BOOL r = [db executeUpdate:@"UPDATE conversation SET unread=? WHERE id=?", @(count), @(id)];
+    BOOL r = [db executeUpdate:@"UPDATE conversation SET unread=? WHERE cid=?", @(count), @(cid)];
     if (!r) {
         NSLog(@"error = %@", [db lastErrorMessage]);
         return NO;
