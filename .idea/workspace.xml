@@ -26,10 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/IConversationDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/IConversationDB.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flt_im_plugin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/flt_im_plugin.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

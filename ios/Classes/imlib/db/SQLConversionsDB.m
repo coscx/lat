@@ -102,7 +102,7 @@
 }
 -(BOOL)removeConversation:(Conversation *)con {
     FMDatabase *db = self.db;
-    BOOL r = [db executeUpdate:@"DELETE FROM conversation WHERE id=?",  [cov intForColumn:@"id"];];
+    BOOL r = [db executeUpdate:@"DELETE FROM conversation WHERE id=?",  [con intForColumn:@"id"]];
     if (!r) {
         NSLog(@"error = %@", [db lastErrorMessage]);
         return NO;
@@ -114,20 +114,20 @@
     if ([rs next]) {
         Conversation *con = [[Conversation alloc] init];
         con.type = CONVERSATION_PEER;
-        con.id = [self.rs longLongIntForColumn:@"id"];
-        con.cid = [self.rs longLongIntForColumn:@"cid"];
-        con.type = [self.rs intForColumn:@"type"];
-        con.name = [self.rs stringForColumn:@"name"];
+        con.id = [rs longLongIntForColumn:@"id"];
+        con.cid = [rs longLongIntForColumn:@"cid"];
+        con.type = [rs intForColumn:@"type"];
+        con.name = [rs stringForColumn:@"name"];
         con.newMsgCount = [self.rs intForColumn:@"unread"];
         return  con;
     }
     [rs close];
     return nil;
 }
--(BOOL)setNewCount:(int)id count:(int)count {
+-(BOOL)setNewCount:(int)cid count:(int)count {
     FMDatabase *db = self.db;
 
-    BOOL r = [db executeUpdate:@"UPDATE conversation SET unread=? WHERE id=?", @(count), @(id)];
+    BOOL r = [db executeUpdate:@"UPDATE conversation SET unread=? WHERE cid=?", @(count), @(cid)];
     if (!r) {
         NSLog(@"error = %@", [db lastErrorMessage]);
         return NO;
