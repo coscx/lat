@@ -172,7 +172,7 @@ GroupMessageObserver>
     self.conversations = convs;
     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
     if (con) {
-        [[ConversationDB instance] removeConversation:con.id];
+        [[ConversationDB instance] removeConversation:con];
     }
     result([self resultSuccess:@"完成"]);
 }
