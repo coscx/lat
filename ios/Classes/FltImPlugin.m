@@ -170,6 +170,10 @@ GroupMessageObserver>
         }
     }
     self.conversations = convs;
+    Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
+    if (con) {
+        [[ConversationDB instance] removeConversation:con.id];
+    }
     result([self resultSuccess:@"完成"]);
 }
 - (void)clearReadCount:(NSDictionary *)args result:(FlutterResult)result {
@@ -875,7 +879,63 @@ GroupMessageObserver>
         @"result": [msg mj_keyValues]
     }]];
 }
+-(void)onGroupMessage:(IMMessage *)im {
+    IMessage *m = [[IMessage alloc] init];
+    m.sender = im.sender;
+    m.receiver = im.receiver;
+    m.msgLocalID = im.msgLocalID;
+    m.rawContent = im.content;
+    m.timestamp = im.timestamp;
 
+    [self onNewGroupMessage:m cid:m.receiver];
+}
+-(void)onNewGroupMessage:(IMessage*)msg cid:(int64_t)cid{
+    int index = -1;
+    for (int i = 0; i < [self.conversations count]; i++) {
+        Conversation *con = [self.conversations objectAtIndex:i];
+        if (con.type == CONVERSATION_GROUP && con.cid == cid) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index != -1) {
+        Conversation *con = [self.conversations objectAtIndex:index];
+        con.message = msg;
+
+        [self updateConversationDetail:con];
+        if (self.currentUID != msg.sender) {
+            con.newMsgCount += 1;
+
+        }
+
+        if (index != 0) {
+            //置顶
+            [self.conversations removeObjectAtIndex:index];
+            [self.conversations insertObject:con atIndex:0];
+
+        }
+    } else {
+        Conversation *con = [[Conversation alloc] init];
+        con.message = msg;
+        [self updateConversationDetail:con];
+
+        if (self.currentUID != msg.sender) {
+            con.newMsgCount += 1;
+
+        }
+
+        con.type = CONVERSATION_GROUP;
+        con.cid = cid;
+        [self updateConversationName:con];
+        [self.conversations insertObject:con atIndex:0];
+
+    }
+
+       [self callFlutter:[self resultSuccess:@{
+            @"type": @"onNewGroupMessage"
+        }]];
+}
 #pragma mark - TCPConnectionObserver
 // 同IM服务器连接的状态变更通知
 - (void)onConnectState:(int)state {
