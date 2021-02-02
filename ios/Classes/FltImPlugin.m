@@ -817,6 +817,13 @@ GroupMessageObserver>
         }
     }
 
+        if (self.currentUID == msg.receiver) {
+            Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
+             if (con) {
+                            [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
+
+             }
+        }
     if (index != -1) {
         Conversation *con = [self.conversations objectAtIndex:index];
         con.message = msg;
