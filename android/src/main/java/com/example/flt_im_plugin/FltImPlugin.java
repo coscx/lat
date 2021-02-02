@@ -43,6 +43,7 @@ import com.beetle.bauhinia.db.message.P2PSession;
 import com.beetle.bauhinia.db.message.Revoke;
 import com.beetle.bauhinia.db.message.Secret;
 import com.beetle.bauhinia.db.message.Text;
+import com.beetle.bauhinia.db.message.TimeBase;
 import com.beetle.bauhinia.db.message.VOIP;
 import com.beetle.bauhinia.db.message.Video;
 import com.beetle.bauhinia.handler.CustomerMessageHandler;
@@ -55,6 +56,7 @@ import com.beetle.bauhinia.toolbar.emoticon.EmoticonManager;
 import com.beetle.bauhinia.tools.AudioUtil;
 import com.beetle.bauhinia.tools.FileCache;
 import com.beetle.bauhinia.tools.FileDownloader;
+import com.beetle.bauhinia.tools.TimeUtil;
 import com.beetle.bauhinia.tools.VideoUtil;
 import com.beetle.im.GroupMessageObserver;
 import com.beetle.im.IMMessage;
@@ -141,9 +143,10 @@ public class FltImPlugin implements FlutterPlugin,
   private Lifecycle lifecycle;
   private long currentUID;
   private long conversationID;
-
+  protected ArrayList<IMessage> messages = new ArrayList<IMessage>();
   private List<Conversation> conversations;
-
+  protected long groupID;
+  protected String groupName;
   public void initInstance(BinaryMessenger messeger, Context context) {
     channel = new MethodChannel(messeger, "flt_im_plugin");
     channel.setMethodCallHandler(this);
@@ -1181,20 +1184,240 @@ public class FltImPlugin implements FlutterPlugin,
   // GroupMessageObserver
 
   @Override
-  public void onGroupMessageACK(IMMessage msg, int error) {
+  public void onGroupMessages(List<IMMessage> msgs) {
+    for (IMMessage msg : msgs) {
+      if (msg.isGroupNotification) {
+        assert(msg.sender == 0);
+        this.onGroupNotification(msg.content);
+      } else {
+        this.onGroupMessage(msg);
+      }
+    }
 
+  }
+
+  public void onGroupMessage(IMMessage msg) {
+    if (msg.receiver != groupID) {
+      return;
+    }
+    //Log.i(TAG, "recv msg:" + msg.content);
+    final IMessage imsg = new IMessage();
+    imsg.timestamp = msg.timestamp;
+    imsg.msgLocalID = msg.msgLocalID;
+    imsg.sender = msg.sender;
+    imsg.receiver = msg.receiver;
+    imsg.setContent(msg.content);
+    imsg.isOutgoing = (msg.sender == this.currentUID);
+    if (imsg.isOutgoing) {
+      imsg.flags |= MessageFlag.MESSAGE_FLAG_ACK;
+    }
+
+    IMessage mm = findMessage(imsg.getUUID());
+    if (mm != null) {
+      //Log.i(TAG, "receive repeat message:" + imsg.getUUID());
+      if (imsg.isOutgoing) {
+        int flags = imsg.flags;
+        flags = flags & ~MessageFlag.MESSAGE_FLAG_FAILURE;
+        flags = flags | MessageFlag.MESSAGE_FLAG_ACK;
+        mm.setFlags(flags);
+      }
+      return;
+    }
+
+    if (msg.isSelf) {
+      return;
+    }
+
+    loadUserName(imsg);
+
+    downloadMessageContent(imsg);
+    updateNotificationDesc(imsg);
+    if (imsg.getType() == MessageContent.MessageType.MESSAGE_REVOKE) {
+      Revoke revoke = (Revoke)imsg.content;
+      IMessage m = findMessage(revoke.msgid);
+      if (m != null) {
+        replaceMessage(m, imsg);
+      }
+    } else {
+      insertMessage(imsg);
+    }
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("type", "onGroupMessage");
+    this.callFlutter(resultSuccess(map));
   }
 
   @Override
-  public void onGroupMessageFailure(IMMessage msg) {
+  public void onGroupMessageACK(IMMessage im, int error) {
+    long msgLocalID = im.msgLocalID;
+    long gid = im.receiver;
+    if (gid != groupID) {
+      return;
+    }
+    //Log.i(TAG, "message ack");
 
+    if (error == MessageACK.MESSAGE_ACK_SUCCESS) {
+      if (msgLocalID > 0) {
+        IMessage imsg = findMessage(msgLocalID);
+        if (imsg == null) {
+          //Log.i(TAG, "can't find msg:" + msgLocalID);
+          return;
+        }
+        imsg.setAck(true);
+      } else {
+        MessageContent c = IMessage.fromRaw(im.content);
+        if (c.getType() == MessageContent.MessageType.MESSAGE_REVOKE) {
+          Revoke r = (Revoke) c;
+          IMessage imsg = findMessage(r.msgid);
+          if (imsg == null) {
+            //Log.i(TAG, "can't find msg:" + msgLocalID);
+            return;
+          }
+          imsg.setContent(r);
+          updateNotificationDesc(imsg);
+          //adapter.notifyDataSetChanged();
+        }
+      }
+    } else {
+      if (msgLocalID > 0) {
+        IMessage imsg = findMessage(msgLocalID);
+        if (imsg == null) {
+         // Log.i(TAG, "can't find msg:" + msgLocalID);
+          return;
+        }
+        imsg.setFailure(true);
+      } else {
+        MessageContent c = IMessage.fromRaw(im.content);
+        if (c.getType() == MessageContent.MessageType.MESSAGE_REVOKE) {
+          //Toast.makeText(this, "撤回失败", Toast.LENGTH_SHORT).show();
+        }
+      }
+    }
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("type", "onGroupMessageACK");
+    this.callFlutter(resultSuccess(map));
   }
 
   @Override
-  public void onGroupMessages(List<IMMessage> msg) {
+  public void onGroupMessageFailure(IMMessage im) {
+    long msgLocalID = im.msgLocalID;
+    long gid = im.receiver;
+    if (gid != groupID) {
+      return;
+    }
+   // Log.i(TAG, "message failure");
 
+    if (msgLocalID > 0) {
+      IMessage imsg = findMessage(msgLocalID);
+      if (imsg == null) {
+        //Log.i(TAG, "can't find msg:" + msgLocalID);
+        return;
+      }
+      imsg.setFailure(true);
+    } else {
+      MessageContent c = IMessage.fromRaw(im.content);
+      if (c.getType() == MessageContent.MessageType.MESSAGE_REVOKE) {
+        //Toast.makeText(this, "撤回失败", Toast.LENGTH_SHORT).show();
+      }
+    }
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("type", "onGroupMessageFailure");
+    this.callFlutter(resultSuccess(map));
+  }
+  public void onGroupNotification(String text) {
+    GroupNotification notification = GroupNotification.newGroupNotification(text);
+
+    if (notification.groupID != groupID) {
+      return;
+    }
+
+    IMessage imsg = new IMessage();
+    imsg.sender = 0;
+    imsg.receiver = groupID;
+    imsg.timestamp = notification.timestamp;
+    imsg.setContent(notification);
+
+    updateNotificationDesc(imsg);
+
+    if (notification.notificationType == GroupNotification.NOTIFICATION_GROUP_NAME_UPDATED) {
+      this.groupName = notification.groupName;
+      //getSupportActionBar().setTitle(groupName);
+    }
+    insertMessage(imsg);
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("type", "onGroupNotification");
+    this.callFlutter(resultSuccess(map));
   }
 
+
+  protected IMessage findMessage(long msgLocalID) {
+    for (IMessage imsg : messages) {
+      if (imsg.msgLocalID == msgLocalID) {
+        return imsg;
+      }
+    }
+    return null;
+  }
+
+  protected IMessage findMessage(String uuid) {
+    if (TextUtils.isEmpty(uuid)) {
+      return null;
+    }
+    for (IMessage imsg : messages) {
+      if (imsg.getUUID().equals(uuid)) {
+        return imsg;
+      }
+    }
+    return null;
+  }
+
+
+  protected void deleteMessage(IMessage imsg) {
+    int index = -1;
+    for (int i = 0; i < messages.size(); i++) {
+      IMessage m = messages.get(i);
+      if (m.msgLocalID == imsg.msgLocalID) {
+        index = i;
+        break;
+      }
+    }
+    if (index != -1) {
+      messages.remove(index);
+    }
+  }
+
+  protected void replaceMessage(IMessage imsg, IMessage other) {
+    int index = -1;
+    for (int i = 0; i < messages.size(); i++) {
+      IMessage m = messages.get(i);
+      if (m.msgLocalID == imsg.msgLocalID) {
+        index = i;
+        break;
+      }
+    }
+    if (index != -1) {
+      messages.set(index, other);
+    }
+  }
+
+  protected void insertMessage(IMessage imsg) {
+    IMessage lastMsg = null;
+    if (messages.size() > 0) {
+      lastMsg = messages.get(messages.size() - 1);
+    }
+    //间隔10分钟，添加时间分割线
+    if (lastMsg == null || imsg.timestamp - lastMsg.timestamp > 10*60) {
+      TimeBase timeBase = TimeBase.newTimeBase(imsg.timestamp);
+      String s = TimeUtil.formatTimeBase(timeBase.timestamp);
+      timeBase.description = s;
+      IMessage t = new IMessage();
+      t.content = timeBase;
+      t.timestamp = imsg.timestamp;
+      messages.add(t);
+    }
+
+    checkAtName(imsg);
+    messages.add(imsg);
+  }
   // SystemMessageObserver
   @Override
   public void onSystemMessage(String sm) {
