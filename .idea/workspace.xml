@@ -25,9 +25,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
+    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/FltImPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/FltImPlugin.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +58,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../que" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -180,7 +179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612328263164</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="code">
+      <created>1612329335429</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1612329335429</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -206,18 +212,18 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1026" y="501" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1612098552400" />
-    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1612328262052">
+    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1612331570944">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1612328262052" />
+    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1612331570944" />
     <state width="1194" height="1332" key="DebuggerActiveHint" timestamp="1609039048193">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="1194" height="1332" key="DebuggerActiveHint/0.0.2560.1400@0.0.2560.1400" timestamp="1609039048193" />
-    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1612256647093">
+    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1612331437691">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1612256647093" />
+    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1612331437691" />
     <state width="2518" height="399" key="GridCell.Tab.0.bottom" timestamp="1609046226941">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -242,10 +248,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="63" y="0" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1603781439024" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1612328267819">
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1612329429970">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1612328267819" />
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1612329429970" />
     <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1607613454832">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>

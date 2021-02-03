@@ -1272,7 +1272,7 @@ public class FltImPlugin implements FlutterPlugin,
     int pos = findConversationPosition(cid, Conversation.CONVERSATION_GROUP);
     Conversation conversation = null;
     if (pos == -1) {
-      conversation = newPeerConversation(cid);
+      conversation = newGroupConversation(cid);
     } else {
       conversation = conversations.get(pos);
     }
