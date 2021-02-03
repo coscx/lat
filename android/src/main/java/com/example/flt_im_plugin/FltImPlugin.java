@@ -1259,8 +1259,41 @@ public class FltImPlugin implements FlutterPlugin,
     map.put("type", "onGroupMessage");
     map.put("result", convertToMap(imsg));
     this.callFlutter(resultSuccess(map));
-  }
 
+    long cid = 0;
+    if (msg.sender == this.currentUID) {
+      cid = msg.receiver;
+    } else {
+      cid = msg.sender;
+    }
+    onNewGroupMessage(imsg, cid);
+  }
+  private void onNewGroupMessage(IMessage imsg, long cid) {
+    int pos = findConversationPosition(cid, Conversation.CONVERSATION_GROUP);
+    Conversation conversation = null;
+    if (pos == -1) {
+      conversation = newPeerConversation(cid);
+    } else {
+      conversation = conversations.get(pos);
+    }
+    conversation.message = imsg;
+    if (currentUID == imsg.receiver) {
+      //conversation.setUnreadCount(conversation.getUnreadCount());
+      ConversationDB.getInstance().setNewCount(conversation.rowid,conversation.getUnreadCount() + 1);
+    }
+    updateConversationDetail(conversation);
+    if (pos == -1) {
+      conversations.add(0, conversation);
+    } else if (pos > 0) {
+      conversations.remove(pos);
+      conversations.add(0, conversation);
+    } else {
+      //pos == 0
+    }
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("type", "onNewGroupMessage");
+    this.callFlutter(resultSuccess(map));
+  }
   @Override
   public void onGroupMessageACK(IMMessage im, int error) {
     long msgLocalID = im.msgLocalID;
