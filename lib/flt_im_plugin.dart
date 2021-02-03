@@ -58,7 +58,7 @@ class FltImPlugin {
     @required String groupUID,
     bool secret = false,
   }) async {
-    return _methodChannel.invokeMethod('createConversion', {
+    return _methodChannel.invokeMethod('createGroupConversion', {
       "currentUID": currentUID,
       "groupUID": groupUID,
       "secret": secret ? 1 : 0,
