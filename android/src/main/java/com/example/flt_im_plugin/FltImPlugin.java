@@ -1261,11 +1261,11 @@ public class FltImPlugin implements FlutterPlugin,
     this.callFlutter(resultSuccess(map));
 
     long cid = 0;
-    if (msg.sender == this.currentUID) {
-      cid = msg.receiver;
-    } else {
-      cid = msg.sender;
-    }
+    ///if (msg.sender == this.currentUID) {
+    cid = msg.receiver;
+    //} else {
+    //  cid = msg.sender;
+    //}
     onNewGroupMessage(imsg, cid);
   }
   private void onNewGroupMessage(IMessage imsg, long cid) {
