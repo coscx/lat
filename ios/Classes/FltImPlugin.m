@@ -139,6 +139,9 @@ GroupMessageObserver>
     else if ([@"sendMessage" isEqualToString:call.method]) {
         [self sendMessage:call.arguments result:result];
     }
+    else if ([@"sendGroupMessage" isEqualToString:call.method]) {
+        [self sendGroupMessage:call.arguments result:result];
+    }
     else if ([@"getLocalCacheImage" isEqualToString:call.method]) {
         [self getLocalCacheImage:call.arguments result:result];
     }
@@ -362,7 +365,116 @@ GroupMessageObserver>
         result([self resultSuccess:@"暂不支持"]);
     }
 }
+- (void)sendGroupMessage:(NSDictionary *)args result:(FlutterResult)result {
+    int type = [self getIntValueFromArgs:args forKey:@"type"];
+    NSDictionary *params = args[@"message"];
+    IMessage *message = [self newOutMessage:params];
 
+    if (type == MESSAGE_TEXT) {
+        MessageTextContent *content = [[MessageTextContent alloc] initWithText:[self getStringValueFromArgs:params forKey:@"rawContent"]];
+        message.rawContent = content.raw;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendGroupMessage:message secret:message.secret];
+        result([self resultSuccess:[message mj_keyValues]]);
+    } else if (type == MESSAGE_IMAGE) {
+        FlutterStandardTypedData *imgD = params[@"image"];
+        UIImage *image = [UIImage imageWithData:imgD.data];
+        UIImage *sizeImage = [image resize:CGSizeMake(256, 256)];
+        image = [self resizeImage:image];
+        int newWidth = image.size.width;
+        int newHeight = image.size.height;
+
+        MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:[self localImageURL] width:newWidth height:newHeight];
+        message.rawContent = content.raw;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [[SDImageCache sharedImageCache] storeImage:image forKey:content.imageURL completion:nil];
+        NSString *littleUrl =  [content littleImageURL];
+        [[SDImageCache sharedImageCache] storeImage:sizeImage forKey:littleUrl completion:nil];
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendGroupMessage:message secret:message.secret];
+        result([self resultSuccess:[message mj_keyValues]]);
+    } else if (type == MESSAGE_VIDEO) {
+        NSString *ttpath = [self getStringValueFromArgs:params forKey:@"path"];
+        NSURL *url = [[NSURL alloc] initFileURLWithPath:ttpath];
+        AVURLAsset * asset = [AVURLAsset assetWithURL:url];
+        int size = (int)[[[NSFileManager defaultManager] attributesOfItemAtPath:ttpath error:nil] fileSize];
+        NSDictionary *d = [asset metadata];
+        UIImage *thumb = [asset thumbnail];
+        int width = [[d objectForKey:@"width"] intValue];
+        int height = [[d objectForKey:@"height"] intValue];
+        int duration = [[d objectForKey:@"duration"] intValue];
+        NSString *thumbURL = [self localImageURL];
+        NSString *videoURL = [self localVideoURL];
+
+        [[SDImageCache sharedImageCache] storeImage:thumb forKey:thumbURL completion:nil];
+        NSString *path = [[FileCache instance] cachePathForKey:videoURL];
+        NSURL *mp4URL = [NSURL fileURLWithPath:path];
+        [self convertVideoToLowQuailtyWithInputURL:url outputURL:mp4URL handler:^(AVAssetExportSession *es) {
+            if (es.status == AVAssetExportSessionStatusCompleted) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    MessageVideoContent *content = [[MessageVideoContent alloc] initWithVideoURL:videoURL
+                                                                                       thumbnail:thumbURL
+                                                                                           width:width
+                                                                                          height:height
+                                                                                        duration:duration
+                                                                                            size:size];
+
+                    message.rawContent = content.raw;
+                    message.timestamp = (int)time(NULL);
+                    message.isOutgoing = YES;
+                    [self saveMessage:message];
+                    [self loadSenderInfo:message];
+                    [self sendGroupMessage:message secret:message.secret];
+                    result([self resultSuccess:[message mj_keyValues]]);
+                });
+            }
+        }];
+
+    } else if (type == MESSAGE_AUDIO) {
+        NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
+        int second = [self getIntValueFromArgs:params forKey:@"second"];
+        MessageAudioContent *content = [[MessageAudioContent alloc] initWithAudio:[self localAudioURL] duration:second];
+        message.rawContent = content.raw;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        NSData *data = [NSData dataWithContentsOfFile:path];
+        FileCache *fileCache = [FileCache instance];
+        [fileCache storeFile:data forKey:content.url];
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendGroupMessage:message secret:message.secret];
+        result([self resultSuccess:[message mj_keyValues]]);
+
+    } else if (type == MESSAGE_LOCATION) {
+        double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
+        double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
+        NSString *address = [self getStringValueFromArgs:params forKey:@"address"];
+        CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
+        MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
+        message.rawContent = content.raw;
+        content = message.locationContent;
+        content.address = address;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendGroupMessage:message secret:message.secret];
+        [self createMapSnapshot:message];
+        if (content.address.length == 0) {
+            [self reverseGeocodeLocation:message];
+        } else {
+            [self saveMessageAttachment:message address:content.address];
+        }
+        result([self resultSuccess:[message mj_keyValues]]);
+    } else {
+        result([self resultSuccess:@"暂不支持"]);
+    }
+}
 - (void)loadLateData:(NSDictionary *)args result:(FlutterResult)result {
     int msgID = [self getIntValueFromArgs:args forKey:@"messageID"];
     NSArray *messages = [self loadLateData:msgID];
@@ -935,58 +1047,9 @@ GroupMessageObserver>
             @"type": @"onGroupMessage",
             @"result": [msg mj_keyValues]
         }]];
-    [self onNewGroupMessage:m cid:m.receiver];
+    [self onNewMessage:m cid:m.receiver];
 }
--(void)onNewGroupMessage:(IMessage*)msg cid:(int64_t)cid{
-    int index = -1;
-    for (int i = 0; i < [self.conversations count]; i++) {
-        Conversation *con = [self.conversations objectAtIndex:i];
-        if (con.type == CONVERSATION_GROUP && con.cid == cid) {
-            index = i;
-            break;
-        }
-    }
-     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
-     if (con) {
-        [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
-     }
-    if (index != -1) {
-        Conversation *con = [self.conversations objectAtIndex:index];
-        con.message = msg;
 
-        [self updateConversationDetail:con];
-        if (self.currentUID != msg.sender) {
-            con.newMsgCount += 1;
-
-        }
-
-        if (index != 0) {
-            //置顶
-            [self.conversations removeObjectAtIndex:index];
-            [self.conversations insertObject:con atIndex:0];
-
-        }
-    } else {
-        Conversation *con = [[Conversation alloc] init];
-        con.message = msg;
-        [self updateConversationDetail:con];
-
-        if (self.currentUID != msg.sender) {
-            con.newMsgCount += 1;
-
-        }
-
-        con.type = CONVERSATION_GROUP;
-        con.cid = cid;
-        [self updateConversationName:con];
-        [self.conversations insertObject:con atIndex:0];
-
-    }
-
-       [self callFlutter:[self resultSuccess:@{
-            @"type": @"onNewGroupMessage"
-        }]];
-}
 #pragma mark - TCPConnectionObserver
 // 同IM服务器连接的状态变更通知
 - (void)onConnectState:(int)state {
@@ -1279,7 +1342,50 @@ GroupMessageObserver>
         [self onNewMessage:message cid:message.receiver];
     }
 }
+- (void)sendGroupMessage:(IMessage *)message secret:(BOOL)secret{
+    if (message.type == MESSAGE_AUDIO) {
+        message.uploading = YES;
+        if (secret) {
+            [[GroupOutbox instance] uploadSecretAudio:message];
+        } else {
+            [[GroupOutbox instance] uploadAudio:message];
+        }
+        [self onNewMessage:message cid:message.receiver];
+    } else if (message.type == MESSAGE_IMAGE) {
+        message.uploading = YES;
+        if (secret) {
+            [[GroupOutbox instance] uploadSecretImage:message];
+        } else {
+            [[GroupOutbox instance] uploadImage:message];
+        }
+        [self onNewMessage:message cid:message.receiver];
+    } else if (message.type == MESSAGE_VIDEO) {
+        message.uploading = YES;
+        if (secret) {
+            [[GroupOutbox instance] uploadSecretVideo:message];
+        } else {
+            [[GroupOutbox instance] uploadVideo:message];
+        }
+        [self onNewMessage:message cid:message.receiver];
+    } else {
+        IMMessage *im = [[IMMessage alloc] init];
+        im.sender = message.sender;
+        im.receiver = message.receiver;
+        im.msgLocalID = message.msgLocalID;
+        im.isText = YES;
+        im.content = message.rawContent;
+        im.plainContent = message.rawContent;
 
+        BOOL r = YES;
+        if (secret) {
+            r = [self encrypt:im];
+        }
+        if (r) {
+            [[IMService instance] sendGroupMessageAsync:im];
+        }
+        [self onNewMessage:message cid:message.receiver];
+    }
+}
 - (void)saveMessageAttachment:(IMessage*)msg address:(NSString*)address {
     [self.messageDB saveMessageAttachment:msg address:address];
 }

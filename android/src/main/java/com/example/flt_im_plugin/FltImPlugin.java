@@ -52,6 +52,7 @@ import com.beetle.bauhinia.handler.PeerMessageHandler;
 import com.beetle.bauhinia.handler.SyncKeyHandler;
 import com.beetle.bauhinia.outbox.OutboxObserver;
 import com.beetle.bauhinia.outbox.PeerOutbox;
+import com.beetle.bauhinia.outbox.GroupOutbox;
 import com.beetle.bauhinia.toolbar.emoticon.EmoticonManager;
 import com.beetle.bauhinia.tools.AudioUtil;
 import com.beetle.bauhinia.tools.FileCache;
@@ -291,6 +292,10 @@ public class FltImPlugin implements FlutterPlugin,
       }
       case "sendMessage": {
         sendMessage(call.arguments, result);
+        break;
+      }
+      case "sendGroupMessage": {
+        sendGroupMessage(call.arguments, result);
         break;
       }
       case "getLocalCacheImage": {
@@ -822,7 +827,210 @@ public class FltImPlugin implements FlutterPlugin,
     result.success(resultSuccess(convertToMap(imsg)));
     onNewMessage(imsg, imsg.receiver);
   }
+  private void sendGroupMessage(Object arg, final Result result) {
+    Map params = (Map)arg;
+    Map argMap = (Map)params.get("message");
+    MessageContent.MessageType type = _getMessageTypeFromNumber((int)params.get("type"));
+    final IMessage imsg = newOutMessage(argMap);
 
+    if (type == MessageContent.MessageType.MESSAGE_TEXT) {
+      String rawContent = (String)argMap.get("rawContent");
+      imsg.setContent(Text.newText(rawContent));
+      _sendGroupMessage(imsg, result);
+    } else if (type == MessageContent.MessageType.MESSAGE_IMAGE) {
+      byte[] bitmap = (byte[])argMap.get("image");
+      Bitmap bmp = BitmapFactory.decodeByteArray(bitmap, 0, bitmap.length);
+      if(bmp.getWidth()>bmp.getHeight()) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+      }
+      double w = bmp.getWidth();
+      double h = bmp.getHeight();
+      double rate = w > h ? w/h : h/w;
+
+
+      int scalePolicy = -1;// 0 origin, 1 max 1280, 2  min 800
+      if (w <= 1280 && h <= 1280) {
+        scalePolicy = 0;
+      } else if (w > 1280) {
+        if (rate <= 2) {
+          //max 1280
+          scalePolicy = 1;
+        } else {
+          if (h <= 1280){
+            scalePolicy = 0;
+          } else if (h > 1280) {
+            //min 800
+            scalePolicy = 2;
+          }
+        }
+      } else if (h > 1280) {
+        if (rate <= 2) {
+          //max 1280
+          scalePolicy = 1;
+        } else {
+          //w <= 1280
+          scalePolicy = 0;
+        }
+      }
+      double newHeight = 0;
+      double newWidth = 0;
+      Bitmap bigBMP;
+      if (scalePolicy == 0) {
+        bigBMP = bmp;
+        newWidth = bmp.getWidth();
+        newHeight = bmp.getHeight();
+      } else if (scalePolicy == 1) {
+        if (w > h) {
+          newWidth = 1280;
+          newHeight = 1280/rate;
+        } else {
+          newHeight = 1280;
+          newWidth = 1280/rate;
+        }
+        bigBMP = Bitmap.createScaledBitmap(bmp, (int)newWidth, (int)newHeight, true);
+      } else if (scalePolicy == 2) {
+        if (w > h) {
+          newWidth = 800*rate;
+          newHeight = 800;
+        } else {
+          newHeight = 800*rate;
+          newWidth = 800;
+        }
+        bigBMP = Bitmap.createScaledBitmap(bmp, (int)newWidth, (int)newHeight, true);
+      } else {
+        bigBMP = bmp;
+        newWidth = bmp.getWidth();
+        newHeight = bmp.getHeight();
+      }
+      bigBMP = bmp;
+      newHeight= bmp.getWidth();
+      newWidth = bmp.getHeight();
+      double sw = 256.0;
+      double sh = 256.0*h/w;
+
+      Bitmap thumbnail = Bitmap.createScaledBitmap(bmp, (int)sw, (int)sh, true);
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      bigBMP.compress(Bitmap.CompressFormat.JPEG, 100, os);
+      ByteArrayOutputStream os2 = new ByteArrayOutputStream();
+      thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, os2);
+      String originURL = localImageURL();
+      String thumbURL = localImageURL();
+      try {
+        FileCache.getInstance().storeByteArray(originURL, os);
+        FileCache.getInstance().storeByteArray(thumbURL, os2);
+        String path = FileCache.getInstance().getCachedFilePath(originURL);
+        String thumbPath = FileCache.getInstance().getCachedFilePath(thumbURL);
+
+        String tpath = path ;//+ "@256w_256h_0c";
+        File f = new File(thumbPath);
+        File t = new File(tpath);
+        //f.renameTo(t);
+        final String[] newPath = new String[1];
+        final double finalNewWidth = newWidth;
+        final double finalNewHeight = newHeight;
+        Luban.with(context) // 初始化
+                .load(t) // 要压缩的图片
+                .ignoreBy(100)
+                .putGear(3)
+                .setCompressListener(new OnCompressListener() {
+                  @Override
+                  public void onStart() {
+                  }
+                  @Override
+                  public void onSuccess(File newFile) {
+                    // 压缩成功后调用，返回压缩后的图片文件
+                    // 获取返回的图片地址 newfile
+                    newPath[0] =newFile.getAbsolutePath();
+                    imsg.setContent(Image.newImage("file:" +  newPath[0], (int) finalNewWidth, (int) finalNewHeight));
+                    _sendGroupMessage(imsg, result);
+                  }
+                  @Override
+                  public void onError(Throwable e) {
+                  }
+                }).launch(); // 启动压缩
+
+
+      } catch (IOException e) {
+        result.success(resultError("发送失败", 1));
+      }
+
+    } else if (type == MessageContent.MessageType.MESSAGE_VIDEO) {
+      String path = (String)argMap.get("path");
+      String thumbPath = (String)argMap.get("thumbPath");
+      File f = new File(path);
+      File thumbFile = new File(thumbPath);
+      if (!f.exists() || !thumbFile.exists()) {
+        result.success(resultError("文件不存在", 1));
+        return ;
+      }
+      final VideoUtil.Metadata meta = VideoUtil.getVideoMetadata(path);
+
+      if (!TextUtils.isEmpty(meta.videoMime) && !VideoUtil.isH264(meta.videoMime)) {
+        result.success(resultError("文件格式不支持", 2));
+        return;
+      }
+
+      if (!TextUtils.isEmpty(meta.audioMime) && !VideoUtil.isAcc(meta.audioMime)) {
+        result.success(resultError("文件格式不支持", 2));
+        return;
+      }
+
+      final int duration = meta.duration/1000;//单位秒
+      try {
+        String thumbURL = localImageURL();
+        FileCache.getInstance().moveFile(thumbURL, thumbPath);
+        String p1 = FileCache.getInstance().getCachedFilePath(thumbURL);
+
+        final String videoURL = localVideoURL();
+        FileCache.getInstance().moveFile(videoURL, path);
+        imsg.setContent(Video.newVideo(videoURL, "file:" + p1, meta.width, meta.height, duration));
+        _sendGroupMessage(imsg, result);
+      } catch (IOException e) {
+        result.success(resultError("发送失败", 3));
+      }
+
+    } else if (type == MessageContent.MessageType.MESSAGE_AUDIO) {
+      String tfile = (String)argMap.get("path");
+      try {
+        long mduration = AudioUtil.getAudioDuration(tfile);
+        long duration = mduration/1000;
+        String url = localAudioURL();
+        Audio audio = Audio.newAudio(url, duration);
+        FileInputStream is = new FileInputStream(new File(tfile));
+        FileCache.getInstance().storeFile(audio.url, is);
+        imsg.setContent(audio);
+        _sendGroupMessage(imsg, result);
+      } catch (IllegalStateException e) {
+        result.success(resultError("发送失败", 3));
+      } catch (IOException e) {
+        result.success(resultError("发送失败", 3));
+      }
+    } else if (type == MessageContent.MessageType.MESSAGE_LOCATION) {
+      float latitude = (float)argMap.get("latitude");
+      float longitude = (float)argMap.get("longitude");
+      String address = (String)argMap.get("address");
+      Location loc = Location.newLocation(latitude, longitude);
+      loc.address = address;
+      if (TextUtils.isEmpty(loc.address)) {
+        queryLocation(imsg);
+      }
+      _sendGroupMessage(imsg, result);
+    } else {
+      result.success(resultSuccess("暂不支持"));
+    }
+  }
+
+  void _sendGroupMessage(IMessage imsg, final Result result) {
+    imsg.timestamp = now();
+    imsg.isOutgoing = true;
+    saveMessage(imsg);
+    loadUserName(imsg);
+    GroupOutbox.getInstance().sendMessage(imsg);
+    result.success(resultSuccess(convertToMap(imsg)));
+    onNewMessage(imsg, imsg.receiver);
+  }
   private void getLocalCacheImage(Object arg, final Result result) {
     Map argMap = convertToMap(arg);
     String url = (String)argMap.get("url");
