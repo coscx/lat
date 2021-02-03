@@ -165,7 +165,83 @@ class FltImPlugin {
       'message': message,
     });
   }
+  Future<Map> sendGroupTextMessage({bool secret, String sender, String receiver, String rawContent}) async {
+    return sendGroupMessage(type: 1, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'rawContent': rawContent,
+      'secret': secret ? 1 : 0,
+    });
+  }
 
+  Future<Map> sendGroupImageMessage({bool secret, String sender, String receiver, Uint8List image}) async {
+    return sendGroupMessage(type: 2, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'image': image,
+      'secret': secret ? 1 : 0,
+    });
+  }
+
+  Future<Map> sendGroupVideoMessage({
+    String path,
+    String thumbPath, // android 必传
+    bool secret,
+    String sender,
+    String receiver,
+  }) async {
+    return sendGroupMessage(type: 12, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'secret': secret ? 1 : 0,
+      'path': path,
+      'thumbPath': thumbPath,
+    });
+  }
+
+  Future<Map> sendGroupAudioMessage({
+    String path,
+    int second, // ios 必传
+    bool secret,
+    String sender,
+    String receiver,
+  }) async {
+    return sendGroupMessage(type: 3, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'secret': secret ? 1 : 0,
+      'path': path,
+      'second': second,
+    });
+  }
+
+  Future<Map> sendGroupLocationMessage({
+    double latitude,
+    double longitude,
+    String address,
+    bool secret,
+    String sender,
+    String receiver,
+  }) async {
+    return sendGroupMessage(type: 4, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'secret': secret ? 1 : 0,
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
+    });
+  }
+  /// type: 1-text, 2-image, 3-audio, 4-location, 5-group-noti, 6-link
+  Future<Map> sendGroupMessage({
+    int type,
+    Map message,
+  }) async {
+    return _methodChannel.invokeMapMethod('sendGroupMessage', {
+      'type': type,
+      'message': message,
+    });
+  }
   Future<Map> getLocalCacheImage({String url}) async {
     return _methodChannel.invokeMapMethod('getLocalCacheImage', {
       'url': url,
