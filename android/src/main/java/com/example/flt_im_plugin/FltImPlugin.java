@@ -273,6 +273,10 @@ public class FltImPlugin implements FlutterPlugin,
         createConversion(call.arguments, result);
         break;
       }
+      case "createGroupConversion": {
+        createGroupConversion(call.arguments, result);
+        break;
+      }
       case "loadData": {
         loadData(call.arguments, result);
         break;
@@ -591,6 +595,16 @@ public class FltImPlugin implements FlutterPlugin,
     wrapperMessages(messages);
     result.success(resultSuccess(convertToMapList(messages)));
   }
+  private void createGroupConversion(Object arg, final Result result) {
+    Map argMap = convertToMap(arg);;
+    String currentUID = (String)argMap.get("currentUID");
+    String groupUID = (String)argMap.get("groupUID");
+    this.currentUID = Long.parseLong(currentUID);
+    this.conversationID = Long.parseLong(groupUID);
+    messageDB = GroupMessageDB.getInstance();
+    result.success(resultSuccess("createGroupConversion success"));
+  }
+
 
   IMessage newOutMessage(Map arg) {
     IMessage msg = new IMessage();
@@ -1198,7 +1212,7 @@ public class FltImPlugin implements FlutterPlugin,
 
   public void onGroupMessage(IMMessage msg) {
     if (msg.receiver != groupID) {
-      return;
+      //return;
     }
     //Log.i(TAG, "recv msg:" + msg.content);
     final IMessage imsg = new IMessage();
