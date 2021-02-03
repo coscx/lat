@@ -883,10 +883,33 @@ GroupMessageObserver>
     IMessage *m = [[IMessage alloc] init];
     m.sender = im.sender;
     m.receiver = im.receiver;
+    m.secret = NO;
     m.msgLocalID = im.msgLocalID;
     m.rawContent = im.content;
     m.timestamp = im.timestamp;
+    m.isOutgoing = (im.sender == self.currentUID);
+    if (im.sender == self.currentUID) {
+            m.flags = m.flags | MESSAGE_FLAG_ACK;
+        }
+    [self loadSenderInfo:m];
+    [self downloadMessageContent:m];
+    [self updateNotificationDesc:m];
+    [self callFlutter:[self resultSuccess:@{
+        @"type": @"onPeerMessage",
+        @"result": [m mj_keyValues]
+    }]];
 
+    int64_t cid;
+    // if (self.currentUID == m.sender) {
+    cid = m.receiver;
+    // } else {
+     //   cid = m.sender;
+    //}
+
+    [self callFlutter:[self resultSuccess:@{
+            @"type": @"onGroupMessage",
+            @"result": [msg mj_keyValues]
+        }]];
     [self onNewGroupMessage:m cid:m.receiver];
 }
 -(void)onNewGroupMessage:(IMessage*)msg cid:(int64_t)cid{
@@ -898,7 +921,10 @@ GroupMessageObserver>
             break;
         }
     }
-
+     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
+     if (con) {
+        [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
+     }
     if (index != -1) {
         Conversation *con = [self.conversations objectAtIndex:index];
         con.message = msg;
