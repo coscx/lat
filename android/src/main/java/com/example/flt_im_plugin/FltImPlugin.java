@@ -313,6 +313,10 @@ public class FltImPlugin implements FlutterPlugin,
         clearReadCount(call.arguments, result);
         break;
       }
+      case "clearGroupReadCount": {
+        clearGroupReadCount(call.arguments, result);
+        break;
+      }
       default: result.notImplemented();
     }
   }
@@ -854,6 +858,32 @@ public class FltImPlugin implements FlutterPlugin,
       result.success(resultError("clear fail", 1));
     }
     int pos = findConversationPosition(l_uid, Conversation.CONVERSATION_PEER);
+    Conversation conversation = null;
+    if (pos >= 0) {
+
+      conversation = conversations.get(pos);
+      conversation.setUnreadCount(0 );
+      ConversationDB.getInstance().setNewCount(conversation.rowid,0);
+      updateConversationDetail(conversation);
+
+    }
+
+
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("type", "clearReadCountSuccess");
+    this.callFlutter(resultSuccess(map));
+  }
+  private void clearGroupReadCount(Object arg, final Result result) {
+    Map argMap = convertToMap(arg);
+    String cid = (String)argMap.get("cid");
+    long l_uid =0;
+    try {
+      l_uid = Long.parseLong(cid);
+
+    } catch (Exception e) {
+      result.success(resultError("clear fail", 1));
+    }
+    int pos = findConversationPosition(l_uid, Conversation.CONVERSATION_GROUP);
     Conversation conversation = null;
     if (pos >= 0) {
 

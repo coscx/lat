@@ -166,6 +166,11 @@ class FltImPlugin {
       'cid': cid,
     });
   }
+  Future<Map> clearGroupReadCount({String cid}) async {
+    return _methodChannel.invokeMapMethod('clearGroupReadCount', {
+      'cid': cid,
+    });
+  }
   Future<Map> getLocalMediaURL({String url}) async {
     return _methodChannel.invokeMapMethod('getLocalMediaURL', {
       'url': url,

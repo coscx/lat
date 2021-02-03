@@ -150,6 +150,9 @@ GroupMessageObserver>
     else if ([@"clearReadCount" isEqualToString:call.method]) {
         [self clearReadCount:call.arguments result:result];
     }
+    else if ([@"clearGroupReadCount" isEqualToString:call.method]) {
+        [self clearGroupReadCount:call.arguments result:result];
+    }
     else {
         result(FlutterMethodNotImplemented);
     }
@@ -179,6 +182,15 @@ GroupMessageObserver>
 - (void)clearReadCount:(NSDictionary *)args result:(FlutterResult)result {
     int cid = [self getIntValueFromArgs:args forKey:@"cid"];
     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
+        if (con) {
+            [[ConversationDB instance] setNewCount:con.id count:0];
+        }
+
+    result([self resultSuccess:@"完成"]);
+}
+- (void)clearGroupReadCount:(NSDictionary *)args result:(FlutterResult)result {
+    int cid = [self getIntValueFromArgs:args forKey:@"cid"];
+    Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
         if (con) {
             [[ConversationDB instance] setNewCount:con.id count:0];
         }
