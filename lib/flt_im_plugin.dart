@@ -53,7 +53,17 @@ class FltImPlugin {
       "secret": secret ? 1 : 0,
     });
   }
-
+  Future<Map> createGroupConversion({
+    @required String currentUID,
+    @required String groupUID,
+    bool secret = false,
+  }) async {
+    return _methodChannel.invokeMethod('createConversion', {
+      "currentUID": currentUID,
+      "groupUID": groupUID,
+      "secret": secret ? 1 : 0,
+    });
+  }
   Future<Map> loadData({String messageID}) async {
     return _methodChannel.invokeMapMethod('loadData', {
       'messageID': messageID,
