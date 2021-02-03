@@ -123,6 +123,10 @@ GroupMessageObserver>
     else if ([@"createConversion" isEqualToString:call.method]) {
         [self createConversion:call.arguments result:result];
     }
+    else if ([@"createGroupConversion" isEqualToString:call.method]) {
+        [self createGroupConversion:call.arguments result:result];
+    }
+
     else if ([@"loadData" isEqualToString:call.method]) {
         [self loadData:call.arguments result: result];
     }
@@ -395,7 +399,16 @@ GroupMessageObserver>
     self.currentUID = [currentUID integerValue];
     result([self resultSuccess:@"createConversion success"]);
 }
+- (void)createGroupConversion:(NSDictionary *)args result:(FlutterResult)result {
+    NSString *currentUID = [self getStringValueFromArgs:args forKey:@"currentUID"];
+    NSString *groupUID = [self getStringValueFromArgs:args forKey:@"groupUID"];
+    BOOL secret = [self getBoolValueFromArgs:args forKey:@"secret"];
 
+    self.messageDB = secret ? [EPeerMessageDB instance] : [PeerMessageDB instance];
+    self.conversationID = [groupUID integerValue];
+    self.currentUID = [currentUID integerValue];
+    result([self resultSuccess:@"createGroupConversion success"]);
+}
 - (void)logout {
     [[IMService instance] stop];
 }
