@@ -517,9 +517,10 @@ GroupMessageObserver>
     NSString *groupUID = [self getStringValueFromArgs:args forKey:@"groupUID"];
     BOOL secret = [self getBoolValueFromArgs:args forKey:@"secret"];
 
-    self.messageDB = secret ? [EPeerMessageDB instance] : [PeerMessageDB instance];
+    self.messageDB = [GroupMessageDB instance];
     self.conversationID = [groupUID integerValue];
     self.currentUID = [currentUID integerValue];
+    self.conversationID= [groupUID integerValue];
     result([self resultSuccess:@"createGroupConversion success"]);
 }
 - (void)logout {
@@ -1011,12 +1012,15 @@ GroupMessageObserver>
     }
 
         //if (self.currentUID == msg.receiver) {
-            Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
-             if (con) {
-                            [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
+      Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
+      if (con) {
+        [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
 
-             }
-       // }
+        } else{
+
+
+       }
+
     if (index != -1) {
         Conversation *con = [self.conversations objectAtIndex:index];
         con.message = msg;
@@ -1043,7 +1047,9 @@ GroupMessageObserver>
         //if (self.currentUID == msg.receiver) {
             con.newMsgCount += 1;
         //}
-        bool re=  [[ConversationDB instance] addConversation:con];
+        if (!con) {
+            [[ConversationDB instance] addConversation:con];
+        }
         [self.conversations insertObject:con atIndex:0];
     }
     [self callFlutter:[self resultSuccess:@{
