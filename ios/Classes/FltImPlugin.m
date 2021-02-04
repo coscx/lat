@@ -26,6 +26,7 @@
 #import "PeerMessageDB.h"
 #import "IMessage.h"
 #import "Outbox.h"
+#import "GroupOutbox.h"
 #import "PeerOutbox.h"
 #import "EPeerMessageDB.h"
 #import "FileCache.h"
@@ -1045,7 +1046,7 @@ GroupMessageObserver>
 
     [self callFlutter:[self resultSuccess:@{
             @"type": @"onGroupMessage",
-            @"result": [msg mj_keyValues]
+            @"result": [m mj_keyValues]
         }]];
     [self onNewMessage:m cid:m.receiver];
 }

@@ -323,7 +323,7 @@ public class FltImPlugin implements FlutterPlugin,
         break;
       }
       default: result.notImplemented();
-    }
+
   }
 
 
