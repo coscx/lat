@@ -1196,7 +1196,19 @@ GroupMessageObserver>
 }
 
 #pragma mark - GroupMessageObserver
--(void)onGroupMessages:(NSArray*)msgs {}
+-(void)onGroupMessages:(NSArray*)msgs {
+    for (int i = 0; i < [msgs count]; i++) {
+        IMMessage  *msg = [msgs objectAtIndex:i];
+
+          if (msg.type == MESSAGE_GROUP_NOTIFICATION) {
+
+            } else {
+              [self onGroupMessage:msg];
+            }
+    }
+
+
+}
 -(void)onGroupMessageACK:(IMMessage*)msg error:(int)error {}
 -(void)onGroupMessageFailure:(IMMessage*)msg {}
 
