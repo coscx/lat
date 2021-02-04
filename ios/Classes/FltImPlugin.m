@@ -228,7 +228,7 @@ GroupMessageObserver>
         con = [iterator next];
     }
     NSSortDescriptor *timeSD = [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO];//ascending:YES 代表升序 如果为NO 代表降序
-    NSMutableArray *newArray = [convs sortedArrayUsingDescriptors:@[timeSD]];
+    NSMutableArray *newArray = [[convs sortedArrayUsingDescriptors:@[timeSD]] mutableCopy];
     self.conversations = newArray;
     result([self resultSuccess:[Conversation mj_keyValuesArrayWithObjectArray:self.conversations]]);
 }
