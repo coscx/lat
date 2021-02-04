@@ -1000,7 +1000,56 @@ GroupMessageObserver>
     }]];
 }
 
+-(void)onNewGroupMessage:(IMessage*)msg cid:(int64_t)cid{
+    int index = -1;
+    for (int i = 0; i < [self.conversations count]; i++) {
+        Conversation *con = [self.conversations objectAtIndex:i];
+        if (con.type == CONVERSATION_GROUP && con.cid == cid) {
+            index = i;
+            break;
+        }
+    }
 
+        //if (self.currentUID == msg.receiver) {
+            Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
+             if (con) {
+                            [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
+
+             }
+       // }
+    if (index != -1) {
+        Conversation *con = [self.conversations objectAtIndex:index];
+        con.message = msg;
+        [self updateConversationDetail:con];
+
+        //if (self.currentUID == msg.receiver) {
+            con.newMsgCount += 1;
+       // }
+
+        if (index != 0) {
+            //置顶
+            [self.conversations removeObjectAtIndex:index];
+            [self.conversations insertObject:con atIndex:0];
+        }
+    } else {
+        Conversation *con = [[Conversation alloc] init];
+        con.type = CONVERSATION_GROUP;
+        con.cid = cid;
+        con.message = msg;
+
+        [self updateConvNotificationDesc:con];
+        [self updateConversationDetail:con];
+
+        //if (self.currentUID == msg.receiver) {
+            con.newMsgCount += 1;
+        //}
+        bool re=  [[ConversationDB instance] addConversation:con];
+        [self.conversations insertObject:con atIndex:0];
+    }
+    [self callFlutter:[self resultSuccess:@{
+        @"type": @"onNewGroupMessage"
+    }]];
+}
 
 
 - (void)onPeerMessageACK:(IMMessage *)im error:(int)error {
@@ -1033,7 +1082,7 @@ GroupMessageObserver>
     [self downloadMessageContent:m];
     [self updateNotificationDesc:m];
     [self callFlutter:[self resultSuccess:@{
-        @"type": @"onPeerMessage",
+        @"type": @"onGroupMessage",
         @"result": [m mj_keyValues]
     }]];
 
@@ -1044,11 +1093,8 @@ GroupMessageObserver>
      //   cid = m.sender;
     //}
 
-    [self callFlutter:[self resultSuccess:@{
-            @"type": @"onGroupMessage",
-            @"result": [m mj_keyValues]
-        }]];
-    [self onNewMessage:m cid:m.receiver];
+
+    [self onNewGroupMessage:m cid:m.receiver];
 }
 
 #pragma mark - TCPConnectionObserver
