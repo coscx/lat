@@ -1017,9 +1017,9 @@ GroupMessageObserver>
     }
 
         //if (self.currentUID == msg.receiver) {
-      Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
-      if (con) {
-        [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
+      Conversation *con_db = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
+      if (con_db) {
+        [[ConversationDB instance] setNewCount:con_db.id count:con_db.newMsgCount +1];
 
         } else{
 
@@ -1052,7 +1052,7 @@ GroupMessageObserver>
         //if (self.currentUID == msg.receiver) {
             con.newMsgCount += 1;
         //}
-        if (!con) {
+        if (!con_db) {
             [[ConversationDB instance] addConversation:con];
         }
         [self.conversations insertObject:con atIndex:0];
