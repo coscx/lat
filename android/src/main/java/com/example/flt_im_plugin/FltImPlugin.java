@@ -322,8 +322,9 @@ public class FltImPlugin implements FlutterPlugin,
         clearGroupReadCount(call.arguments, result);
         break;
       }
-      default: result.notImplemented();
-
+      default:
+        result.notImplemented();
+    }
   }
 
 
