@@ -184,7 +184,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612254078154</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="code">
+      <created>1612408712190</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1612408712190</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -242,6 +249,10 @@
     </state>
     <state width="1388" height="26" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1603781003334" />
     <state width="2518" height="399" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1609046226941" />
+    <state x="192" y="109" key="MergeDialog" timestamp="1612408679025">
+      <screen x="0" y="23" width="1920" height="973" />
+    </state>
+    <state x="192" y="109" key="MergeDialog/0.23.1920.973@0.23.1920.973" timestamp="1612408679025" />
     <state x="596" y="278" key="MultipleFileMergeDialog" timestamp="1612150898396">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
@@ -250,16 +261,16 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="63" y="0" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1603781439024" />
-    <state x="655" y="324" key="Vcs.Push.Dialog.v2" timestamp="1612254084108">
+    <state x="655" y="324" key="Vcs.Push.Dialog.v2" timestamp="1612408720478">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1609045305393" />
-    <state x="655" y="324" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1612254084108" />
-    <state x="809" y="449" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612150887482">
+    <state x="655" y="324" key="Vcs.Push.Dialog.v2/0.23.1920.973@0.23.1920.973" timestamp="1612408720478" />
+    <state x="809" y="449" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612408668145">
       <screen x="0" y="23" width="1920" height="973" />
     </state>
     <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400@0.0.2560.1400" timestamp="1607613454832" />
-    <state x="809" y="449" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1920.973@0.23.1920.973" timestamp="1612150887482" />
+    <state x="809" y="449" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1920.973@0.23.1920.973" timestamp="1612408668145" />
     <state x="578" y="105" width="1542" height="1148" key="find.popup" timestamp="1607409735297">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
