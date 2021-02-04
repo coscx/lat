@@ -221,7 +221,12 @@ GroupMessageObserver>
             [self updateConversationDetail:con];
             [convs insertObject:con atIndex:0];
 
-        } else {
+        } else if (con.type == CONVERSATION_GROUP) {
+            IMessage *msg = [[GroupMessageDB instance] getLastMessage:con.cid];
+            con.message = msg;
+            [self updateConvNotificationDesc:con];
+            [self updateConversationDetail:con];
+            [convs insertObject:con atIndex:0];
 
         }
 
