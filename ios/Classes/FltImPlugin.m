@@ -1453,7 +1453,7 @@ GroupMessageObserver>
         if (r) {
             [[IMService instance] sendGroupMessageAsync:im];
         }
-        [self onNewMessage:message cid:message.receiver];
+        [self onNewGroupMessage:message cid:message.receiver];
     }
 }
 - (void)saveMessageAttachment:(IMessage*)msg address:(NSString*)address {
