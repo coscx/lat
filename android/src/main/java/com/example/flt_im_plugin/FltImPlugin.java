@@ -1030,7 +1030,7 @@ public class FltImPlugin implements FlutterPlugin,
     loadUserName(imsg);
     GroupOutbox.getInstance().sendMessage(imsg);
     result.success(resultSuccess(convertToMap(imsg)));
-    onNewMessage(imsg, imsg.receiver);
+    onNewGroupMessage(imsg, imsg.receiver);
   }
   private void getLocalCacheImage(Object arg, final Result result) {
     Map argMap = convertToMap(arg);
