@@ -1614,7 +1614,7 @@ public class FltImPlugin implements FlutterPlugin,
     GroupNotification notification = GroupNotification.newGroupNotification(text);
 
     if (notification.groupID != groupID) {
-      return;
+      //return;
     }
 
     IMessage imsg = new IMessage();
