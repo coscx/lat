@@ -1631,6 +1631,7 @@ public class FltImPlugin implements FlutterPlugin,
     }
     insertMessage(imsg);
     Map<String, Object> map = new HashMap<String, Object>();
+    map.put("result", convertToMap(imsg));
     map.put("type", "onGroupNotification");
     this.callFlutter(resultSuccess(map));
   }
