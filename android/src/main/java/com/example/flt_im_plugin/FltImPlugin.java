@@ -2283,6 +2283,24 @@ public class FltImPlugin implements FlutterPlugin,
       }
     } else if (notification.notificationType == GroupNotification.NOTIFICATION_GROUP_NAME_UPDATED) {
       notification.description = String.format("群组改名为\"%s\"", notification.groupName);
+    }else if (notification.notificationType == GroupNotification.NOTIFICATION_GROUP_MEMBER_MUTE) {
+      User u = getUser(notification.member);
+      if (TextUtils.isEmpty(u.name)) {
+        notification.description = String.format("\"%s\"被管理员禁言", u.identifier);
+        final GroupNotification fnotification = notification;
+        final Conversation fconv = conv;
+        asyncGetUser(notification.member, new GetUserCallback() {
+          @Override
+          public void onUser(User u) {
+            fnotification.description = String.format("\"%s\"被管理员禁言", u.name);
+            if (fconv.message == imsg) {
+              fconv.setDetail(fnotification.description);
+            }
+          }
+        });
+      } else {
+        notification.description = String.format("\"%s\"被管理员禁言", u.name);
+      }
     }
   }
 
