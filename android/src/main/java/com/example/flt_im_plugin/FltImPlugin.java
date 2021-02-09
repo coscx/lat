@@ -2297,8 +2297,9 @@ public class FltImPlugin implements FlutterPlugin,
         asyncGetUser(notification.member, new GetUserCallback() {
           @Override
           public void onUser(User u) {
-            if(notification.mute ==0){
-               fnotification.description = String.format("\"%s\"被管理员解除禁言", u.name);
+            GroupNotification notifications = (GroupNotification)imsg.content;
+            if(notifications.mute ==0){
+              fnotification.description = String.format("\"%s\"被管理员解除禁言", u.name);
             }else{
               fnotification.description = String.format("\"%s\"被管理员禁言", u.name);
 
