@@ -206,7 +206,7 @@
     IMMessage *im = [[IMMessage alloc] init];
     im.content = notification;
     im.isGroupNotification = YES;
-    if (msg.flag & MSG_FLAG_PUSH) {
+    if (!msg.flag & MSG_FLAG_PUSH) {
         NSArray *array = @[im];
         [self.groupMessageHandler handleMessages:array];
         [self publishGroupMessages:array];
