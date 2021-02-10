@@ -367,7 +367,7 @@ public class FltImPlugin implements FlutterPlugin,
     PeerMessageDB db = PeerMessageDB.getInstance();
     long msgLocalID = db.getMessageId(msgid);
     if (msgLocalID > 0) {
-      db.removeMessageIndex(msgLocalID);
+      db.removeMessage(msgLocalID);
       results="success";
     }else{
       results="error";
