@@ -1516,10 +1516,10 @@ public class FltImPlugin implements FlutterPlugin,
       conversation = conversations.get(pos);
     }
     conversation.message = imsg;
-    //if (currentUID == imsg.receiver) {
+    if (currentUID != imsg.sender) {
       //conversation.setUnreadCount(conversation.getUnreadCount());
       ConversationDB.getInstance().setNewCount(conversation.rowid,conversation.getUnreadCount() + 1);
-    //}
+    }
     updateConversationDetail(conversation);
     if (pos == -1) {
       conversations.add(0, conversation);
