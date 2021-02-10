@@ -155,6 +155,9 @@ GroupMessageObserver>
     else if ([@"deleteConversation" isEqualToString:call.method]) {
         [self deleteConversation:call.arguments result:result];
     }
+    else if ([@"deletePeerMessage" isEqualToString:call.method]) {
+        [self deletePeerMessage:call.arguments result:result];
+    }
     else if ([@"clearReadCount" isEqualToString:call.method]) {
         [self clearReadCount:call.arguments result:result];
     }
@@ -187,6 +190,25 @@ GroupMessageObserver>
     }
     result([self resultSuccess:@"完成"]);
 }
+
+- (void)deletePeerMessage:(NSDictionary *)args result:(FlutterResult)result {
+    int cid = [self getIntValueFromArgs:args forKey:@"id"];
+    Bool  return_result = [[PeerMessageDB instance] removeMessage:cid];
+    NSString *results  = "";
+
+        if(return_result){
+            results  = @"success";
+        }else{
+            results  = @"error";
+        }
+
+      [self callFlutter:[self resultSuccess:@{
+           @"type": @"deletePeerMessageSuccess",
+           @"result":results
+       }]];
+}
+
+
 - (void)clearReadCount:(NSDictionary *)args result:(FlutterResult)result {
     int cid = [self getIntValueFromArgs:args forKey:@"cid"];
     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
@@ -1016,11 +1038,12 @@ GroupMessageObserver>
         }
     }
 
-        //if (self.currentUID == msg.receiver) {
+
       Conversation *con_db = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
       if (con_db) {
-        [[ConversationDB instance] setNewCount:con_db.id count:con_db.newMsgCount +1];
-
+         if (self.currentUID != msg.sender) {
+              [[ConversationDB instance] setNewCount:con_db.id count:con_db.newMsgCount +1];
+            }
         } else{
 
 
@@ -1031,9 +1054,9 @@ GroupMessageObserver>
         con.message = msg;
         [self updateConversationDetail:con];
 
-        //if (self.currentUID == msg.receiver) {
+        if (self.currentUID != msg.sender) {
             con.newMsgCount += 1;
-       // }
+         }
 
         if (index != 0) {
             //置顶
@@ -1049,9 +1072,9 @@ GroupMessageObserver>
         [self updateConvNotificationDesc:con];
         [self updateConversationDetail:con];
 
-        //if (self.currentUID == msg.receiver) {
+       if (self.currentUID != msg.sender) {
             con.newMsgCount += 1;
-        //}
+        }
         if (!con_db) {
             [[ConversationDB instance] addConversation:con];
         }

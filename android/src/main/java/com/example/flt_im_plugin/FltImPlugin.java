@@ -314,6 +314,10 @@ public class FltImPlugin implements FlutterPlugin,
         deleteConversation(call.arguments, result);
         break;
       }
+      case "deletePeerMessage": {
+        deletePeerMessage(call.arguments, result);
+        break;
+      }
       case "clearReadCount": {
         clearReadCount(call.arguments, result);
         break;
@@ -356,7 +360,22 @@ public class FltImPlugin implements FlutterPlugin,
     }
     result.success(resultSuccess("完成"));
   }
-
+  private void deletePeerMessage(Object arg, final  Result result) {
+    Map argMap = convertToMap(arg);
+    String msgid = (String)argMap.get("id");
+    String results ="";
+    PeerMessageDB db = PeerMessageDB.getInstance();
+    long msgLocalID = db.getMessageId(msgid);
+    if (msgLocalID > 0) {
+      db.removeMessageIndex(msgLocalID);
+      results="success";
+    }else{
+      results="error";
+    }
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("type", "deletePeerMessageSuccess");
+    map.put("result", results);
+  }
   void loadConversations() {
     conversations = ConversationDB.getInstance().getConversations();
     for (Conversation conv : conversations) {
