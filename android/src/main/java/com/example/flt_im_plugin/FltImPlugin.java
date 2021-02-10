@@ -375,6 +375,7 @@ public class FltImPlugin implements FlutterPlugin,
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("type", "deletePeerMessageSuccess");
     map.put("result", results);
+    this.callFlutter(resultSuccess(map));
   }
   void loadConversations() {
     conversations = ConversationDB.getInstance().getConversations();
