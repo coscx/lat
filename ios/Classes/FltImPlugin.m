@@ -192,7 +192,7 @@ GroupMessageObserver>
 }
 
 - (void)deletePeerMessage:(NSDictionary *)args result:(FlutterResult)result {
-    int uuid = [self getIntValueFromArgs:args forKey:@"id"];
+    int uuid = [self getStringValueFromArgs:args forKey:@"id"];
     int id = 0;
     int con_db = [[PeerMessageDB instance] getMessageId:@(uuid)];
     if (con_db) {
