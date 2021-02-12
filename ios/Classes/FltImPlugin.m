@@ -193,6 +193,13 @@ GroupMessageObserver>
 
 - (void)deletePeerMessage:(NSDictionary *)args result:(FlutterResult)result {
     int cid = [self getIntValueFromArgs:args forKey:@"id"];
+    int con_db = [[PeerMessageDB instance] getMessageId:@(cid)];
+    if (con_db) {
+        cid = con_db;
+     } else{
+
+     }
+
     BOOL  return_result = [[PeerMessageDB instance] removeMessage:cid];
     NSString *results  = @"";
 
