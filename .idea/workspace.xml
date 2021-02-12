@@ -26,7 +26,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +60,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/example/android" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -462,26 +464,26 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1613031428411" />
-    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1613030812608">
+    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1613111962372">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1613030812608" />
-    <state width="2518" height="399" key="GridCell.Tab.0.bottom" timestamp="1613030815141">
+    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1613111962372" />
+    <state width="2518" height="399" key="GridCell.Tab.0.bottom" timestamp="1613114682565">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="399" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1613030815141" />
-    <state width="2518" height="399" key="GridCell.Tab.0.center" timestamp="1613030815140">
+    <state width="2518" height="399" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1613114682565" />
+    <state width="2518" height="399" key="GridCell.Tab.0.center" timestamp="1613114682565">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="399" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1613030815140" />
-    <state width="2518" height="399" key="GridCell.Tab.0.left" timestamp="1613030815140">
+    <state width="2518" height="399" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1613114682565" />
+    <state width="2518" height="399" key="GridCell.Tab.0.left" timestamp="1613114682565">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="399" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1613030815140" />
-    <state width="2518" height="399" key="GridCell.Tab.0.right" timestamp="1613030815141">
+    <state width="2518" height="399" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1613114682565" />
+    <state width="2518" height="399" key="GridCell.Tab.0.right" timestamp="1613114682565">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="399" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1613030815141" />
+    <state width="2518" height="399" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1613114682565" />
     <state x="249" y="122" key="MergeDialog" timestamp="1612417090838">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
