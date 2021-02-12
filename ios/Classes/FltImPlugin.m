@@ -192,15 +192,16 @@ GroupMessageObserver>
 }
 
 - (void)deletePeerMessage:(NSDictionary *)args result:(FlutterResult)result {
-    int cid = [self getIntValueFromArgs:args forKey:@"id"];
-    int con_db = [[PeerMessageDB instance] getMessageId:@(cid)];
+    int uuid = [self getIntValueFromArgs:args forKey:@"id"];
+    int id = 0;
+    int con_db = [[PeerMessageDB instance] getMessageId:@(uuid)];
     if (con_db) {
-        cid = con_db;
+        id = con_db;
      } else{
 
      }
 
-    BOOL  return_result = [[PeerMessageDB instance] removeMessage:cid];
+    BOOL  return_result = [[PeerMessageDB instance] removeMessage:id];
     NSString *results  = @"";
 
         if(return_result){
@@ -211,7 +212,8 @@ GroupMessageObserver>
 
       [self callFlutter:[self resultSuccess:@{
            @"type": @"deletePeerMessageSuccess",
-           @"result":results
+           @"result":results,
+           @"id":@(uuid),
        }]];
 }
 
