@@ -206,9 +206,9 @@
     
     NSString *path = [cache queryCacheForKey:content.url];
     
-    NSString *tmp = [NSString stringWithFormat:@"%@.amr", path];
+    NSString *tmp = [NSString stringWithFormat:@"%@", path];
     
-    if (![[NSFileManager defaultManager] fileExistsAtPath:tmp]) {
+    /*if (![[NSFileManager defaultManager] fileExistsAtPath:tmp]) {
         const char *amr = [tmp UTF8String];
         const char *wav = [path UTF8String];
         
@@ -216,7 +216,7 @@
         if (r != 0) {
             return NO;
         }
-    }
+    }*/
     
     NSData *data = [NSData dataWithContentsOfFile:tmp];
     if (data == nil) {

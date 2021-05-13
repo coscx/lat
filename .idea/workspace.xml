@@ -26,9 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +58,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/example/android" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -82,13 +80,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00001" summary="code">
-      <created>1606050081010</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1606050081010</updated>
     </task>
     <task id="LOCAL-00002" summary="code">
       <created>1606545662421</created>
@@ -426,7 +417,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613093021968</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="code">
+      <created>1613129554631</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1613129554632</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -452,10 +450,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1026" y="501" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1612098552400" />
-    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1613093020763">
+    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1613129553939">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1613093020763" />
+    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1613129553939" />
     <state width="1194" height="1332" key="DebuggerActiveHint" timestamp="1609039048193">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -488,18 +486,18 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="249" y="122" key="MergeDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1612417090838" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1613093025069">
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1613129566543">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1613093025069" />
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1613129566543" />
     <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612956932575">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400@0.0.2560.1400" timestamp="1612956932575" />
-    <state x="578" y="105" width="1542" height="1148" key="find.popup" timestamp="1612185086330">
+    <state x="578" y="105" width="1542" height="1148" key="find.popup" timestamp="1613132661600">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="578" y="105" width="1542" height="1148" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1612185086330" />
+    <state x="578" y="105" width="1542" height="1148" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1613132661600" />
     <state x="938" y="331" key="run.anything.popup" timestamp="1608990103701">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
