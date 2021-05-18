@@ -609,10 +609,10 @@ GroupMessageObserver>
         NSString *p = [[NSBundle bundleForClass:[FltImPlugin class]] pathForResource:@"gobelieve" ofType:@"db"];
         [fileManager copyItemAtPath:p toPath:dbPath error:nil];
     }
-    FMDatabase *db = [[FMDatabase alloc] initWithPath:dbPath];
-    BOOL r = [db openWithFlags:SQLITE_OPEN_READWRITE|SQLITE_OPEN_WAL vfs:nil];
+    FMDatabaseQueue *db = [[FMDatabaseQueue alloc] initWithPath:dbPath];
+    BOOL r = [db openFlags];
     if (!r) {
-        NSLog(@"open database error:%@", [db lastError]);
+        NSLog(@"open database error:");
         db = nil;
         NSAssert(NO, @"");
     }
