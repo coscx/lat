@@ -12,12 +12,12 @@
 #import "IMessageIterator.h"
 
 #import <fmdb/FMDB.h>
-
+#import "FMDatabaseQueue.h"
 @interface SQLPeerMessageDB : NSObject
 
 
 
-@property(nonatomic, strong) FMDatabase *db;
+@property (nonatomic, strong) FMDatabaseQueue *db;
 @property(nonatomic, assign) BOOL secret;
 
 -(id<IMessageIterator>)newMessageIterator:(int64_t)uid;

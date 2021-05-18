@@ -12,12 +12,12 @@
 #import "IConversationIterator.h"
 
 #import <fmdb/FMDB.h>
-
+#import "FMDatabaseQueue.h"
 @interface SQLConversionsDB : NSObject
 
 
 
-@property(nonatomic, strong) FMDatabase *db;
+@property(nonatomic, strong) FMDatabaseQueue *db;
 @property(nonatomic, assign) BOOL secret;
 
 
