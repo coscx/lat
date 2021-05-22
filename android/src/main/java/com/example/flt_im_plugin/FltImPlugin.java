@@ -1342,7 +1342,12 @@ public class FltImPlugin implements FlutterPlugin,
     if (imsg.isOutgoing) {
       imsg.flags |= MessageFlag.MESSAGE_FLAG_ACK;
     }
-
+    IMessage mm = findMessage(imsg.getUUID());
+    if (mm != null) {
+      return;
+    }else{
+      insertMessage(imsg);
+    }
     loadUserName(imsg);
     downloadMessageContent(imsg);
     updateNotificationDesc(imsg);
@@ -1372,6 +1377,12 @@ public class FltImPlugin implements FlutterPlugin,
     imsg.isOutgoing = (msg.sender == this.currentUID);
     if (imsg.isOutgoing) {
       imsg.flags |= MessageFlag.MESSAGE_FLAG_ACK;
+    }
+    IMessage mm = findMessage(imsg.getUUID());
+    if (mm != null) {
+      return;
+    }else{
+      insertMessage(imsg);
     }
     loadUserName(imsg);
     downloadMessageContent(imsg);
