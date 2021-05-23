@@ -449,6 +449,7 @@ public class FltImPlugin implements FlutterPlugin,
       imThread.start();
       IMService mIMService = IMService.getInstance();
       mIMService.setHost(host);
+      mIMService.setContext(context.getApplicationContext());
       IMHttpAPI.setAPIURL(apiURL);
       String androidID = Secure.getString(context.getContentResolver(),
               Secure.ANDROID_ID);
