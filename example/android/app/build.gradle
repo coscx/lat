@@ -42,6 +42,11 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.debug
+//            minifyEnabled true //删除无用代码
+//            useProguard true    //代码压缩设置
+//            shrinkResources false //删除无用资源
+            //读取代码压缩配置文件
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
