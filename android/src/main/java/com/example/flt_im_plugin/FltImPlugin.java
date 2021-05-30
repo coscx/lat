@@ -140,6 +140,7 @@ public class FltImPlugin implements FlutterPlugin,
   Registrar registrar;
   ActivityPluginBinding activityPluginBinding;
   Activity activity;
+  private  String apiURL;
   private HandlerThread imThread;//处理im消息的线程
   private Lifecycle lifecycle;
   private long currentUID;
@@ -444,7 +445,7 @@ public class FltImPlugin implements FlutterPlugin,
       Map argMap = convertToMap(arg);
       String host = (String)argMap.get("host"); // imnode2.gobelieve.io
       String apiURL = (String)argMap.get("apiURL"); // http://api.gobelieve.io
-
+      this.apiURL = apiURL;
       imThread = new HandlerThread("im_service");
       imThread.start();
       IMService mIMService = IMService.getInstance();
@@ -1157,18 +1158,19 @@ public class FltImPlugin implements FlutterPlugin,
 
   private static class LoginTread extends  Thread {
     String uid;
-
+    String apiURL;
     String accessToken;
     Context context;
 
-    LoginTread(String uid, Context context) {
+    LoginTread(String uid, Context context,String apiURL) {
       this.uid = uid;
       this.context = context;
+      this.apiURL = apiURL;
     }
 
     @Override
     public void run() {
-      String URL = "http://mm.3dsqq.com:8000";
+      String URL = apiURL;
 
       String uri = String.format("%s/v1/login/GetAuth", URL);
       try {
@@ -1220,7 +1222,7 @@ public class FltImPlugin implements FlutterPlugin,
   }
 
   private String login(String uid) {
-    LoginTread loginTread = new LoginTread(uid, context);
+    LoginTread loginTread = new LoginTread(uid, context,this.apiURL);
     loginTread.start();
     try {
       loginTread.join();
