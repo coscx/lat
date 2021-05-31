@@ -509,7 +509,7 @@ public class FltImPlugin implements FlutterPlugin,
 
         PeerMessageHandler.getInstance().setUID(l_uid);
         GroupMessageHandler.getInstance().setUID(l_uid);
-        IMHttpAPI.setToken("");
+        IMHttpAPI.setToken(token);
         IMService.getInstance().setToken(token);
 
         SyncKeyHandler handler = new SyncKeyHandler(context.getApplicationContext(), "sync_key");
