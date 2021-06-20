@@ -839,6 +839,8 @@ public class FltImPlugin implements FlutterPlugin,
       }
       _sendMessage(imsg, result);
     } else if (type == MessageContent.MessageType.MESSAGE_REVOKE) {
+      String uuid = (String) argMap.get("uuid");
+      imsg.content.setUUID(uuid);
       IMessage imsgs = this.revoke(imsg);
       _sendMessage(imsgs, result);
     } else {
@@ -846,7 +848,7 @@ public class FltImPlugin implements FlutterPlugin,
     }
   }
   protected IMessage revoke(IMessage msg) {
-    if (TextUtils.isEmpty(msg.getUUID())) {
+    if (TextUtils.isEmpty(msg.content.getUUID())) {
       return null;
     }
 
@@ -861,7 +863,7 @@ public class FltImPlugin implements FlutterPlugin,
       return null;
     }
 
-    Revoke revoke = Revoke.newRevoke(msg.getUUID());
+    Revoke revoke = Revoke.newRevoke(msg.content.getUUID());
     IMessage imsg = new IMessage();
     imsg.setContent(revoke);
     imsg.timestamp = now();
