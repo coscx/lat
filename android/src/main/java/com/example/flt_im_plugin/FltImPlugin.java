@@ -1072,6 +1072,14 @@ public class FltImPlugin implements FlutterPlugin,
         queryLocation(imsg);
       }
       _sendGroupMessage(imsg, result);
+    } else if (type == MessageContent.MessageType.MESSAGE_REVOKE) {
+      String uuid = (String) argMap.get("uuid");
+      //imsg.content.setUUID(uuid);
+      IMessage imsgs = this.revoke(imsg,uuid);
+      imsgs.sender = imsg.sender;
+      imsgs.receiver = imsg.receiver;
+      GroupOutbox.getInstance().sendMessage(imsgs);
+      result.success(resultSuccess(convertToMap(imsgs)));
     } else {
       result.success(resultSuccess("暂不支持"));
     }
