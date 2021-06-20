@@ -844,7 +844,7 @@ public class FltImPlugin implements FlutterPlugin,
       IMessage imsgs = this.revoke(imsg,uuid);
       imsgs.sender = imsg.sender;
       imsgs.receiver = imsg.receiver;
-      _sendMessage(imsgs, result);
+      PeerOutbox.getInstance().sendMessage(imsgs);
     } else {
       result.success(resultSuccess("暂不支持"));
     }

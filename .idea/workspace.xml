@@ -58,7 +58,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../que/android" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -84,27 +84,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00013" summary="code">
-      <created>1612320046830</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1612320046831</updated>
-    </task>
-    <task id="LOCAL-00014" summary="code">
-      <created>1612328263164</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1612328263164</updated>
-    </task>
-    <task id="LOCAL-00015" summary="code">
-      <created>1612329335429</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1612329335429</updated>
     </task>
     <task id="LOCAL-00016" summary="code">
       <created>1612331967392</created>
@@ -428,7 +407,28 @@
       <option name="project" value="LOCAL" />
       <updated>1624169018476</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="code">
+      <created>1624169925694</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1624169925694</updated>
+    </task>
+    <task id="LOCAL-00063" summary="code">
+      <created>1624171765878</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1624171765878</updated>
+    </task>
+    <task id="LOCAL-00064" summary="code">
+      <created>1624173532508</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1624173532508</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -450,20 +450,20 @@
     <option name="LAST_COMMIT_MESSAGE" value="code" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1624169017570">
+    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1624173531577">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1621849281416" />
-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1624169017570" />
-    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1622352937388">
+    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1624173531577" />
+    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1624171777068">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="70" y="69" width="1536" height="861" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1621849397039" />
-    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1622352937388" />
-    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1624151724782">
+    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1624171777068" />
+    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1624173386633">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1624151724782" />
+    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1624173386633" />
     <state width="1968" height="393" key="GridCell.Tab.0.bottom" timestamp="1624151726831">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -480,11 +480,11 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="1968" height="393" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1624151726830" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1624169022271">
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1624173533252">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="655" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1621849292322" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624169022271" />
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624173533252" />
     <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624151045106">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
