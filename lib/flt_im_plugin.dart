@@ -95,7 +95,14 @@ class FltImPlugin {
       'secret': secret ? 1 : 0,
     });
   }
-
+  Future<Map> sendRevokeMessage({bool secret, String sender, String receiver, String uuid}) async {
+    return sendMessage(type: 1, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'uuid': uuid,
+      'secret': secret ? 1 : 0,
+    });
+  }
   Future<Map> sendImageMessage({bool secret, String sender, String receiver, Uint8List image}) async {
     return sendMessage(type: 2, message: {
       'sender': sender,
