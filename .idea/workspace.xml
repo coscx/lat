@@ -25,11 +25,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/FltImPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/FltImPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flt_im_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flt_im_plugin.dart" afterDir="false" />
-    </list>
+    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,13 +82,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00018" summary="code">
-      <created>1612339930886</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1612339930886</updated>
     </task>
     <task id="LOCAL-00019" summary="code">
       <created>1612340670252</created>
@@ -430,7 +419,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624186582099</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="code">
+      <created>1624194854005</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1624194854005</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -452,11 +448,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="code" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1624186581129">
+    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1624194853037">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1621849281416" />
-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1624186581129" />
+    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1624194853037" />
     <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1624171777068">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -482,11 +478,11 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="1968" height="393" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1624151726830" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1624186583290">
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1624194855131">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="655" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1621849292322" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624186583290" />
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624194855131" />
     <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624151045106">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>

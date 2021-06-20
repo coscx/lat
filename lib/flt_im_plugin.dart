@@ -104,7 +104,7 @@ class FltImPlugin {
     });
   }
   Future<Map> sendGroupRevokeMessage({bool secret, String sender, String receiver, String uuid}) async {
-    return sendMessage(type: 14, message: {
+    return sendGroupMessage(type: 14, message: {
       'sender': sender,
       'receiver': receiver,
       'uuid': uuid,
