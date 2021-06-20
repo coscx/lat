@@ -1616,6 +1616,7 @@ public class FltImPlugin implements FlutterPlugin,
     }
     Map<String, Object> map = new HashMap<String, Object>();
     map.put("type", "onGroupMessageACK");
+    map.put("result", convertToMap(im));
     this.callFlutter(resultSuccess(map));
   }
 
