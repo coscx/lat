@@ -100,6 +100,7 @@ class FltImPlugin {
       'sender': sender,
       'receiver': receiver,
       'uuid': uuid,
+
       'secret': secret ? 1 : 0,
     });
   }

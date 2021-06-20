@@ -840,22 +840,22 @@ public class FltImPlugin implements FlutterPlugin,
       _sendMessage(imsg, result);
     } else if (type == MessageContent.MessageType.MESSAGE_REVOKE) {
       String uuid = (String) argMap.get("uuid");
-      imsg.content.setUUID(uuid);
-      IMessage imsgs = this.revoke(imsg);
+      //imsg.content.setUUID(uuid);
+      IMessage imsgs = this.revoke(imsg,uuid);
       _sendMessage(imsgs, result);
     } else {
       result.success(resultSuccess("暂不支持"));
     }
   }
-  protected IMessage revoke(IMessage msg) {
-    if (TextUtils.isEmpty(msg.content.getUUID())) {
+  protected IMessage revoke(IMessage msg,String uuid) {
+    if (TextUtils.isEmpty(uuid)) {
       return null;
     }
 
     int now = now();
     if (now - msg.timestamp > REVOKE_EXPIRE) {
 //      Toast.makeText(this, getString(com.beetle.imkit.R.string.revoke_timed_out), Toast.LENGTH_SHORT).show();
-      return null;
+      // return null;
     }
 
     if (IMService.getInstance().getConnectState() != IMService.ConnectState.STATE_CONNECTED) {
@@ -863,7 +863,7 @@ public class FltImPlugin implements FlutterPlugin,
       return null;
     }
 
-    Revoke revoke = Revoke.newRevoke(msg.content.getUUID());
+    Revoke revoke = Revoke.newRevoke(uuid);
     IMessage imsg = new IMessage();
     imsg.setContent(revoke);
     imsg.timestamp = now();
