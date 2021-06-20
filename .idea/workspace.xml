@@ -25,10 +25,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +67,10 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\flutter\lat\example\android\app\src\main" />
+      <recent name="C:\flutter\lat\example\android\app" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/example/android" />
     </key>
@@ -82,69 +85,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00003" summary="code">
-      <created>1607435442623</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1607435442624</updated>
-    </task>
-    <task id="LOCAL-00004" summary="code">
-      <created>1607437479708</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1607437479708</updated>
-    </task>
-    <task id="LOCAL-00005" summary="code">
-      <created>1608730738444</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1608730738444</updated>
-    </task>
-    <task id="LOCAL-00006" summary="code">
-      <created>1608905760842</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1608905760842</updated>
-    </task>
-    <task id="LOCAL-00007" summary="code">
-      <created>1608981298262</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1608981298262</updated>
-    </task>
-    <task id="LOCAL-00008" summary="code">
-      <created>1609045299433</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1609045299434</updated>
-    </task>
-    <task id="LOCAL-00009" summary="code">
-      <created>1612099785858</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1612099785859</updated>
-    </task>
-    <task id="LOCAL-00010" summary="code">
-      <created>1612185901318</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1612185901318</updated>
-    </task>
-    <task id="LOCAL-00011" summary="code">
-      <created>1612227682897</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1612227682898</updated>
     </task>
     <task id="LOCAL-00012" summary="code">
       <created>1612260612614</created>
@@ -426,7 +366,70 @@
       <option name="project" value="LOCAL" />
       <updated>1621306012332</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="code">
+      <created>1621307541900</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1621307541900</updated>
+    </task>
+    <task id="LOCAL-00053" summary="code">
+      <created>1621648393679</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1621648393679</updated>
+    </task>
+    <task id="LOCAL-00054" summary="code">
+      <created>1621751990439</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1621751990440</updated>
+    </task>
+    <task id="LOCAL-00055" summary="code">
+      <created>1621757464176</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1621757464176</updated>
+    </task>
+    <task id="LOCAL-00056" summary="code">
+      <created>1621849282790</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1621849282791</updated>
+    </task>
+    <task id="LOCAL-00057" summary="code">
+      <created>1622465689762</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1622465689763</updated>
+    </task>
+    <task id="LOCAL-00058" summary="code">
+      <created>1622502376999</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1622502377000</updated>
+    </task>
+    <task id="LOCAL-00059" summary="code">
+      <created>1624151127378</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1624151127379</updated>
+    </task>
+    <task id="LOCAL-00060" summary="code">
+      <created>1624168508774</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1624168508774</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -448,47 +451,44 @@
     <option name="LAST_COMMIT_MESSAGE" value="code" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="663" y="174" key="CommitChangelistDialog2" timestamp="1621306010534">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1621306010534" />
-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1613129553939" />
-    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1613031428411">
+    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1624168507756">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1613031428411" />
-    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1620908696498">
+    <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1621849281416" />
+    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1624168507756" />
+    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1622352937388">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1620908696498" />
-    <state width="2518" height="399" key="GridCell.Tab.0.bottom" timestamp="1613114682565">
+    <state x="70" y="69" width="1536" height="861" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1621849397039" />
+    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1622352937388" />
+    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1624151724782">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="399" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1613114682565" />
-    <state width="2518" height="399" key="GridCell.Tab.0.center" timestamp="1613114682565">
+    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1624151724782" />
+    <state width="1968" height="393" key="GridCell.Tab.0.bottom" timestamp="1624151726831">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="399" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1613114682565" />
-    <state width="2518" height="399" key="GridCell.Tab.0.left" timestamp="1613114682565">
+    <state width="1968" height="393" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1624151726831" />
+    <state width="1968" height="393" key="GridCell.Tab.0.center" timestamp="1624151726830">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="399" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1613114682565" />
-    <state width="2518" height="399" key="GridCell.Tab.0.right" timestamp="1613114682565">
+    <state width="1968" height="393" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1624151726830" />
+    <state width="1968" height="393" key="GridCell.Tab.0.left" timestamp="1624151726830">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="399" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1613114682565" />
-    <state x="655" y="322" key="Vcs.Push.Dialog.v2" timestamp="1621306018621">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="655" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1621306018621" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1613129566543" />
-    <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1620908659516">
+    <state width="1968" height="393" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1624151726830" />
+    <state width="1968" height="393" key="GridCell.Tab.0.right" timestamp="1624151726830">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400@0.0.2560.1400" timestamp="1620908659516" />
-    <state x="578" y="105" width="1542" height="1148" key="find.popup" timestamp="1613132661600">
+    <state width="1968" height="393" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1624151726830" />
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1624168513602">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="578" y="105" width="1542" height="1148" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1613132661600" />
+    <state x="655" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1621849292322" />
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624168513602" />
+    <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624151045106">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624151045106" />
   </component>
 </project>
