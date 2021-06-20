@@ -1633,8 +1633,8 @@ public class FltImPlugin implements FlutterPlugin,
             //Log.i(TAG, "can't find msg:" + msgLocalID);
             //return;
           }
-          imsg.setContent(r);
-          updateNotificationDesc(imsg);
+          //imsg.setContent(r);
+          //updateNotificationDesc(imsg);
           //adapter.notifyDataSetChanged();
         }
       }
