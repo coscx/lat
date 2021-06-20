@@ -1573,7 +1573,7 @@ public class FltImPlugin implements FlutterPlugin,
     long msgLocalID = im.msgLocalID;
     long gid = im.receiver;
     if (gid != groupID) {
-      return;
+      //return;
     }
     //Log.i(TAG, "message ack");
 
