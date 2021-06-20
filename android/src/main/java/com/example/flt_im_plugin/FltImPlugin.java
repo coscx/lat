@@ -845,6 +845,7 @@ public class FltImPlugin implements FlutterPlugin,
       imsgs.sender = imsg.sender;
       imsgs.receiver = imsg.receiver;
       PeerOutbox.getInstance().sendMessage(imsgs);
+      result.success(resultSuccess(convertToMap(imsgs)));
     } else {
       result.success(resultSuccess("暂不支持"));
     }
