@@ -842,6 +842,8 @@ public class FltImPlugin implements FlutterPlugin,
       String uuid = (String) argMap.get("uuid");
       //imsg.content.setUUID(uuid);
       IMessage imsgs = this.revoke(imsg,uuid);
+      imsgs.sender = imsg.sender;
+      imsgs.receiver = imsg.receiver;
       _sendMessage(imsgs, result);
     } else {
       result.success(resultSuccess("暂不支持"));
