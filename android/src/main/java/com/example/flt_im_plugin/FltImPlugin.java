@@ -149,6 +149,7 @@ public class FltImPlugin implements FlutterPlugin,
   private List<Conversation> conversations;
   protected long groupID;
   protected String groupName;
+  protected static final int REVOKE_EXPIRE = 120;
   public void initInstance(BinaryMessenger messeger, Context context) {
     channel = new MethodChannel(messeger, "flt_im_plugin");
     channel.setMethodCallHandler(this);
@@ -837,11 +838,36 @@ public class FltImPlugin implements FlutterPlugin,
         queryLocation(imsg);
       }
       _sendMessage(imsg, result);
+    } else if (type == MessageContent.MessageType.MESSAGE_REVOKE) {
+      IMessage imsgs = this.revoke(imsg);
+      _sendMessage(imsgs, result);
     } else {
       result.success(resultSuccess("暂不支持"));
     }
   }
+  protected IMessage revoke(IMessage msg) {
+    if (TextUtils.isEmpty(msg.getUUID())) {
+      return null;
+    }
 
+    int now = now();
+    if (now - msg.timestamp > REVOKE_EXPIRE) {
+//      Toast.makeText(this, getString(com.beetle.imkit.R.string.revoke_timed_out), Toast.LENGTH_SHORT).show();
+      return null;
+    }
+
+    if (IMService.getInstance().getConnectState() != IMService.ConnectState.STATE_CONNECTED) {
+//      Toast.makeText(this, getString(com.beetle.imkit.R.string.revoke_connection_disconnect), Toast.LENGTH_SHORT).show();
+      return null;
+    }
+
+    Revoke revoke = Revoke.newRevoke(msg.getUUID());
+    IMessage imsg = new IMessage();
+    imsg.setContent(revoke);
+    imsg.timestamp = now();
+    imsg.isOutgoing = true;
+    return (imsg);
+  }
   void _sendMessage(IMessage imsg, final Result result) {
     imsg.timestamp = now();
     imsg.isOutgoing = true;
