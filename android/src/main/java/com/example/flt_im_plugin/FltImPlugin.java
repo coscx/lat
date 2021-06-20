@@ -1582,9 +1582,9 @@ public class FltImPlugin implements FlutterPlugin,
         IMessage imsg = findMessage(msgLocalID);
         if (imsg == null) {
           //Log.i(TAG, "can't find msg:" + msgLocalID);
-          return;
+          //return;
         }
-        imsg.setAck(true);
+        //imsg.setAck(true);
       } else {
         MessageContent c = IMessage.fromRaw(im.content);
         if (c.getType() == MessageContent.MessageType.MESSAGE_REVOKE) {
@@ -1592,7 +1592,7 @@ public class FltImPlugin implements FlutterPlugin,
           IMessage imsg = findMessage(r.msgid);
           if (imsg == null) {
             //Log.i(TAG, "can't find msg:" + msgLocalID);
-            return;
+            //return;
           }
           imsg.setContent(r);
           updateNotificationDesc(imsg);
@@ -1604,9 +1604,9 @@ public class FltImPlugin implements FlutterPlugin,
         IMessage imsg = findMessage(msgLocalID);
         if (imsg == null) {
          // Log.i(TAG, "can't find msg:" + msgLocalID);
-          return;
+          //return;
         }
-        imsg.setFailure(true);
+        //imsg.setFailure(true);
       } else {
         MessageContent c = IMessage.fromRaw(im.content);
         if (c.getType() == MessageContent.MessageType.MESSAGE_REVOKE) {
