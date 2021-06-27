@@ -29,15 +29,25 @@ android {
 
     defaultConfig {
         minSdkVersion 18
+
     }
     lintOptions {
         disable 'InvalidPackage'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
-    api 'com.github.coscx:asynctcp:2.4'
-    api 'com.github.coscx:imsdk:2.2'
+    api 'com.github.coscx:asynctcp:2.5'
+    api 'com.github.coscx:imsdk:2.4'
     api 'com.github.coscx:imlib:1.5'
     api 'com.github.coscx:imkit:1.6'
     implementation 'com.netflix.rxjava:rxjava-core:0.20.7'
@@ -46,4 +56,5 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.8'
     implementation project(path: ':flutter_plugin_android_lifecycle')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':libwebrtc')
 }

@@ -27,7 +27,17 @@
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
         </activity>
+        <activity
+            android:name="com.example.flt_im_plugin.VOIPVoiceActivity"
+            android:screenOrientation="portrait"
+            android:label="voip" >
+        </activity>
 
+        <activity
+            android:name="com.example.flt_im_plugin.VOIPVideoActivity"
+            android:screenOrientation="portrait"
+            android:label="voip" >
+        </activity>
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />

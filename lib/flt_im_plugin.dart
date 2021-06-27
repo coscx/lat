@@ -288,4 +288,18 @@ class FltImPlugin {
   Future<Map> deletePeerMessage({String id}) async {
     return _methodChannel.invokeMapMethod('deletePeerMessage', {'id': id});
   }
+  Future<Map> voiceCall(String peerId) async {
+    return _methodChannel.invokeMapMethod('voice_call', {'uid': "1",'peer_id':peerId});
+  }
+  Future<Map> voiceReceiveCall() async {
+    return _methodChannel.invokeMapMethod('voice_receive_call', {'uid': "uid",'peer_id':"peerId",'channel_id':"channelId"});
+  }
+  Future<Map> videoCall(String peerId) async {
+    return _methodChannel.invokeMapMethod('video_call', {'uid': "1",'peer_id':peerId});
+  }
+  Future<Map> VideoReceiveCall() async {
+    return _methodChannel.invokeMapMethod('video_receive_call', {'uid': "1",'peer_id':"peerId",'channel_id':"channelId"});
+  }
+
+
 }

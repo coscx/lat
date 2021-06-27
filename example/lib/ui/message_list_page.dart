@@ -1,3 +1,4 @@
+import 'package:flt_im_plugin/flt_im_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'message_list_viewmodel.dart';
@@ -17,6 +18,34 @@ class MessageListPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             actions: [
+              IconButton(
+                icon: Icon(Icons.arrow_right),
+                onPressed: () {
+                  FltImPlugin im = FltImPlugin();
+                  im.videoCall("2");
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.arrow_left),
+                onPressed: () {
+                  FltImPlugin im = FltImPlugin();
+                  im.VideoReceiveCall();
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.chevron_right),
+                onPressed: () {
+                  FltImPlugin im = FltImPlugin();
+                  im.voiceCall("2");
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.chevron_left),
+                onPressed: () {
+                  FltImPlugin im = FltImPlugin();
+                  im.voiceReceiveCall();
+                },
+              ),
               IconButton(
                 icon: Icon(Icons.add),
                 onPressed: () {

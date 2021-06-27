@@ -11,6 +11,7 @@ import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.os.HandlerThread;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
@@ -65,6 +66,8 @@ import com.beetle.im.IMService;
 import com.beetle.im.IMServiceObserver;
 import com.beetle.im.MessageACK;
 import com.beetle.im.PeerMessageObserver;
+import com.beetle.im.RTMessage;
+import com.beetle.im.RTMessageObserver;
 import com.beetle.im.SystemMessageObserver;
 
 import org.apache.http.HttpResponse;
@@ -75,6 +78,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -129,7 +133,7 @@ public class FltImPlugin implements FlutterPlugin,
         IMServiceObserver,
         GroupMessageObserver,
         SystemMessageObserver,
-        PeerMessageObserver {
+        PeerMessageObserver , RTMessageObserver {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -144,8 +148,11 @@ public class FltImPlugin implements FlutterPlugin,
   private HandlerThread imThread;//处理im消息的线程
   private Lifecycle lifecycle;
   private long currentUID;
+  private long memberId;
   private long conversationID;
+  private boolean calling = false;
   protected ArrayList<IMessage> messages = new ArrayList<IMessage>();
+  private ArrayList<String> channelIDs = new ArrayList<>();
   private List<Conversation> conversations;
   protected long groupID;
   protected String groupName;
@@ -220,6 +227,7 @@ public class FltImPlugin implements FlutterPlugin,
   /// ActivityResultListener
   @Override
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+    calling = false;
     return false;
   }
 
@@ -270,6 +278,22 @@ public class FltImPlugin implements FlutterPlugin,
       }
       case "logout": {
         logout(call.arguments, result);
+        break;
+      }
+      case "voice_call": {
+        voice_call(call.arguments, result);
+        break;
+      }
+      case "voice_receive_call": {
+        voice_receive_call(call.arguments, result);
+        break;
+      }
+      case "video_call": {
+        video_call(call.arguments, result);
+        break;
+      }
+      case "video_receive_call": {
+        video_receive_call(call.arguments, result);
         break;
       }
       case "createConversion": {
@@ -507,7 +531,7 @@ public class FltImPlugin implements FlutterPlugin,
         CustomerMessageDB.getInstance().setDb(null);
         ConversationDB.getInstance().setDb(null);
         openDB(l_uid);
-
+        this.memberId = l_uid;
         PeerMessageHandler.getInstance().setUID(l_uid);
         GroupMessageHandler.getInstance().setUID(l_uid);
         IMHttpAPI.setToken(token);
@@ -549,6 +573,7 @@ public class FltImPlugin implements FlutterPlugin,
         IMService.getInstance().addPeerObserver(this);
         IMService.getInstance().addGroupObserver(this);
         IMService.getInstance().addSystemObserver(this);
+        IMService.getInstance().addRTObserver(this);
         FileDownloader.getInstance().addObserver(this);
         this.conversations = ConversationDB.getInstance().getConversations();
         result.success(resultSuccess("login success"));
@@ -556,13 +581,140 @@ public class FltImPlugin implements FlutterPlugin,
 
   }
 
+
   private void logout(Object arg, final Result result) {
     IMService.getInstance().stop();
   }
 
+  @Override
+  public void onRTMessage(RTMessage rt) {
+    if (calling) {
+      return;
+    }
+
+    if (VOIPActivity.activityCount > 0) {
+      return;
+    }
+
+    JSONObject obj = null;
+    try {
+      JSONObject json = new JSONObject(rt.content);
+      obj = json.getJSONObject("voip");
+    } catch (JSONException e) {
+      e.printStackTrace();
+      return;
+    }
+
+    if (rt.receiver != this.memberId) {
+      return;
+    }
+
+    VOIPCommand command = new VOIPCommand(obj);
+
+    if (channelIDs.contains(command.channelID)) {
+      return;
+    }
+    if (command.cmd == VOIPCommand.VOIP_COMMAND_DIAL) {
+
+
+      calling = true;
+      channelIDs.add(command.channelID);
+      Intent intent = new Intent();
+      intent.setClass(activity,VOIPVoiceActivity.class);
+      intent.putExtra("peer_uid", rt.sender);
+      intent.putExtra("peer_name","语音聊天");
+      intent.putExtra("current_uid",this.memberId);
+      intent.putExtra("token","deBug");
+      intent.putExtra("is_caller",false);
+      intent.putExtra("channel_id", command.channelID);
+      activity.startActivityForResult(intent,1);
+
+
+    } else if (command.cmd == VOIPCommand.VOIP_COMMAND_DIAL_VIDEO) {
+
+      calling = true;
+      channelIDs.add(command.channelID);
+      Intent intent = new Intent();
+      intent.setClass(activity,VOIPVideoActivity.class);
+      intent.putExtra("peer_uid", rt.sender);
+      intent.putExtra("peer_name","视频聊天");
+      intent.putExtra("current_uid",this.memberId);
+      intent.putExtra("token","deBug");
+      intent.putExtra("is_caller",false);
+      intent.putExtra("channel_id", command.channelID);
+      activity.startActivityForResult(intent,1);
+
+    }
+  }
+  private void voice_call(Object arg, final Result result) {
+    Map argMap = convertToMap(arg);
+    long uid = Long.parseLong(argMap.get("uid").toString());
+    long peer_id = Long.parseLong(argMap.get("peer_id").toString());
+    Intent intent = new Intent();
+    intent.setClass(activity,VOIPVoiceActivity.class);
+    intent.putExtra("peer_uid",peer_id);
+    intent.putExtra("peer_name","聊天");
+    intent.putExtra("current_uid",this.memberId);
+    intent.putExtra("token","deBug");
+    intent.putExtra("is_caller",true);
+    intent.putExtra("channel_id",UUID.randomUUID().toString());
+    activity.startActivity(intent);
+
+
+  }
+  private void voice_receive_call(Object arg, final Result result) {
+    Map argMap = convertToMap(arg);
+    long uid = Long.parseLong(argMap.get("uid").toString());
+    long peer_id = Long.parseLong(argMap.get("peer_id").toString());
+    String channel_id = (String)argMap.get("channel_id");
+    Intent intent = new Intent();
+    intent.setClass(activity,VOIPVoiceActivity.class);
+    intent.putExtra("peer_uid",peer_id);
+    intent.putExtra("peer_name","聊天");
+    intent.putExtra("current_uid",this.memberId);
+    intent.putExtra("token","deBug");
+    intent.putExtra("is_caller",false);
+    intent.putExtra("channel_id",channel_id);
+    activity.startActivity(intent);
+
+
+  }
+  private void video_call(Object arg, final Result result) {
+    Map argMap = convertToMap(arg);
+    long uid = Long.parseLong(argMap.get("uid").toString());
+    long peer_id = Long.parseLong(argMap.get("peer_id").toString());
+    Intent intent = new Intent();
+    intent.setClass(activity,VOIPVideoActivity.class);
+    intent.putExtra("peer_uid",peer_id);
+    intent.putExtra("peer_name","聊天");
+    intent.putExtra("current_uid",uid);
+    intent.putExtra("token","deBug");
+    intent.putExtra("is_caller",true);
+    intent.putExtra("channel_id",UUID.randomUUID().toString());
+    activity.startActivity(intent);
+
+
+  }
+  private void video_receive_call(Object arg, final Result result) {
+    Map argMap = convertToMap(arg);
+    long uid = Long.parseLong(argMap.get("uid").toString());
+    long peer_id = Long.parseLong(argMap.get("peer_id").toString());
+    String channel_id = (String)argMap.get("channel_id");
+    Intent intent = new Intent();
+    intent.setClass(activity,VOIPVideoActivity.class);
+    intent.putExtra("peer_uid",peer_id);
+    intent.putExtra("peer_name","聊天");
+    intent.putExtra("current_uid",uid);
+    intent.putExtra("token","deBug");
+    intent.putExtra("is_caller",false);
+    intent.putExtra("channel_id",channel_id);
+    activity.startActivity(intent);
+
+
+  }
   protected IMessageDB messageDB;
   private void createConversion(Object arg, final Result result) {
-      Map argMap = convertToMap(arg);;
+      Map argMap = convertToMap(arg);
       String currentUID = (String)argMap.get("currentUID");
       String peerUID = (String)argMap.get("peerUID");
       boolean secret = (int)argMap.get("secret") > 0;
