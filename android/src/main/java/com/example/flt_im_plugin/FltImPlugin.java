@@ -687,7 +687,7 @@ public class FltImPlugin implements FlutterPlugin,
     intent.setClass(activity,VOIPVideoActivity.class);
     intent.putExtra("peer_uid",peer_id);
     intent.putExtra("peer_name","聊天");
-    intent.putExtra("current_uid",uid);
+    intent.putExtra("current_uid",this.memberId);
     intent.putExtra("token","deBug");
     intent.putExtra("is_caller",true);
     intent.putExtra("channel_id",UUID.randomUUID().toString());
@@ -704,7 +704,7 @@ public class FltImPlugin implements FlutterPlugin,
     intent.setClass(activity,VOIPVideoActivity.class);
     intent.putExtra("peer_uid",peer_id);
     intent.putExtra("peer_name","聊天");
-    intent.putExtra("current_uid",uid);
+    intent.putExtra("current_uid",this.memberId);
     intent.putExtra("token","deBug");
     intent.putExtra("is_caller",false);
     intent.putExtra("channel_id",channel_id);

@@ -26,47 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/CallActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/PeerConnectionClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/PercentFrameLayout.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/VOIPActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/VOIPCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/VOIPVideoActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/VOIPVoiceActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/WebRTCActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable-hdpi/avatar_contact.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable-hdpi/call_in.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable-hdpi/call_out.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable-hdpi/callin_not_answer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable-hdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable-mdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable-xhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/call_answer.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/call_answer_p.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/call_answer_x.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/call_hangup.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/call_hangup_p.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/call_hangup_x.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/drawable/switch_camera.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/layout/activity_voip_video.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/layout/activity_voip_voice.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/menu/menu_voip.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/raw/call.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/raw/start.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/android/libwebrtc/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/android/libwebrtc/libwebrtc.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/example/libwebrtc.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/ConversationDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/ConversationDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/FltImPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/FltImPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/ui/message_list_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/ui/message_list_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flt_im_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flt_im_plugin.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +58,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="D:/flutter/voip_android-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -491,36 +451,36 @@
     <option name="LAST_COMMIT_MESSAGE" value="code" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1624764252908">
-      <screen x="0" y="0" width="2560" height="1400" />
+    <state x="663" y="174" key="CommitChangelistDialog2" timestamp="1624840254214">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1621849281416" />
-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1624764252908" />
+    <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840254214" />
+    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1624788185706" />
     <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1624171777068">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="70" y="69" width="1536" height="861" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1621849397039" />
     <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1624171777068" />
-    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1624785474963">
+    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1624793982202">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1624785474963" />
-    <state width="2518" height="395" key="GridCell.Tab.0.bottom" timestamp="1624781083631">
+    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1624793982202" />
+    <state width="2518" height="395" key="GridCell.Tab.0.bottom" timestamp="1624788774395">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1624781083631" />
-    <state width="2518" height="395" key="GridCell.Tab.0.center" timestamp="1624781083631">
+    <state width="2518" height="395" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1624788774395" />
+    <state width="2518" height="395" key="GridCell.Tab.0.center" timestamp="1624788774395">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1624781083631" />
-    <state width="2518" height="395" key="GridCell.Tab.0.left" timestamp="1624781083631">
+    <state width="2518" height="395" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1624788774395" />
+    <state width="2518" height="395" key="GridCell.Tab.0.left" timestamp="1624788774395">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1624781083631" />
-    <state width="2518" height="395" key="GridCell.Tab.0.right" timestamp="1624781083631">
+    <state width="2518" height="395" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1624788774395" />
+    <state width="2518" height="395" key="GridCell.Tab.0.right" timestamp="1624788774395">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1624781083631" />
+    <state width="2518" height="395" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1624788774395" />
     <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1624764215873">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
