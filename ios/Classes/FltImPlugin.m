@@ -121,6 +121,19 @@ GroupMessageObserver>
     else if ([@"logout" isEqualToString:call.method]) {
         [self logout];
     }
+    else if ([@"voice_call" isEqualToString:call.method]) {
+        [self createConversion:call.arguments result:result];
+    }
+    else if ([@"voice_receive_call" isEqualToString:call.method]) {
+        [self createConversion:call.arguments result:result];
+    }
+    else if ([@"video_call" isEqualToString:call.method]) {
+        [self createConversion:call.arguments result:result];
+    }
+    else if ([@"video_receive_call" isEqualToString:call.method]) {
+        [self createConversion:call.arguments result:result];
+    }
+
     else if ([@"createConversion" isEqualToString:call.method]) {
         [self createConversion:call.arguments result:result];
     }
@@ -537,6 +550,21 @@ GroupMessageObserver>
     [self wrapperMessages:messages];
     result([self resultSuccess:[IMessage mj_keyValuesArrayWithObjectArray:messages]]);
 }
+
+- (void)voice_call:(NSDictionary *)args result:(FlutterResult)result {
+
+            VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
+            controller.currentUID = self.myUID;
+            controller.peerUID = self.peerUID;
+            controller.peerName = @"测试";
+            controller.token = self.token;
+            controller.isCaller = YES;
+
+            [self presentViewController:controller animated:YES completion:nil];
+
+}
+
+
 
 - (void)createConversion:(NSDictionary *)args result:(FlutterResult)result {
     NSString *currentUID = [self getStringValueFromArgs:args forKey:@"currentUID"];

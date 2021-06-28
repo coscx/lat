@@ -39,7 +39,7 @@
 @property(nonatomic)NSMutableArray *systemObservers;
 @property(nonatomic)NSMutableArray *customerServiceObservers;
 @property(nonatomic)NSMutableArray *rtObservers;
-
+@property(nonatomic)NSMutableArray *voipObservers;
 @property(nonatomic)NSMutableData *data;
 
 @property(nonatomic)NSMutableArray *messages;//发送中的消息
@@ -79,7 +79,7 @@
         self.systemObservers = [NSMutableArray array];
         self.customerServiceObservers = [NSMutableArray array];
         self.rtObservers = [NSMutableArray array];
-        
+        self.voipObservers = [NSMutableArray array];
         self.receivedGroupMessages = [NSMutableArray array];
         
         self.data = [NSMutableData data];
@@ -262,7 +262,13 @@
     [self pong];
 }
 
-
+-(void)handleVOIPControl:(Message*)msg {
+    VOIPControl *ctl = (VOIPControl*)msg.body;
+    id<VOIPObserver> ob = [self.voipObservers lastObject];
+    if (ob) {
+        [ob onVOIPControl:ctl];
+    }
+}
 -(void)handleRoomMessage:(Message*)msg {
     RoomMessage *rm = (RoomMessage*)msg.body;
     [self publishRoomMessage:rm];
@@ -616,7 +622,9 @@
         [self handleCustomerSupportMessage:msg];
     } else if (msg.cmd == MSG_RT) {
         [self handleRTMessage:msg];
-    } else if (msg.cmd == MSG_SYNC_NOTIFY) {
+    } else if (msg.cmd == MSG_VOIP_CONTROL) {
+        [self handleVOIPControl:msg];
+    }else if (msg.cmd == MSG_SYNC_NOTIFY) {
         [self handleSyncNotify:msg];
     } else if (msg.cmd == MSG_SYNC_BEGIN) {
         [self handleSyncBegin:msg];
@@ -759,7 +767,20 @@
     [self.rtObservers removeObject:value];
 }
 
+-(void)pushVOIPObserver:(id<VOIPObserver>)ob {
+    [self.voipObservers addObject:ob];
+}
 
+-(void)popVOIPObserver:(id<VOIPObserver>)ob {
+    NSInteger count = [self.voipObservers count];
+    if (count == 0) {
+        return;
+    }
+    id<VOIPObserver> top = [self.voipObservers objectAtIndex:count-1];
+    if (top == ob) {
+        [self.voipObservers removeObject:top];
+    }
+}
 -(void)removeSuperGroupSyncKey:(int64_t)gid {
     NSNumber *k = [NSNumber numberWithLongLong:gid];
     [self.groupSyncKeys removeObjectForKey:k];

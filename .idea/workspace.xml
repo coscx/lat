@@ -25,8 +25,130 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
+    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_Ans.imageset/Call_answer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_Ans.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_Ans_p.imageset/Call_answer_p.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_Ans_p.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_hangup.imageset/Call_hangup.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_hangup.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_hangup_p.imageset/Call_hangup_p.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_hangup_p.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/PersonalChat.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/PersonalChat.imageset/PersonalChat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/PersonalChat.imageset/PersonalChat@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/refuse_nor.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/refuse_nor.imageset/refuse_nor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/refuse_pre.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/refuse_pre.imageset/refuse_pre.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/switch.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/switch.imageset/switch.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/switch.imageset/switch@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/sound/apns.caf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/sound/call.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/sound/end.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/sound/start.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/MBProgressHUD/MBProgressHUD.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/MBProgressHUD/MBProgressHUD.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/ReflectionView/ReflectionView.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/ReflectionView/ReflectionView.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/Toast/UIView+Toast.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/Toast/UIView+Toast.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDCaptureController.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDCaptureController.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDSDPUtils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDSDPUtils.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDSignalingMessage.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDSignalingMessage.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDUtilities.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDUtilities.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/CallViewController.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/CallViewController.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/RTCIceCandidate+JSON.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/RTCIceCandidate+JSON.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/RTCSessionDescription+JSON.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/RTCSessionDescription+JSON.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPCommand.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPCommand.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPService.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPVideoViewController.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPVideoViewController.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPViewController.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPViewController.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPVoiceViewController.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPVoiceViewController.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/WebRTCViewController.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/WebRTCViewController.m" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAVFoundationVideoSource.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAudioSession.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAudioSessionConfiguration.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAudioSource.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAudioTrack.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCCallbackLogger.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCCameraPreviewView.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCCameraVideoCapturer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCCertificate.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCConfiguration.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCDataChannel.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCDataChannelConfiguration.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCDispatcher.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCDtmfSender.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCEAGLVideoView.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCFieldTrials.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCFileLogger.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCFileVideoCapturer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCIceCandidate.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCIceServer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCIntervalRange.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCLegacyStatsReport.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCLogging.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMTLVideoView.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMacros.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMediaConstraints.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMediaSource.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMediaStream.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMediaStreamTrack.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMetrics.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMetricsSampleInfo.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCPeerConnection.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCPeerConnectionFactory.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCPeerConnectionFactoryOptions.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtcpParameters.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpCodecParameters.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpEncodingParameters.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpHeaderExtension.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpParameters.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpReceiver.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpSender.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpTransceiver.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCSSLAdapter.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCSessionDescription.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCTracing.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoCapturer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoCodec.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoCodecFactory.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoCodecH264.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoDecoderVP8.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoDecoderVP9.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoEncoderVP8.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoEncoderVP9.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoFrame.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoFrameBuffer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoRenderer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoSource.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoTrack.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoViewShading.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/UIDevice+RTCDevice.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/WebRTC.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Info.plist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Modules/module.modulemap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/WebRTC" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/flt_im_plugin.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/flt_im_plugin.podspec" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +180,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ios/frameworks" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -66,13 +188,15 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/example/android" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\flutter\lat\ios\frameworks" />
+      <recent name="C:\flutter\lat\ios\Classes" />
       <recent name="C:\flutter\lat\example\android\app\src\main" />
       <recent name="C:\flutter\lat\android\src\main" />
       <recent name="C:\flutter\lat\example\android\app" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/example/android" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -85,13 +209,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00021" summary="code">
-      <created>1612351509490</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1612351509490</updated>
     </task>
     <task id="LOCAL-00022" summary="code">
       <created>1612351623211</created>
@@ -429,7 +546,14 @@
       <option name="project" value="LOCAL" />
       <updated>1624196547134</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="code">
+      <created>1624840700253</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1624840700253</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -451,10 +575,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="code" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="663" y="174" key="CommitChangelistDialog2" timestamp="1624840254214">
+    <state x="663" y="174" key="CommitChangelistDialog2" timestamp="1624840699217">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840254214" />
+    <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840699217" />
     <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1624788185706" />
     <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1624171777068">
       <screen x="0" y="0" width="2560" height="1400" />
@@ -481,10 +605,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="2518" height="395" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1624788774395" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1624764215873">
-      <screen x="0" y="0" width="2560" height="1400" />
+    <state x="655" y="322" key="Vcs.Push.Dialog.v2" timestamp="1624840701267">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1621849292322" />
+    <state x="655" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840701267" />
     <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624764215873" />
     <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624151045106">
       <screen x="0" y="0" width="2560" height="1400" />

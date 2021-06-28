@@ -38,7 +38,12 @@ A new Flutter plugin.
      sp.dependency 'FMDB', '~> 2.7.0'
      sp.dependency 'Masonry', '~>1.1.0'
   end
+ s.subspec 'voips' do |sp|
+     sp.source_files     = 'Classes/voips/**/*.{h,m,c}'
+     sp.dependency 'flt_im_plugin/imsdk'
+     sp.vendored_frameworks = 'frameworks/WebRTC.framework'
 
+  end
   s.subspec 'imkit' do |sp|
     sp.vendored_libraries = 'Classes/imkit/amr/*.a'
     sp.source_files     = 'Classes/imkit/**/*.{h,m,c}'
