@@ -68,6 +68,12 @@
 
 @end
 
+@protocol VOIPObserver <NSObject>
+
+-(void)onVOIPControl:(VOIPControl*)ctl;
+
+@end
+
 @protocol SystemMessageObserver <NSObject>
 @optional
 -(void)onSystemMessage:(NSString*)sm;
@@ -155,6 +161,9 @@ __attribute__((objc_runtime_name("GoBelieveIMService")))
 
 -(void)addRTMessageObserver:(id<RTMessageObserver>)ob;
 -(void)removeRTMessageObserver:(id<RTMessageObserver>)ob;
+-(void)pushVOIPObserver:(id<VOIPObserver>)ob;
+-(void)popVOIPObserver:(id<VOIPObserver>)ob;
 
+-(BOOL)sendVOIPControl:(VOIPControl*)ctl;
 @end
 

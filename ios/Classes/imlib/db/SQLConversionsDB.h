@@ -25,6 +25,7 @@
 -(BOOL)addConversation:(Conversation*)conv;
 -(BOOL)removeConversation:(Conversation*)conv;
 -(Conversation*)getConversation:(int)cid type:(int)type;
+-(NSMutableArray*)getConversations:(int)cid;
 -(BOOL)setNewCount:(int)rowid count: (int)count;
 -(BOOL)setState:(int)rowid state:(int)state;
 -(BOOL)resetState:(int)state;

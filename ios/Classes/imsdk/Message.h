@@ -31,7 +31,7 @@
 
 #define MSG_CUSTOMER 24
 #define MSG_CUSTOMER_SUPPORT 25
-
+#define MSG_VOIP_CONTROL 64
 
 //客户端->服务端
 #define MSG_SYNC  26 //同步消息
@@ -124,6 +124,12 @@ typedef RoomMessage RTMessage;
 @property(nonatomic, copy) NSString *deviceID;
 @end
 
+@interface VOIPControl : NSObject
+@property(nonatomic, assign) int64_t sender;
+@property(nonatomic, assign) int64_t receiver;
+@property(nonatomic) NSData *content;
+
+@end
 
 @interface ACKMessage : NSObject
 @property(nonatomic, assign) int seq;

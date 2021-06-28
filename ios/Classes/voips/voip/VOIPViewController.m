@@ -204,9 +204,7 @@ static int64_t g_controllerCount = 0;
 
 
 -(void)onRTMessage:(RTMessage*)rt {
-    if (rt.sender != self.peerUID) {
-        return;
-    }
+ 
     
     NSDictionary *dict = [NSDictionary dictionaryWithJSONString:rt.content];
     if ([dict objectForKey:@"p2p"]) {

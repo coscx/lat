@@ -7,7 +7,7 @@
 //
 
 #import "VOIPCommand.h"
-#import <imsdk/util.h>
+#import <util.h>
 
 @implementation VOIPCommand
 -(VOIPCommand*)initWithContent:(NSDictionary*)dict {

@@ -480,7 +480,7 @@
 
 -(void)assertWorkQueue {
     if (@available(iOS 10.0, *)) {
-        dispatch_assert_queue_debug(self.queue);
+        //dispatch_assert_queue_debug(self.queue);
     } else {
         // Fallback on earlier versions
     }

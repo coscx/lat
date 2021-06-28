@@ -23,7 +23,9 @@
     if (self) {
         [db inDatabase:^(FMDatabase *db) {
             NSString *sql = @"SELECT * FROM conversation   ORDER BY id DESC";
-            self.rs = [db executeQuery:sql];
+            FMResultSet *rs = [db executeQuery:sql];
+            self.rs=rs;
+            [rs close];
         }];
     }
     return self;
@@ -36,7 +38,9 @@
         [db inDatabase:^(FMDatabase *db) {
             int s = secret ? 1 : 0;
             NSString *sql = @"SELECT id, sender, receiver, timestamp, secret, flags, content FROM peer_message WHERE peer = ? AND secret = ? ORDER BY id DESC";
-            self.rs = [db executeQuery:sql, @(peer), @(s)];
+            FMResultSet *rs = [db executeQuery:sql, @(peer), @(s)];
+            self.rs=rs;
+            [rs close];
         }];
     }
     return self;
@@ -51,7 +55,9 @@
         [db inDatabase:^(FMDatabase *db) {
             int s = secrets ? 1 : 0;
             NSString *sql = @"SELECT id, sender, receiver, timestamp, secret, flags, content FROM peer_message WHERE peer = ? AND secret = ? AND id < ? ORDER BY id DESC";
-            self.rs = [db executeQuery:sql, @(peer), @(s), @(msgID)];
+            FMResultSet *rs = [db executeQuery:sql, @(peer), @(s), @(msgID)];
+            self.rs=rs;
+            [rs close];
         }];
     }
     return self;
@@ -66,7 +72,9 @@
         [db inDatabase:^(FMDatabase *db) {
             int s = secret ? 1 : 0;
             NSString *sql = @"SELECT id, sender, receiver, timestamp, secret, flags, content FROM peer_message WHERE peer = ? AND secret = ? AND id>? ORDER BY id";
-            self.rs = [db executeQuery:sql, @(peer), @(s), @(msgID)];
+            FMResultSet *rs = [db executeQuery:sql, @(peer), @(s), @(msgID)];
+            self.rs=rs;
+            [rs close];
         }];
     }
     return self;
@@ -164,6 +172,29 @@
         [rs close];
     }];
     return con;
+
+}
+-(NSMutableArray*)getConversations:(int)cid {
+    NSMutableArray *convs = [NSMutableArray arrayWithCapacity:30];
+    [self.db inDatabase:^(FMDatabase *db) {
+            
+        NSString *sql = @"SELECT * FROM conversation   ORDER BY id DESC";
+        FMResultSet *rs = [db executeQuery:sql];
+        while ([rs next]) {
+            Conversation *con = [[Conversation alloc] init];
+            con.type = CONVERSATION_PEER;
+            con.id = [rs longLongIntForColumn:@"id"];
+            con.cid = [rs longLongIntForColumn:@"cid"];
+            con.type = [rs intForColumn:@"type"];
+            con.name = [rs stringForColumn:@"name"];
+            con.newMsgCount = [rs intForColumn:@"unread"];
+            [convs addObject:con];
+            
+        }
+
+        [rs close];
+    }];
+    return convs;
 
 }
 -(BOOL)setNewCount:(int)rowid count:(int)count {

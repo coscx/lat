@@ -49,6 +49,10 @@
 #import <CoreLocation/CoreLocation.h>
 #import <SDWebImage/UIImage+MultiFormat.h>
 #import "Conversation.h"
+#import "voips/voip/VOIPCommand.h"
+#import "voips/voip/VOIPViewController.h"
+#import "voips/voip/VOIPVideoViewController.h"
+#import "voips/voip/VOIPVoiceViewController.h"
 
 //应用启动时间
 static int flt_im_uptime = 0;
@@ -65,13 +69,14 @@ GroupMessageObserver>
 
 @property(nonatomic) GOReachability *reach;
 @property (strong, nonatomic) NSData *deviceToken;
-
+@property(nonatomic) int64_t myUID;
+@property(nonatomic) int64_t peerUID;
 @property (nonatomic) id<IMessageDB> messageDB;
 @property (nonatomic) id<IConversitionDB> conversationDB;
 @property (nonatomic, assign) NSInteger conversationID;
 @property (nonatomic, assign) NSInteger currentUID;
 @property (nonatomic) NSMutableDictionary *attachments;
-
+@property(nonatomic) NSMutableArray *channelIDs;
 @property (strong , nonatomic) NSMutableArray *conversations;
 @end
 
@@ -122,16 +127,16 @@ GroupMessageObserver>
         [self logout];
     }
     else if ([@"voice_call" isEqualToString:call.method]) {
-        [self createConversion:call.arguments result:result];
+        [self voice_call:call.arguments result:result];
     }
     else if ([@"voice_receive_call" isEqualToString:call.method]) {
-        [self createConversion:call.arguments result:result];
+        [self voice_receive_call:call.arguments result:result];
     }
     else if ([@"video_call" isEqualToString:call.method]) {
-        [self createConversion:call.arguments result:result];
+        [self video_call:call.arguments result:result];
     }
     else if ([@"video_receive_call" isEqualToString:call.method]) {
-        [self createConversion:call.arguments result:result];
+        [self video_receive_call:call.arguments result:result];
     }
 
     else if ([@"createConversion" isEqualToString:call.method]) {
@@ -251,31 +256,56 @@ GroupMessageObserver>
 }
 - (void)getConversations:(NSDictionary *)args result:(FlutterResult)result {
     NSMutableArray *convs = [NSMutableArray arrayWithCapacity:30];
-    int count = 0;
-    id<IConversationIterator> iterator;
-    iterator = [[ConversationDB instance] getConvIterator:self.conversationID];
-    Conversation *con = [iterator next];
-    while (con) {
-        if (con.type == CONVERSATION_PEER) {
-
-
-            IMessage *msg = [[PeerMessageDB instance] getLastMessage:con.cid];
-            con.message = msg;
-            [self updateConvNotificationDesc:con];
-            [self updateConversationDetail:con];
-            [convs insertObject:con atIndex:0];
-
-        } else if (con.type == CONVERSATION_GROUP) {
-            IMessage *msg = [[GroupMessageDB instance] getLastMessage:con.cid];
-            con.message = msg;
-            [self updateConvNotificationDesc:con];
-            [self updateConversationDetail:con];
-            [convs insertObject:con atIndex:0];
-
-        }
-
-        con = [iterator next];
+    NSMutableArray *convs_new = [NSMutableArray arrayWithCapacity:30];
+    convs = [[ConversationDB instance] getConversations:0];
+    
+    for(Conversation *con in convs){
+        
+                if (con.type == CONVERSATION_PEER) {
+        
+        
+                    IMessage *msg = [[PeerMessageDB instance] getLastMessage:con.cid];
+                    con.message = msg;
+                    [self updateConvNotificationDesc:con];
+                    [self updateConversationDetail:con];
+                    [convs_new insertObject:con atIndex:0];
+        
+                } else if (con.type == CONVERSATION_GROUP) {
+                    IMessage *msg = [[GroupMessageDB instance] getLastMessage:con.cid];
+                    con.message = msg;
+                    [self updateConvNotificationDesc:con];
+                    [self updateConversationDetail:con];
+                    [convs_new insertObject:con atIndex:0];
+        
+                }
+        
+        
     }
+//    int count = 0;
+//    id<IConversationIterator> iterator;
+//    iterator = [[ConversationDB instance] getConvIterator:self.conversationID];
+//    Conversation *con = [iterator next];
+//    while (con) {
+//        if (con.type == CONVERSATION_PEER) {
+//
+//
+//            IMessage *msg = [[PeerMessageDB instance] getLastMessage:con.cid];
+//            con.message = msg;
+//            [self updateConvNotificationDesc:con];
+//            [self updateConversationDetail:con];
+//            [convs insertObject:con atIndex:0];
+//
+//        } else if (con.type == CONVERSATION_GROUP) {
+//            IMessage *msg = [[GroupMessageDB instance] getLastMessage:con.cid];
+//            con.message = msg;
+//            [self updateConvNotificationDesc:con];
+//            [self updateConversationDetail:con];
+//            [convs insertObject:con atIndex:0];
+//
+//        }
+//
+//        con = [iterator next];
+//    }
     NSSortDescriptor *timeSD = [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:NO];//ascending:YES 代表升序 如果为NO 代表降序
     NSMutableArray *newArray = [[convs sortedArrayUsingDescriptors:@[timeSD]] mutableCopy];
     self.conversations = newArray;
@@ -550,22 +580,119 @@ GroupMessageObserver>
     [self wrapperMessages:messages];
     result([self resultSuccess:[IMessage mj_keyValuesArrayWithObjectArray:messages]]);
 }
+#pragma mark - RTMessageObserver
+- (void)onRTMessage:(RTMessage *)rt {
+    NSData *data = [rt.content dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    
+    NSDictionary *obj = [dict objectForKey:@"voip"];
+    if (!obj) {
+        return;
+    }
+    if (rt.receiver != self.myUID) {
+        return;
+    }
+    VOIPCommand *command = [[VOIPCommand alloc] initWithContent:obj];
+    if ([self.channelIDs containsObject:command.channelID]) {
+        return;
+    }
+    
+    if (command.cmd == VOIP_COMMAND_DIAL) {
+      
+        [self.channelIDs addObject:command.channelID];
 
+        VOIPVideoViewController *controller = [[VOIPVoiceViewController alloc] init];
+        controller.currentUID = self.myUID;
+        controller.peerUID = rt.sender;
+        controller.peerName = @"聊天";
+        controller.token = @"self.token";
+        controller.isCaller = NO;
+        controller.channelID = command.channelID;
+        [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+        
+    } else if (command.cmd == VOIP_COMMAND_DIAL_VIDEO) {
+        
+        
+        [self.channelIDs addObject:command.channelID];
+
+        VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
+        controller.currentUID = self.myUID;
+        controller.peerUID = rt.sender;
+        controller.peerName = @"聊天";
+        controller.token = @"self.token";
+        controller.isCaller = NO;
+        controller.channelID = command.channelID;
+        [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+    }
+}
 - (void)voice_call:(NSDictionary *)args result:(FlutterResult)result {
-
-            VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
+    NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
+    int64_t peerUID = [peer_id intValue];
+    VOIPVoiceViewController *controller = [[VOIPVoiceViewController alloc] init];
             controller.currentUID = self.myUID;
-            controller.peerUID = self.peerUID;
-            controller.peerName = @"测试";
-            controller.token = self.token;
+            controller.peerUID = peerUID;
+            controller.peerName = @"聊天";
+            controller.token = @"self.token";
             controller.isCaller = YES;
 
-            [self presentViewController:controller animated:YES completion:nil];
+    [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
 
 }
+- (void)video_call:(NSDictionary *)args result:(FlutterResult)result {
+    NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
+    int64_t peerUID = [peer_id intValue];
+            VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
+            controller.currentUID = self.myUID;
+            controller.peerUID = peerUID;
+            controller.peerName = @"聊天";
+            controller.token = @"self.token";
+            controller.isCaller = YES;
 
+    [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
 
+}
+- (void)voice_receive_call:(NSDictionary *)args result:(FlutterResult)result {
+    NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
+    int64_t peerUID = [peer_id intValue];
+    VOIPVoiceViewController *controller = [[VOIPVoiceViewController alloc] init];
+            controller.currentUID = self.myUID;
+            controller.peerUID = peerUID;
+            controller.peerName = @"聊天";
+            controller.token = @"self.token";
+            controller.isCaller = NO;
 
+    [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+
+}
+- (void)video_receive_call:(NSDictionary *)args result:(FlutterResult)result {
+    NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
+    int64_t peerUID = [peer_id intValue];
+            VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
+            controller.currentUID = self.myUID;
+            controller.peerUID = peerUID;
+            controller.peerName = @"聊天";
+            controller.token = @"self.token";
+            controller.isCaller = NO;
+
+    [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+
+}
+//展示视频用
+- (UIViewController *)rootViewControllers{
+    UIViewController *rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+    
+    UIViewController *parent = rootVC;
+    while((parent = rootVC.presentingViewController) != nil){
+        rootVC = parent;
+    }
+    
+    while ([rootVC isKindOfClass:[UINavigationController class]]) {
+        rootVC = [(UINavigationController *)rootVC topViewController];
+    }
+    
+    return rootVC;
+}
 - (void)createConversion:(NSDictionary *)args result:(FlutterResult)result {
     NSString *currentUID = [self getStringValueFromArgs:args forKey:@"currentUID"];
     NSString *peerUID = [self getStringValueFromArgs:args forKey:@"peerUID"];
@@ -627,7 +754,7 @@ GroupMessageObserver>
         return ;
     }
     NSLog(@"token:%@", token);
-    
+    self.myUID = [uid intValue];
     NSString *path = [self getDocumentPath];
     NSString *dbPath = [NSString stringWithFormat:@"%@/gobelieve_%lld.db", path, l_uid];
 
@@ -1258,13 +1385,8 @@ GroupMessageObserver>
     }]];
 }
 
-#pragma mark - RTMessageObserver
-- (void)onRTMessage:(RTMessage *)rt {
-    [self callFlutter:[self resultSuccess:@{
-        @"type":@"onRTMessage",
-        @"result": [rt mj_keyValues]
-    }]];
-}
+
+
 
 #pragma mark - GroupMessageObserver
 -(void)onGroupMessages:(NSArray*)msgs {

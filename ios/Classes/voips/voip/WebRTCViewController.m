@@ -78,7 +78,7 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
     
     NSString *username = self.turnUserName;
     NSString *credential = self.turnPassword;
-    RTCIceServer *server2 = [[RTCIceServer alloc] initWithURLStrings:@[@"turn:turn.gobelieve.io:3478?transport=udp"]
+    RTCIceServer *server2 = [[RTCIceServer alloc] initWithURLStrings:@[@"turn:47.105.178.78:3478?transport=udp"]
                                                             username:username
                                                           credential:credential];
     config.iceServers =  @[server, server2];
