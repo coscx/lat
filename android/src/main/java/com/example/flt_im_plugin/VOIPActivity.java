@@ -58,7 +58,7 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
                 }
             };
             this.acceptTimeOutTimer.setTimer(uptimeMillis()+100, 1000);
-            //this.acceptTimeOutTimer.resume();
+            this.acceptTimeOutTimer.resume();
         }
     }
 
