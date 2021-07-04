@@ -145,7 +145,8 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
     public void onDialTimeout() {
         this.player.stop();
         this.player = null;
-        stopStream();
+        //stopStream();
+        sendHangUp();
         dismiss();
     }
 
