@@ -53,7 +53,7 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
 
                     int now = getNow();
                     if (now - startAcceptTimestamp > 20) {
-                        VOIPActivity.this.onDisconnect();
+                        onHangUp();
                     }
                 }
             };

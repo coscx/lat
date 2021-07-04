@@ -25,9 +25,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
+    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/VOIPActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/example/flt_im_plugin/VOIPActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +58,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/example/android" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -88,27 +87,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00024" summary="code">
-      <created>1612356490137</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1612356490137</updated>
-    </task>
-    <task id="LOCAL-00025" summary="code">
-      <created>1612357155114</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1612357155114</updated>
-    </task>
-    <task id="LOCAL-00026" summary="code">
-      <created>1612405421121</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1612405421121</updated>
     </task>
     <task id="LOCAL-00027" summary="code">
       <created>1612406607868</created>
@@ -432,7 +410,28 @@
       <option name="project" value="LOCAL" />
       <updated>1625356571610</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="code">
+      <created>1625357484260</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1625357484260</updated>
+    </task>
+    <task id="LOCAL-00074" summary="code">
+      <created>1625358419782</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1625358419782</updated>
+    </task>
+    <task id="LOCAL-00075" summary="code">
+      <created>1625358865232</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1625358865232</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -454,20 +453,20 @@
     <option name="LAST_COMMIT_MESSAGE" value="code" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1625356570534">
+    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1625358864270">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840699217" />
-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1625356570534" />
+    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1625358864270" />
     <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1624171777068">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="70" y="69" width="1536" height="861" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1621849397039" />
     <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1624171777068" />
-    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1625313864688">
+    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1625358124890">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1625313864688" />
+    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1625358124890" />
     <state width="2518" height="395" key="GridCell.Tab.0.bottom" timestamp="1625356502131">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -488,11 +487,11 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="249" y="122" key="MergeDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1624893262975" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1625356576561">
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1625358866323">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="655" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840701267" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1625356576561" />
+    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1625358866323" />
     <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624893339278">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
