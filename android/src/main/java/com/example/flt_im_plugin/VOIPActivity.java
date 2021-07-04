@@ -52,13 +52,13 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
                 protected void fire() {
 
                     int now = getNow();
-                    if (now - startAcceptTimestamp > 20) {
+                    if (now - startAcceptTimestamp > 5) {
                         onHangUp();
                     }
                 }
             };
             this.acceptTimeOutTimer.setTimer(uptimeMillis()+100, 1000);
-            this.acceptTimeOutTimer.resume();
+            //this.acceptTimeOutTimer.resume();
         }
     }
 
@@ -173,7 +173,10 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
             this.player.stop();
             this.player = null;
         }
-
+        if (this.acceptTimeOutTimer != null) {
+            this.acceptTimeOutTimer.suspend();
+            this.acceptTimeOutTimer = null;
+        }
         Log.i(TAG, "voip connected");
         startStream();
         this.isConnected = true;
@@ -287,7 +290,7 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
                 }
             }
         };
-        this.pingTimer.setTimer(uptimeMillis()+100, 5000);
+        this.pingTimer.setTimer(uptimeMillis()+100, 1000);
         this.pingTimer.resume();
     }
     public void dialVoice() {
@@ -420,6 +423,7 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
                 onHangUp();
             } else if (command.cmd == VOIPCommand.VOIP_COMMAND_DIAL ||
                     command.cmd == VOIPCommand.VOIP_COMMAND_DIAL_VIDEO) {
+                startAcceptTimestamp = getNow();
                 this.sendDialAccept();
             }
         } else if (state == VOIP_CONNECTED) {
