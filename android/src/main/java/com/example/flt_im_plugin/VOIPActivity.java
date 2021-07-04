@@ -30,7 +30,8 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
     protected long peerUID;
     protected MediaPlayer player;
     protected boolean isConnected;
-
+    protected long startAcceptTimestamp;
+    private Timer acceptTimeOutTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,19 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
         } else {
             playIncomingCall();
             state = VOIP_ACCEPTING;
+            startAcceptTimestamp = getNow();
+            this.acceptTimeOutTimer = new Timer() {
+                @Override
+                protected void fire() {
+
+                    int now = getNow();
+                    if (now - startAcceptTimestamp > 20000) {
+                        VOIPActivity.this.onDisconnect();
+                    }
+                }
+            };
+            this.acceptTimeOutTimer.setTimer(uptimeMillis()+100, 1000);
+            this.acceptTimeOutTimer.resume();
         }
     }
 
@@ -252,6 +266,10 @@ public class VOIPActivity extends WebRTCActivity implements RTMessageObserver {
         if (this.pingTimer != null) {
             this.pingTimer.suspend();
             this.pingTimer = null;
+        }
+        if (this.acceptTimeOutTimer != null) {
+            this.acceptTimeOutTimer.suspend();
+            this.acceptTimeOutTimer = null;
         }
     }
 
