@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:soundEffectsEnabled="false">
+
+    <RelativeLayout
+        android:id="@+id/call_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+                <LinearLayout
+                    android:id="@+id/call_camera_off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical" >
+
+                    <com.example.flt_im_plugin.CircleButton
+                        android:id="@+id/call_menu_camera_off"
+                        android:layout_width="@dimen/call_small_circle_button_size"
+                        android:layout_height="@dimen/call_small_circle_button_size"
+                        android:onClick="onCameraSwitch"
+                        android:soundEffectsEnabled="false"/>
+
+                    <TextView
+                        android:id="@+id/call_camera_off_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/call_text_margin_top"
+                        android:text="@string/Camera_off"
+                        android:textColor="@color/call_button_text"
+                        android:textSize="@dimen/call_text_size" />
+                </LinearLayout>
+            </RelativeLayout>
+	       	<View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+               <LinearLayout
+                    android:id="@+id/call_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical" >
+
+                    <com.example.flt_im_plugin.CircleButton
+                        android:id="@+id/call_menu_switch"
+                        android:layout_width="@dimen/call_small_circle_button_size"
+                        android:layout_height="@dimen/call_small_circle_button_size"
+                        android:onClick="onVideoSwitch"
+                        android:soundEffectsEnabled="false"/>
+
+                    <TextView
+                        android:id="@+id/call_camera_switch_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/call_text_margin_top"
+                        android:text="@string/Switch"
+                        android:textColor="@color/call_button_text"
+                        android:textSize="@dimen/call_text_size" />
+                </LinearLayout>
+            </RelativeLayout>
+	        <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/call_camera_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <com.example.flt_im_plugin.CircleButton
+                android:id="@+id/call_menu_camera_on"
+                android:layout_width="@dimen/call_small_circle_button_size"
+                android:layout_height="@dimen/call_small_circle_button_size"
+                android:onClick="onCameraSwitch"
+                android:soundEffectsEnabled="false"/>
+
+            <TextView
+                android:id="@+id/call_camera_on_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/call_text_margin_top"
+                android:text="@string/Camera_on"
+                android:textColor="@color/call_button_text"
+                android:textSize="@dimen/call_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

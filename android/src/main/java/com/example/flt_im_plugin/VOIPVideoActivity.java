@@ -234,6 +234,7 @@ public class VOIPVideoActivity extends CallActivity {
 
         requestPermission();
         if (isCaller) {
+
             this.dialVideo();
         }
     }
