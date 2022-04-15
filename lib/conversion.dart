@@ -45,15 +45,15 @@ extension ConversionTypeIntParse on int {
 }
 
 class Conversion {
-  String memId;
-  String cid;
-  String name;
-  String avatarURL;
-  int newMsgCount;
-  String detail;
-  int timestamp;
-  ConversionType type;
-  Message message;
+  String? memId;
+  String? cid;
+  String? name;
+  String? avatarURL;
+  int? newMsgCount;
+  String? detail;
+  int? timestamp;
+  ConversionType? type;
+  Message? message;
 
   Conversion.fromMap(Map json) {
     var typeObj = json['type'];
@@ -66,7 +66,7 @@ class Conversion {
     cid = ValueUtil.toStr(json['cid']);
     name = ValueUtil.toStr(json['name']);
     avatarURL = ValueUtil.toStr(json['avatarURL']);
-    if (avatarURL == null || avatarURL.length == 0) {
+    if (avatarURL == null || avatarURL!.length == 0) {
       avatarURL = ValueUtil.toStr(json['avatar']);
     }
 

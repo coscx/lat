@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:typed_data';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 class FltImPlugin {
   final MethodChannel _methodChannel;
   final EventChannel _eventChannel;
-  static FltImPlugin _instance;
+  static FltImPlugin? _instance;
 
   factory FltImPlugin() {
     if (_instance == null) {
@@ -15,11 +13,11 @@ class FltImPlugin {
       final EventChannel eventChannel = const EventChannel('flt_im_plugin_event');
       _instance = FltImPlugin.private(methodChannel, eventChannel);
     }
-    return _instance;
+    return _instance!;
   }
   FltImPlugin.private(this._methodChannel, this._eventChannel);
 
-  Stream<dynamic> _listener;
+  Stream<dynamic>? _listener;
 
   Stream<dynamic> get onBroadcast {
     if (_listener == null) {
@@ -27,24 +25,24 @@ class FltImPlugin {
         return event;
       });
     }
-    return _listener;
+    return _listener!;
   }
 
   /// 初始化
-  Future<Map> init({@required String host, @required String apiURL}) {
+  Future<Map?> init({required String host, required String apiURL}) {
     return _methodChannel.invokeMapMethod('init', {'host': host, 'apiURL': apiURL});
   }
 
   /// 登录
   /// uid 用户id（数字），
   /// token: 用户token,
-  Future<Map> login({@required String uid, String token}) async {
+  Future<Map?> login({required String uid, required String token}) async {
     return _methodChannel.invokeMapMethod('login', {'uid': uid, 'token': token});
   }
 
-  Future<Map> createConversion({
-    @required String currentUID,
-    @required String peerUID,
+  Future<Map?> createConversion({
+    required String currentUID,
+    required String peerUID,
     bool secret = false,
   }) async {
     return _methodChannel.invokeMethod('createConversion', {
@@ -53,9 +51,9 @@ class FltImPlugin {
       "secret": secret ? 1 : 0,
     });
   }
-  Future<Map> createGroupConversion({
-    @required String currentUID,
-    @required String groupUID,
+  Future<Map?> createGroupConversion({
+    required String currentUID,
+    required String groupUID,
     bool secret = false,
   }) async {
     return _methodChannel.invokeMethod('createGroupConversion', {
@@ -64,30 +62,30 @@ class FltImPlugin {
       "secret": secret ? 1 : 0,
     });
   }
-  Future<Map> loadData({String messageID}) async {
+  Future<Map?> loadData({required String messageID}) async {
     return _methodChannel.invokeMapMethod('loadData', {
       'messageID': messageID,
     });
   }
 
-  Future<Map> loadEarlierData({String messageID}) {
+  Future<Map?> loadEarlierData({required String messageID}) {
     return _methodChannel.invokeMapMethod('loadEarlierData', {
       'messageID': messageID,
     });
   }
 
-  Future<Map> loadLateData({String messageID}) {
+  Future<Map?> loadLateData({required String messageID}) {
     return _methodChannel.invokeMapMethod('loadLateData', {
       'messageID': messageID,
     });
   }
 
   /// 登出
-  Future<Map> logout() async {
+  Future<Map?> logout() async {
     return _methodChannel.invokeMethod('logout');
   }
 
-  Future<Map> sendTextMessage({bool secret, String sender, String receiver, String rawContent}) async {
+  Future<Map?> sendTextMessage({required bool secret, required String sender, required String receiver, required String rawContent}) async {
     return sendMessage(type: 1, message: {
       'sender': sender,
       'receiver': receiver,
@@ -95,7 +93,7 @@ class FltImPlugin {
       'secret': secret ? 1 : 0,
     });
   }
-  Future<Map> sendRevokeMessage({bool secret, String sender, String receiver, String uuid}) async {
+  Future<Map?> sendRevokeMessage({required bool secret, required String sender, required String receiver, required String uuid}) async {
     return sendMessage(type: 14, message: {
       'sender': sender,
       'receiver': receiver,
@@ -103,7 +101,7 @@ class FltImPlugin {
       'secret': secret ? 1 : 0,
     });
   }
-  Future<Map> sendGroupRevokeMessage({bool secret, String sender, String receiver, String uuid}) async {
+  Future<Map?> sendGroupRevokeMessage({required bool secret, required String sender, required String receiver, required String uuid}) async {
     return sendGroupMessage(type: 14, message: {
       'sender': sender,
       'receiver': receiver,
@@ -111,7 +109,7 @@ class FltImPlugin {
       'secret': secret ? 1 : 0,
     });
   }
-  Future<Map> sendImageMessage({bool secret, String sender, String receiver, Uint8List image}) async {
+  Future<Map?> sendImageMessage({required bool secret, required String sender, required String receiver, required Uint8List image}) async {
     return sendMessage(type: 2, message: {
       'sender': sender,
       'receiver': receiver,
@@ -120,12 +118,12 @@ class FltImPlugin {
     });
   }
 
-  Future<Map> sendVideoMessage({
-    String path,
-    String thumbPath, // android 必传
-    bool secret,
-    String sender,
-    String receiver,
+  Future<Map?> sendVideoMessage({
+    required  String path,
+    required String thumbPath, // android 必传
+    required bool secret,
+    required String sender,
+    required String receiver,
   }) async {
     return sendMessage(type: 12, message: {
       'sender': sender,
@@ -136,12 +134,12 @@ class FltImPlugin {
     });
   }
 
-  Future<Map> sendAudioMessage({
-    String path,
-    int second, // ios 必传
-    bool secret,
-    String sender,
-    String receiver,
+  Future<Map?> sendAudioMessage({
+    required String path,
+    required int second, // ios 必传
+    required bool secret,
+    required String sender,
+    required String receiver,
   }) async {
     return sendMessage(type: 3, message: {
       'sender': sender,
@@ -152,13 +150,13 @@ class FltImPlugin {
     });
   }
 
-  Future<Map> sendLocationMessage({
-    double latitude,
-    double longitude,
-    String address,
-    bool secret,
-    String sender,
-    String receiver,
+  Future<Map?> sendLocationMessage({
+    required double latitude,
+    required double longitude,
+    required String address,
+    required bool secret,
+    required String sender,
+    required String receiver,
   }) async {
     return sendMessage(type: 4, message: {
       'sender': sender,
@@ -171,16 +169,16 @@ class FltImPlugin {
   }
 
   /// type: 1-text, 2-image, 3-audio, 4-location, 5-group-noti, 6-link
-  Future<Map> sendMessage({
-    int type,
-    Map message,
+  Future<Map?> sendMessage({
+    required int type,
+    required Map message,
   }) async {
     return _methodChannel.invokeMapMethod('sendMessage', {
       'type': type,
       'message': message,
     });
   }
-  Future<Map> sendGroupTextMessage({bool secret, String sender, String receiver, String rawContent}) async {
+  Future<Map?> sendGroupTextMessage({required bool secret, required String sender, required String receiver, required String rawContent}) async {
     return sendGroupMessage(type: 1, message: {
       'sender': sender,
       'receiver': receiver,
@@ -189,7 +187,7 @@ class FltImPlugin {
     });
   }
 
-  Future<Map> sendGroupImageMessage({bool secret, String sender, String receiver, Uint8List image}) async {
+  Future<Map?> sendGroupImageMessage({required bool secret, required String sender, required String receiver, required Uint8List image}) async {
     return sendGroupMessage(type: 2, message: {
       'sender': sender,
       'receiver': receiver,
@@ -198,12 +196,12 @@ class FltImPlugin {
     });
   }
 
-  Future<Map> sendGroupVideoMessage({
-    String path,
-    String thumbPath, // android 必传
-    bool secret,
-    String sender,
-    String receiver,
+  Future<Map?> sendGroupVideoMessage({
+  required  path,
+      required String thumbPath, // android 必传
+      required bool secret,
+      required String sender,
+      required String receiver,
   }) async {
     return sendGroupMessage(type: 12, message: {
       'sender': sender,
@@ -214,12 +212,12 @@ class FltImPlugin {
     });
   }
 
-  Future<Map> sendGroupAudioMessage({
-    String path,
-    int second, // ios 必传
-    bool secret,
-    String sender,
-    String receiver,
+  Future<Map?> sendGroupAudioMessage({
+    required String path,
+    required int second, // ios 必传
+    required bool secret,
+    required String sender,
+    required  String receiver,
   }) async {
     return sendGroupMessage(type: 3, message: {
       'sender': sender,
@@ -230,13 +228,13 @@ class FltImPlugin {
     });
   }
 
-  Future<Map> sendGroupLocationMessage({
-    double latitude,
-    double longitude,
-    String address,
-    bool secret,
-    String sender,
-    String receiver,
+  Future<Map?> sendGroupLocationMessage({
+    required double latitude,
+    required double longitude,
+    required String address,
+    required bool secret,
+    required String sender,
+    required String receiver,
   }) async {
     return sendGroupMessage(type: 4, message: {
       'sender': sender,
@@ -248,56 +246,56 @@ class FltImPlugin {
     });
   }
   /// type: 1-text, 2-image, 3-audio, 4-location, 5-group-noti, 6-link
-  Future<Map> sendGroupMessage({
-    int type,
-    Map message,
+  Future<Map?> sendGroupMessage({
+    required int type,
+    required Map message,
   }) async {
     return _methodChannel.invokeMapMethod('sendGroupMessage', {
       'type': type,
       'message': message,
     });
   }
-  Future<Map> getLocalCacheImage({String url}) async {
+  Future<Map?> getLocalCacheImage({required String url}) async {
     return _methodChannel.invokeMapMethod('getLocalCacheImage', {
       'url': url,
     });
   }
-  Future<Map> clearReadCount({String cid}) async {
+  Future<Map?> clearReadCount({required String cid}) async {
     return _methodChannel.invokeMapMethod('clearReadCount', {
       'cid': cid,
     });
   }
-  Future<Map> clearGroupReadCount({String cid}) async {
+  Future<Map?> clearGroupReadCount({required String cid}) async {
     return _methodChannel.invokeMapMethod('clearGroupReadCount', {
       'cid': cid,
     });
   }
-  Future<Map> getLocalMediaURL({String url}) async {
+  Future<Map?> getLocalMediaURL({required String url}) async {
     return _methodChannel.invokeMapMethod('getLocalMediaURL', {
       'url': url,
     });
   }
 
-  Future<Map> getConversations() async {
+  Future<Map?> getConversations() async {
     return _methodChannel.invokeMapMethod('getConversations', {});
   }
 
-  Future<Map> deleteConversation({String cid}) async {
+  Future<Map?> deleteConversation({required String cid}) async {
     return _methodChannel.invokeMapMethod('deleteConversation', {'cid': cid});
   }
-  Future<Map> deletePeerMessage({String id}) async {
+  Future<Map?> deletePeerMessage({required String id}) async {
     return _methodChannel.invokeMapMethod('deletePeerMessage', {'id': id});
   }
-  Future<Map> voiceCall(String peerId) async {
+  Future<Map?> voiceCall(String peerId) async {
     return _methodChannel.invokeMapMethod('voice_call', {'uid': "1",'peer_id':peerId});
   }
-  Future<Map> voiceReceiveCall() async {
+  Future<Map?> voiceReceiveCall() async {
     return _methodChannel.invokeMapMethod('voice_receive_call', {'uid': "uid",'peer_id':"peerId",'channel_id':"channelId"});
   }
-  Future<Map> videoCall(String peerId) async {
+  Future<Map?> videoCall(String peerId) async {
     return _methodChannel.invokeMapMethod('video_call', {'uid': "1",'peer_id':peerId});
   }
-  Future<Map> VideoReceiveCall() async {
+  Future<Map?> VideoReceiveCall() async {
     return _methodChannel.invokeMapMethod('video_receive_call', {'uid': "1",'peer_id':"peerId",'channel_id':"channelId"});
   }
 

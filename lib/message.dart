@@ -61,16 +61,16 @@ const MSG_ACK_IN_YOUR_BLACKLIST = 3;
 const MSg_ACK_NOT_GROUP_MEMBER = 64;
 
 class IMMessage {
-  String sender;
-  String receiver;
-  int timestamp;
-  int msgLocalID;
-  String content;
-  String plainContent;
-  bool secret;
-  bool isText;
-  bool isSelf;
-  bool isGroupNotification;
+  String sender ="";
+  String receiver="";
+  int timestamp=0;
+  int msgLocalID=0;
+  String content="";
+  String plainContent="";
+  bool secret=false;
+  bool isText=false;
+  bool isSelf=false;
+  bool isGroupNotification=false;
 
   IMMessage.fromMap(Map json) {
     sender = ValueUtil.toStr(json['sender']);
@@ -201,10 +201,10 @@ extension MessageTypeParse on int {
 }
 
 class SendInfo {
-  String avatarURL;
-  String uid;
-  String name;
-  String identifier;
+  String avatarURL="";
+  String uid="";
+  String name="";
+  String identifier="";
   SendInfo.fromMap(Map json) {
     avatarURL = ValueUtil.toStr(json['avatarURL']);
     uid = ValueUtil.toStr(json['uid']);
@@ -214,28 +214,28 @@ class SendInfo {
 }
 
 class Message {
-  bool isFailure;
-  bool uploading;
-  bool secret;
-  bool geocoding;
-  String uuid;
-  bool isOutgoing;
-  SendInfo sendInfo;
-  MessageType type;
-  int flags;
-  int progress;
-  int playing;
-  int timestamp;
-  int msgLocalID;
-  String sender;
-  int msgId;
-  String receiver;
-  bool isACK;
-  String rawContent;
-  bool isListened;
-  bool isIncomming;
-  bool downloading;
-  Map content;
+  bool isFailure=false;
+  bool uploading=false;
+  bool secret=false;
+  bool geocoding=false;
+  String uuid="";
+  bool isOutgoing=false;
+  SendInfo? sendInfo;
+  MessageType? type;
+  int flags=0;
+  int progress=0;
+  int playing=0;
+  int timestamp=0;
+  int msgLocalID=0;
+  String sender="";
+  int msgId=0;
+  String receiver="";
+  bool isACK=false;
+  String rawContent="";
+  bool isListened=false;
+  bool isIncomming=false;
+  bool downloading=false;
+  Map? content;
   Message.fromMap(Map json) {
     isFailure = ValueUtil.toBool(json['isFailure']);
     uploading = ValueUtil.toBool(json['uploading']);

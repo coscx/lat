@@ -5,9 +5,9 @@ author:
 homepage:
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.16.2 <3.0.0"
   flutter: ">=1.10.0"
-  flutter_plugin_android_lifecycle: ^1.0.2
+  flutter_plugin_android_lifecycle: ^2.0.5
 
 dependencies:
   flutter:

@@ -26,7 +26,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/conversion.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/conversion.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/flt_im_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flt_im_plugin.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/message.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/message.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/value_util.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/value_util.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,13 +95,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00030" summary="code">
-      <created>1612684793928</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1612684793928</updated>
     </task>
     <task id="LOCAL-00031" summary="code">
       <created>1612788820405</created>
@@ -431,7 +432,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625362992428</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="code">
+      <created>1649996882398</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1649996882398</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -453,56 +461,13 @@
     <option name="LAST_COMMIT_MESSAGE" value="code" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="884" y="268" key="CommitChangelistDialog2" timestamp="1625362991465">
-      <screen x="0" y="0" width="2560" height="1400" />
+    <state x="690" y="316" key="Vcs.Push.Dialog.v2" timestamp="1649996883579">
+      <screen x="0" y="0" width="2194" height="1194" />
     </state>
-    <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840699217" />
-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1625362991465" />
-    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1625362988030">
-      <screen x="0" y="0" width="2560" height="1400" />
+    <state x="690" y="316" key="Vcs.Push.Dialog.v2/0.0.2194.1194@0.0.2194.1194" timestamp="1649996883579" />
+    <state x="894" y="510" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1649996849885">
+      <screen x="0" y="0" width="2194" height="1194" />
     </state>
-    <state x="70" y="69" width="1536" height="861" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1621849397039" />
-    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1625362988030" />
-    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1625392231947">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1625392231947" />
-    <state width="2518" height="395" key="GridCell.Tab.0.bottom" timestamp="1625401445308">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1625401445308" />
-    <state width="2518" height="395" key="GridCell.Tab.0.center" timestamp="1625401445308">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1625401445308" />
-    <state width="2518" height="395" key="GridCell.Tab.0.left" timestamp="1625401445307">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1625401445307" />
-    <state width="2518" height="395" key="GridCell.Tab.0.right" timestamp="1625401445308">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="2518" height="395" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1625401445308" />
-    <state x="249" y="122" key="MergeDialog" timestamp="1624893262975">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="249" y="122" key="MergeDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1624893262975" />
-    <state x="782" y="345" key="SettingsEditor" timestamp="1625392696322">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="782" y="345" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1625392696322" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2" timestamp="1625362993366">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="655" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840701267" />
-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1625362993366" />
-    <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624893339278">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624893339278" />
-    <state x="1020" y="487" key="git4idea.merge.GitPullDialog" timestamp="1625360251644">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="1020" y="487" key="git4idea.merge.GitPullDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1625360251644" />
+    <state x="894" y="510" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2194.1194@0.0.2194.1194" timestamp="1649996849885" />
   </component>
 </project>

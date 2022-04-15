@@ -119,9 +119,6 @@ class ValueUtil {
 
   /// 移除url 的 域名和协议
   static String removeUrlSchemeHost(String url) {
-    if (url == null) {
-      return null;
-    }
     if (url.startsWith('http')) {
       var uri = Uri.parse(url);
       var prefix = '${uri.scheme}://${uri.host}';
@@ -136,7 +133,7 @@ class ValueUtil {
   }
 
   /// 将一个 json 转化为对象，转换结果可以为空
-  static convertToNullableObject<T>(dynamic object, {@required T Function(Map json) convert}) {
+  static convertToNullableObject<T>(dynamic object, {required T Function(Map json) convert}) {
     if (object == null) {
       return null;
     } else {
