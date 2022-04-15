@@ -181,7 +181,7 @@ public class WebRTCActivity extends Activity implements PeerConnectionClient.Pee
 
 
     protected void startStream() {
-        logAndToast("Creating peer connection");
+        //logAndToast("Creating peer connection");
 
         peerConnectionClient = new PeerConnectionClient(getApplicationContext(), rootEglBase, peerConnectionParameters, this);
 
@@ -207,7 +207,7 @@ public class WebRTCActivity extends Activity implements PeerConnectionClient.Pee
                 remoteRender, videoCapturer);
 
         if (this.isCaller) {
-            logAndToast("Creating OFFER...");
+            //logAndToast("Creating OFFER...");
             // Create offer. Offer SDP will be sent to answering client in
             // PeerConnectionEvents.onLocalDescription event.
             peerConnectionClient.createOffer();
@@ -216,7 +216,7 @@ public class WebRTCActivity extends Activity implements PeerConnectionClient.Pee
 
     protected void stopStream() {
 
-        logAndToast("Remote end hung up; dropping PeerConnection");
+        logAndToast("已挂断");
         disconnect();
     }
 
@@ -397,10 +397,11 @@ public class WebRTCActivity extends Activity implements PeerConnectionClient.Pee
                     Log.e(TAG, "Received remote SDP for non-initilized peer connection.");
                     return;
                 }
-                logAndToast("Received remote " + sdp.type + ", delay=" + delta + "ms");
+                //logAndToast("Received remote " + sdp.type + ", delay=" + delta + "ms");
+                logAndToast("已接通");
                 peerConnectionClient.setRemoteDescription(sdp);
                 if (!WebRTCActivity.this.isCaller) {
-                    logAndToast("Creating ANSWER...");
+                    //logAndToast("Creating ANSWER...");
                     // Create answer. Answer SDP will be sent to offering client in
                     // PeerConnectionEvents.onLocalDescription event.
                     peerConnectionClient.createAnswer();
@@ -503,7 +504,7 @@ public class WebRTCActivity extends Activity implements PeerConnectionClient.Pee
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                logAndToast("Sending " + sdp.type + ", delay=" + delta + "ms");
+                //logAndToast("Sending " + sdp.type + ", delay=" + delta + "ms");
                 if (WebRTCActivity.this.isCaller) {
                     WebRTCActivity.this.sendOfferSdp(sdp);
                 } else {
@@ -544,7 +545,7 @@ public class WebRTCActivity extends Activity implements PeerConnectionClient.Pee
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                logAndToast("ICE connected, delay=" + delta + "ms");
+                //logAndToast("ICE connected, delay=" + delta + "ms");
                 iceConnected = true;
                 callConnected();
             }
@@ -556,7 +557,7 @@ public class WebRTCActivity extends Activity implements PeerConnectionClient.Pee
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                logAndToast("ICE disconnected");
+                //logAndToast("ICE disconnected");
                 iceConnected = false;
             }
         });

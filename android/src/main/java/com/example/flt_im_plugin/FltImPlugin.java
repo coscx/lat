@@ -1604,7 +1604,7 @@ public class FltImPlugin implements FlutterPlugin,
       conversation = conversations.get(pos);
     }
     conversation.message = imsg;
-    if (currentUID == imsg.receiver) {
+    if (memberId == imsg.receiver && currentUID != imsg.receiver) {
       //conversation.setUnreadCount(conversation.getUnreadCount());
       ConversationDB.getInstance().setNewCount(conversation.rowid,conversation.getUnreadCount() + 1);
     }
@@ -1742,7 +1742,7 @@ public class FltImPlugin implements FlutterPlugin,
       conversation = conversations.get(pos);
     }
     conversation.message = imsg;
-    if (currentUID != imsg.sender) {
+    if (currentUID == imsg.receiver) {
       //conversation.setUnreadCount(conversation.getUnreadCount());
       ConversationDB.getInstance().setNewCount(conversation.rowid,conversation.getUnreadCount() + 1);
     }

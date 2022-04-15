@@ -6,5 +6,127 @@
     <string name="switch_camera">Switch front/back camera</string>
     <string name="capture_format_change_text">Slide to change capture format</string>
     <string name="camera2_texture_only_error">Camera2 only supports capturing to texture. Either disable Camera2 or enable capturing to texture in the options.</string>
-
+    <string-array name="ringtone_files">
+        <item>@string/ringtone_spring_ding_dong</item>
+    </string-array>
+    <color name="base">#ff00bcd4</color>
+    <color name="call_btn_text_color">#ffffff</color>
+    <color name="call_btn_text_disabled_color">#4dffffff</color>
+    <color name="call_end_txt_disable">#33ffffff</color>
+    <color name="call_end_txt_normal">@android:color/white</color>
+    <color name="call_error_bg_color">@color/base</color>
+    <color name="call_float_bg_color">#80000000</color>
+    <color name="call_float_text_color">@android:color/white</color>
+    <color name="call_incoming_answer_bg_normal_color">#26d650</color>
+    <color name="call_incoming_answer_bg_pressed_color">#cc26d650</color>
+    <color name="call_incoming_answer_bg_selected_color">#00000000</color>
+    <color name="call_incoming_bg_anim_color">#4d26d650</color>
+    <color name="call_incoming_bg_slide_color">#66ffffff</color>
+    <color name="call_incoming_decline_bg_normal_color">#fc3c40</color>
+    <color name="call_incoming_decline_bg_pressed_color">#ccfc3c40</color>
+    <color name="call_menu_default_bg_disabled_color">#00000000</color>
+    <color name="call_menu_default_bg_normal_color">#00000000</color>
+    <color name="call_menu_default_bg_pressed_color">#80ffffff</color>
+    <color name="call_menu_default_bg_selected_color">#ffffffff</color>
+    <color name="call_menu_default_disabled_stroke_color">#4dffffff</color>
+    <color name="call_menu_default_stroke_color">#ffffffff</color>
+    <color name="call_menu_end_bg_disabled_color">#4d000000</color>
+    <color name="call_menu_end_bg_normal_color">#fffc3c40</color>
+    <color name="call_menu_end_bg_pressed_color">#80fc3c40</color>
+    <color name="call_menu_redial_bg_disabled_color">#4d000000</color>
+    <color name="call_menu_redial_bg_normal_color">#ff26D650</color>
+    <color name="call_menu_redial_bg_pressed_color">#8026D650</color>
+    <color name="call_menu_txt_disable">#335d5d5d</color>
+    <color name="call_menu_txt_normal">#ff5d5d5d</color>
+    <color name="call_menu_txt_selected">#cc0189ef</color>
+    <color name="call_name">@android:color/white</color>
+    <color name="call_poor_network_bg">#fff7931e</color>
+    <color name="call_state">@android:color/white</color>
+    <color name="call_video_background_color">#33000000</color>
+    <color name="call_video_paused_txt">@android:color/white</color>
+    <dimen name="call_camera_margin_bottom">23dp</dimen>
+    <dimen name="call_float_margin_right">20dp</dimen>
+    <dimen name="call_float_margin_top">48dp</dimen>
+    <dimen name="call_float_preview_height">32dp</dimen>
+    <dimen name="call_float_preview_margin_right">5dp</dimen>
+    <dimen name="call_float_preview_margin_top">5dp</dimen>
+    <dimen name="call_float_preview_width">18dp</dimen>
+    <dimen name="call_incoming_gap_size">3dp</dimen>
+    <dimen name="call_incoming_height">76dp</dimen>
+    <dimen name="call_incoming_margin_bottom">34dp</dimen>
+    <dimen name="call_incoming_margin_left">42dp</dimen>
+    <dimen name="call_incoming_margin_right">42dp</dimen>
+    <dimen name="call_large_circle_button_size">70dp</dimen>
+    <dimen name="call_large_horizontal_margin">45dp</dimen>
+    <dimen name="call_large_text_size">13sp</dimen>
+    <dimen name="call_small_circle_button_size">57dp</dimen>
+    <dimen name="call_sub_operation_height">107dp</dimen>
+    <dimen name="call_text_margin_top">5dp</dimen>
+    <dimen name="call_text_size">12sp</dimen>
+    <integer name="notify_call">1</integer>
+    <string name="Accept">Accept</string>
+    <string name="Answering">Answering</string>
+    <string name="Audio_device_error">Audio device error</string>
+    <string name="Audio_device_occupied">audio device occupied</string>
+    <string name="Busy">Busy</string>
+    <string name="Call_disconnected">Call disconnected</string>
+    <string name="Call_ended">Call ended</string>
+    <string name="Call_ending">Call ending</string>
+    <string name="Call_paused">Call paused</string>
+    <string name="Calling">Calling</string>
+    <string name="Camera_device_error">Camera device error</string>
+    <string name="Camera_off">Camera off</string>
+    <string name="Camera_on">Camera on</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Connecting">Connecting</string>
+    <string name="Decline">Decline</string>
+    <string name="Enable_display_pop_up_window">Enable \"Display pop-up window\"</string>
+    <string name="Enable_display_pop_up_window_description_format">To use minimized calling feature, enable \"Display pop-up window\" for %1$s in \"Security > Permissions > Permissions\"</string>
+    <string name="Front_camera">Front camera</string>
+    <string name="Headset">Headset</string>
+    <string name="Incoming">Incoming</string>
+    <string name="Interrupted_by_regular_call_description">Interrupted by regular call, please hold on</string>
+    <string name="No_answer">No answer</string>
+    <string name="No_internet_connection">No Internet connection</string>
+    <string name="Not_running">Not running</string>
+    <string name="OK">OK</string>
+    <string name="Offline">Offline</string>
+    <string name="Open_Camera">Open Camera</string>
+    <string name="Open_Camera_app_to_fix_device_error">Open Camera app to fix device error</string>
+    <string name="Other_side_camera_off">Camera off</string>
+    <string name="Paused">Paused</string>
+    <string name="Please_check_the_network_connection">Please check the network connection</string>
+    <string name="Please_hang_up_the_regular_call_before_you_answer">Please hang up the regular call before you answer %1$s</string>
+    <string name="Poor_connection">Poor connection</string>
+    <string name="Poor_connection_description">The connection is poor. The video will resume automatically when the connection improves.</string>
+    <string name="Rear_camera">Rear camera</string>
+    <string name="Receiver">Receiver</string>
+    <string name="Reconnecting">Reconnecting</string>
+    <string name="Redial">Redial</string>
+    <string name="Ringing">Ringing</string>
+    <string name="Security">Security</string>
+    <string name="Speaker">Speaker</string>
+    <string name="Switch">Switch</string>
+    <string name="Switched_to_voice_call">Switched to voice call</string>
+    <string name="Talking">Talking</string>
+    <string name="Temporarily_unavailable">Temporarily unavailable</string>
+    <string name="Video_call">Video call</string>
+    <string name="Video_incoming">Video incoming</string>
+    <string name="Video_paused">Video paused</string>
+    <string name="Voice_call">Voice call</string>
+    <string name="Voice_incoming">Voice incoming</string>
+    <string name="Voice_only">Voice only</string>
+    <string name="app_label_hasnot_been_installed">%1$s hasn\'t been installed</string>
+    <string name="ringtone_spring_ding_dong">spring_ding_dong.mp3</string>
+    <string name="statistics">statistics</string>
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
 </resources>

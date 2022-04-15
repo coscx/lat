@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/call_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:soundEffectsEnabled="false">
+
+   <ImageView
+        android:id="@+id/call_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/Voice_call"
+        android:scaleType="centerCrop"
+        android:soundEffectsEnabled="false"/>
+
+    <RelativeLayout
+        android:id="@+id/call_operation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/call_video_background_color"
+        android:soundEffectsEnabled="false">
+
+        <LinearLayout
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_above="@+id/call_sub_operation">
+
+			<FrameLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="1">
+				<RelativeLayout
+					android:id="@+id/call_user"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:paddingTop="42dp"
+					android:soundEffectsEnabled="false">
+
+					<com.example.flt_im_plugin.FontFitTextView
+						android:id="@+id/call_name"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_centerHorizontal="true"
+						android:layout_marginTop="12dp"
+						android:gravity="center"
+						android:paddingLeft="20dp"
+						android:paddingRight="20dp"
+						android:singleLine="true"
+						android:textColor="@color/call_name"
+						android:textSize="22sp"
+						android:textStyle="bold" />
+
+					<RelativeLayout
+						android:id="@+id/call_state_layout"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_below="@+id/call_name"
+						android:layout_centerHorizontal="true" >
+
+						<Chronometer
+							android:id="@+id/call_state"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_centerVertical="true"
+							android:gravity="center_vertical"
+							android:textColor="@color/call_state"
+							android:textSize="16sp" />
+
+						<ImageView
+							android:id="@+id/call_signal"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_centerVertical="true"
+							android:layout_marginLeft="3dp"
+							android:layout_toRightOf="@+id/call_state"
+							android:src="@drawable/call_signal_4"
+							android:visibility="gone" />
+					</RelativeLayout>
+
+				</RelativeLayout>
+				<RelativeLayout
+					android:id="@+id/pager"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_marginBottom="@dimen/call_camera_margin_bottom"
+					android:soundEffectsEnabled="false"/>
+			</FrameLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/call_sub_operation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/call_sub_operation_height"
+            android:layout_alignParentBottom="true"
+            android:soundEffectsEnabled="false">
+
+            <com.example.flt_im_plugin.CircleButton
+	            android:id="@+id/call_menu_end"
+	            android:layout_width="@dimen/call_large_circle_button_size"
+	            android:layout_height="@dimen/call_large_circle_button_size"
+	            android:layout_centerHorizontal="true"
+	            android:layout_alignParentTop="true"
+	            android:onClick="onEnd"
+                android:soundEffectsEnabled="false"/>
+
+	        <LinearLayout
+	            android:id="@+id/call_cancel"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_alignParentTop="true"
+	            android:layout_marginLeft="@dimen/call_large_horizontal_margin"
+	            android:gravity="center_horizontal"
+	            android:orientation="vertical"
+	            android:visibility="gone" >
+
+				<com.example.flt_im_plugin.CircleButton
+	                android:id="@+id/call_menu_cancel"
+	                android:layout_width="@dimen/call_large_circle_button_size"
+	                android:layout_height="@dimen/call_large_circle_button_size"
+	                android:onClick="onEnd"
+                    android:soundEffectsEnabled="false"/>
+
+	            <TextView
+	                android:id="@+id/call_end_text"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/Cancel"
+	                android:textColor="@color/call_button_text"
+	                android:textSize="@dimen/call_large_text_size"
+	                android:layout_marginTop="@dimen/call_text_margin_top" />
+	        </LinearLayout>
+       
+	        <LinearLayout
+                android:id="@+id/call_redial"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentTop="true"
+				android:layout_marginRight="@dimen/call_large_horizontal_margin"
+				android:gravity="center_horizontal"
+				android:orientation="vertical"
+				android:visibility="gone" >
+
+				<com.example.flt_im_plugin.CircleButton
+                    android:id="@+id/call_end_redial"
+                    android:layout_width="@dimen/call_large_circle_button_size"
+                    android:layout_height="@dimen/call_large_circle_button_size"
+                    android:onClick="onRedial"
+                    android:soundEffectsEnabled="false"/>
+
+                <TextView
+                    android:id="@+id/call_redial_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Redial"
+                    android:textColor="@color/call_button_text"
+                    android:textSize="@dimen/call_large_text_size"
+                    android:layout_marginTop="@dimen/call_text_margin_top" />
+            </LinearLayout>
+            
+	        <LinearLayout
+	            android:id="@+id/call_mute"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:layout_alignParentTop="true"
+	            android:layout_toLeftOf="@+id/call_menu_end"
+	            android:orientation="vertical"
+	            android:gravity="center_horizontal" >
+
+	            <com.example.flt_im_plugin.CircleButton
+	                android:id="@+id/call_menu_mute"
+	                android:layout_width="@dimen/call_large_circle_button_size"
+	                android:layout_height="@dimen/call_large_circle_button_size"
+	                android:onClick="onMute"
+                    android:soundEffectsEnabled="false"/>
+
+				<ImageView
+					android:id="@+id/call_statistic"
+					android:layout_width="48dp"
+					android:layout_height="48dp"
+					android:contentDescription="@string/statistics"
+					android:onClick="onStatistic"
+					android:padding="14dp"
+					android:scaleType="centerInside"
+					android:src="@drawable/call_statistic_bg"
+					android:soundEffectsEnabled="false"/>
+	        </LinearLayout>
+
+	        <LinearLayout
+	            android:id="@+id/call_audio"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentRight="true"
+	            android:layout_alignParentTop="true"
+	            android:layout_toRightOf="@+id/call_menu_end"
+	            android:orientation="vertical"
+	            android:gravity="center_horizontal" >
+
+	            <com.example.flt_im_plugin.CircleButton
+	                android:id="@+id/call_menu_audio"
+	                android:layout_width="@dimen/call_large_circle_button_size"
+	                android:layout_height="@dimen/call_large_circle_button_size"
+	                android:onClick="onAudio"
+                    android:soundEffectsEnabled="false"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+ 
+  
+
+		<RelativeLayout
+			android:id="@+id/call_incoming_simple"
+			android:layout_width="match_parent"
+			android:layout_height="@dimen/call_incoming_height"
+			android:layout_alignParentBottom="true"
+			android:layout_centerHorizontal="true"
+			android:layout_marginBottom="@dimen/call_incoming_margin_bottom"
+			android:layout_marginLeft="@dimen/call_incoming_margin_left"
+			android:layout_marginRight="@dimen/call_incoming_margin_right"
+			android:soundEffectsEnabled="false"
+			android:visibility="gone">
+
+			<com.example.flt_im_plugin.CircleButton
+				android:id="@+id/call_answer"
+				android:layout_width="@dimen/call_large_circle_button_size"
+				android:layout_height="@dimen/call_large_circle_button_size"
+				android:layout_alignParentLeft="true"
+				android:onClick="onAnswer"/>
+
+			<com.example.flt_im_plugin.CircleButton
+				android:id="@+id/call_decline"
+				android:layout_width="@dimen/call_large_circle_button_size"
+				android:layout_height="@dimen/call_large_circle_button_size"
+				android:layout_alignParentRight="true"
+				android:onClick="onDecline"/>
+
+		</RelativeLayout>
+
+        <Button 
+			android:id="@+id/call_shrink"
+	    	android:layout_width="35dp"
+			android:layout_height="25dp" 
+			android:layout_alignParentRight="true"
+        	android:layout_alignParentTop="true"
+        	android:layout_marginTop="50dp"
+        	android:layout_marginRight="20dp"
+	    	android:onClick="onShrink" 
+	    	android:visibility="gone"/>
+        
+    </RelativeLayout>
+
+    <com.example.flt_im_plugin.RotateLayout
+        android:id="@+id/call_error_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:visibility="gone">
+
+		<com.example.flt_im_plugin.CancelableTextView
+			android:id="@+id/call_error"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="@color/call_error_bg_color"
+			android:gravity="center"
+			android:textSize="13sp"
+			android:padding="8dp"
+			android:textColor="@color/call_video_paused_txt"
+			android:soundEffectsEnabled="false"
+			android:drawableRight="@drawable/call_error_cancel"
+			android:clickable="true"/>
+
+    </com.example.flt_im_plugin.RotateLayout>
+</RelativeLayout>

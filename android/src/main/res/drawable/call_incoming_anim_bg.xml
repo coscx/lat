@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <corners android:radius="80dp" />
+
+    <size
+        android:height="80dp"
+        android:width="80dp" />
+
+    <solid android:color="@color/call_incoming_bg_anim_color" >
+    </solid>
+
+</shape>
