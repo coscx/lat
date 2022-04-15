@@ -728,7 +728,7 @@ public class FltImPlugin implements FlutterPlugin,
   private void loadData(Object arg, final Result result) {
       Map argMap = convertToMap(arg);
       Object msd = argMap.get("messageID");
-      int messageID = msd == null ? 0 : (int)msd;
+      int messageID = msd == null ? 0 : Integer.parseInt(msd.toString());
       List<IMessage> messages;
       if (messageID > 0) {
         messages = this.loadConversationData(messageID);
