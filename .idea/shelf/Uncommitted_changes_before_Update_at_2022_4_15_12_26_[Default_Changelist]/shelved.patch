@@ -1,0 +1,1051 @@
+Index: .idea/workspace.xml
+===================================================================
+--- .idea/workspace.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/workspace.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,618 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="AndroidLogFilters">
+-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+-  </component>
+-  <component name="AutoImportSettings">
+-    <option name="autoReloadType" value="NONE" />
+-  </component>
+-  <component name="BranchesTreeState">
+-    <expand>
+-      <path>
+-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+-      </path>
+-      <path>
+-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+-      </path>
+-      <path>
+-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+-      </path>
+-    </expand>
+-    <select />
+-  </component>
+-  <component name="ChangeListManager">
+-    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="">
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_Ans.imageset/Call_answer.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_Ans.imageset/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_Ans_p.imageset/Call_answer_p.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_Ans_p.imageset/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_hangup.imageset/Call_hangup.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_hangup.imageset/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_hangup_p.imageset/Call_hangup_p.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Call_hangup_p.imageset/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/PersonalChat.imageset/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/PersonalChat.imageset/PersonalChat.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/PersonalChat.imageset/PersonalChat@2x.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/refuse_nor.imageset/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/refuse_nor.imageset/refuse_nor.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/refuse_pre.imageset/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/refuse_pre.imageset/refuse_pre.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/switch.imageset/Contents.json" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/switch.imageset/switch.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/Images.xcassets/switch.imageset/switch@2x.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/sound/apns.caf" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/sound/call.mp3" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/sound/end.mp3" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/sound/start.mp3" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/MBProgressHUD/MBProgressHUD.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/MBProgressHUD/MBProgressHUD.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/ReflectionView/ReflectionView.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/ReflectionView/ReflectionView.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/Toast/UIView+Toast.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/third_party/Toast/UIView+Toast.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDCaptureController.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDCaptureController.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDSDPUtils.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDSDPUtils.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDSignalingMessage.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDSignalingMessage.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDUtilities.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/ARDUtilities.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/CallViewController.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/CallViewController.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/RTCIceCandidate+JSON.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/RTCIceCandidate+JSON.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/RTCSessionDescription+JSON.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/RTCSessionDescription+JSON.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPCommand.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPCommand.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPService.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPVideoViewController.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPVideoViewController.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPViewController.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPViewController.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPVoiceViewController.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/VOIPVoiceViewController.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/WebRTCViewController.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/Classes/voips/voip/WebRTCViewController.m" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAVFoundationVideoSource.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAudioSession.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAudioSessionConfiguration.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAudioSource.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCAudioTrack.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCCallbackLogger.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCCameraPreviewView.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCCameraVideoCapturer.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCCertificate.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCConfiguration.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCDataChannel.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCDataChannelConfiguration.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCDispatcher.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCDtmfSender.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCEAGLVideoView.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCFieldTrials.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCFileLogger.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCFileVideoCapturer.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCIceCandidate.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCIceServer.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCIntervalRange.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCLegacyStatsReport.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCLogging.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMTLVideoView.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMacros.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMediaConstraints.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMediaSource.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMediaStream.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMediaStreamTrack.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMetrics.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCMetricsSampleInfo.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCPeerConnection.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCPeerConnectionFactory.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCPeerConnectionFactoryOptions.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtcpParameters.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpCodecParameters.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpEncodingParameters.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpHeaderExtension.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpParameters.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpReceiver.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpSender.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCRtpTransceiver.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCSSLAdapter.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCSessionDescription.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCTracing.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoCapturer.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoCodec.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoCodecFactory.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoCodecH264.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoDecoderVP8.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoDecoderVP9.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoEncoderVP8.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoEncoderVP9.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoFrame.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoFrameBuffer.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoRenderer.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoSource.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoTrack.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/RTCVideoViewShading.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/UIDevice+RTCDevice.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Headers/WebRTC.h" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Info.plist" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/Modules/module.modulemap" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/ios/frameworks/WebRTC.framework/WebRTC" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ios/flt_im_plugin.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/flt_im_plugin.podspec" afterDir="false" />
+-    </list>
+-    <option name="SHOW_DIALOG" value="false" />
+-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+-    <option name="LAST_RESOLUTION" value="IGNORE" />
+-  </component>
+-  <component name="FileTemplateManagerImpl">
+-    <option name="RECENT_TEMPLATES">
+-      <list>
+-        <option value="Dart File" />
+-      </list>
+-    </option>
+-  </component>
+-  <component name="Git.Settings">
+-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+-  </component>
+-  <component name="ProjectId" id="1itcl6peXLOKtWXYl0Lx0FqvXdb" />
+-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+-    <ConfirmationsSetting value="2" id="Add" />
+-  </component>
+-  <component name="ProjectViewState">
+-    <option name="hideEmptyMiddlePackages" value="true" />
+-    <option name="showLibraryContents" value="true" />
+-  </component>
+-  <component name="PropertiesComponent">
+-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+-    <property name="dart.analysis.tool.window.visible" value="false" />
+-    <property name="io.flutter.reload.alreadyRun" value="true" />
+-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ios/frameworks" />
+-    <property name="project.structure.last.edited" value="Project" />
+-    <property name="project.structure.proportion" value="0.15" />
+-    <property name="project.structure.side.proportion" value="0.0" />
+-    <property name="settings.editor.selected.configurable" value="flutter.settings" />
+-    <property name="show.migrate.to.gradle.popup" value="false" />
+-  </component>
+-  <component name="RecentsManager">
+-    <key name="CopyFile.RECENT_KEYS">
+-      <recent name="C:\flutter\lat\ios\frameworks" />
+-      <recent name="C:\flutter\lat\ios\Classes" />
+-      <recent name="C:\flutter\lat\example\android\app\src\main" />
+-      <recent name="C:\flutter\lat\android\src\main" />
+-      <recent name="C:\flutter\lat\example\android\app" />
+-    </key>
+-    <key name="MoveFile.RECENT_KEYS">
+-      <recent name="$PROJECT_DIR$/example/android" />
+-    </key>
+-  </component>
+-  <component name="SvnConfiguration">
+-    <configuration />
+-  </component>
+-  <component name="TaskManager">
+-    <task active="true" id="Default" summary="Default task">
+-      <changelist id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="" />
+-      <created>1602730476319</created>
+-      <option name="number" value="Default" />
+-      <option name="presentableId" value="Default" />
+-      <updated>1602730476319</updated>
+-    </task>
+-    <task id="LOCAL-00022" summary="code">
+-      <created>1612351623211</created>
+-      <option name="number" value="00022" />
+-      <option name="presentableId" value="LOCAL-00022" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612351623211</updated>
+-    </task>
+-    <task id="LOCAL-00023" summary="code">
+-      <created>1612353800942</created>
+-      <option name="number" value="00023" />
+-      <option name="presentableId" value="LOCAL-00023" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612353800942</updated>
+-    </task>
+-    <task id="LOCAL-00024" summary="code">
+-      <created>1612356490137</created>
+-      <option name="number" value="00024" />
+-      <option name="presentableId" value="LOCAL-00024" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612356490137</updated>
+-    </task>
+-    <task id="LOCAL-00025" summary="code">
+-      <created>1612357155114</created>
+-      <option name="number" value="00025" />
+-      <option name="presentableId" value="LOCAL-00025" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612357155114</updated>
+-    </task>
+-    <task id="LOCAL-00026" summary="code">
+-      <created>1612405421121</created>
+-      <option name="number" value="00026" />
+-      <option name="presentableId" value="LOCAL-00026" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612405421121</updated>
+-    </task>
+-    <task id="LOCAL-00027" summary="code">
+-      <created>1612406607868</created>
+-      <option name="number" value="00027" />
+-      <option name="presentableId" value="LOCAL-00027" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612406607868</updated>
+-    </task>
+-    <task id="LOCAL-00028" summary="code">
+-      <created>1612408185167</created>
+-      <option name="number" value="00028" />
+-      <option name="presentableId" value="LOCAL-00028" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612408185167</updated>
+-    </task>
+-    <task id="LOCAL-00029" summary="code">
+-      <created>1612684430942</created>
+-      <option name="number" value="00029" />
+-      <option name="presentableId" value="LOCAL-00029" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612684430943</updated>
+-    </task>
+-    <task id="LOCAL-00030" summary="code">
+-      <created>1612684793928</created>
+-      <option name="number" value="00030" />
+-      <option name="presentableId" value="LOCAL-00030" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612684793928</updated>
+-    </task>
+-    <task id="LOCAL-00031" summary="code">
+-      <created>1612788820405</created>
+-      <option name="number" value="00031" />
+-      <option name="presentableId" value="LOCAL-00031" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612788820405</updated>
+-    </task>
+-    <task id="LOCAL-00032" summary="code">
+-      <created>1612790015081</created>
+-      <option name="number" value="00032" />
+-      <option name="presentableId" value="LOCAL-00032" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612790015081</updated>
+-    </task>
+-    <task id="LOCAL-00033" summary="code">
+-      <created>1612790924716</created>
+-      <option name="number" value="00033" />
+-      <option name="presentableId" value="LOCAL-00033" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612790924716</updated>
+-    </task>
+-    <task id="LOCAL-00034" summary="code">
+-      <created>1612846152502</created>
+-      <option name="number" value="00034" />
+-      <option name="presentableId" value="LOCAL-00034" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612846152502</updated>
+-    </task>
+-    <task id="LOCAL-00035" summary="code">
+-      <created>1612847685064</created>
+-      <option name="number" value="00035" />
+-      <option name="presentableId" value="LOCAL-00035" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612847685064</updated>
+-    </task>
+-    <task id="LOCAL-00036" summary="code">
+-      <created>1612847927486</created>
+-      <option name="number" value="00036" />
+-      <option name="presentableId" value="LOCAL-00036" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612847927486</updated>
+-    </task>
+-    <task id="LOCAL-00037" summary="code">
+-      <created>1612849866659</created>
+-      <option name="number" value="00037" />
+-      <option name="presentableId" value="LOCAL-00037" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612849866659</updated>
+-    </task>
+-    <task id="LOCAL-00038" summary="code">
+-      <created>1612850433845</created>
+-      <option name="number" value="00038" />
+-      <option name="presentableId" value="LOCAL-00038" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612850433845</updated>
+-    </task>
+-    <task id="LOCAL-00039" summary="code">
+-      <created>1612931275484</created>
+-      <option name="number" value="00039" />
+-      <option name="presentableId" value="LOCAL-00039" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612931275484</updated>
+-    </task>
+-    <task id="LOCAL-00040" summary="code">
+-      <created>1612947962876</created>
+-      <option name="number" value="00040" />
+-      <option name="presentableId" value="LOCAL-00040" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612947962876</updated>
+-    </task>
+-    <task id="LOCAL-00041" summary="code">
+-      <created>1612948209724</created>
+-      <option name="number" value="00041" />
+-      <option name="presentableId" value="LOCAL-00041" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612948209724</updated>
+-    </task>
+-    <task id="LOCAL-00042" summary="code">
+-      <created>1612949766185</created>
+-      <option name="number" value="00042" />
+-      <option name="presentableId" value="LOCAL-00042" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612949766185</updated>
+-    </task>
+-    <task id="LOCAL-00043" summary="code">
+-      <created>1612950070421</created>
+-      <option name="number" value="00043" />
+-      <option name="presentableId" value="LOCAL-00043" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612950070421</updated>
+-    </task>
+-    <task id="LOCAL-00044" summary="code">
+-      <created>1612950691417</created>
+-      <option name="number" value="00044" />
+-      <option name="presentableId" value="LOCAL-00044" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612950691417</updated>
+-    </task>
+-    <task id="LOCAL-00045" summary="code">
+-      <created>1612956939892</created>
+-      <option name="number" value="00045" />
+-      <option name="presentableId" value="LOCAL-00045" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612956939892</updated>
+-    </task>
+-    <task id="LOCAL-00046" summary="code">
+-      <created>1613026128550</created>
+-      <option name="number" value="00046" />
+-      <option name="presentableId" value="LOCAL-00046" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1613026128550</updated>
+-    </task>
+-    <task id="LOCAL-00047" summary="code">
+-      <created>1613031431687</created>
+-      <option name="number" value="00047" />
+-      <option name="presentableId" value="LOCAL-00047" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1613031431687</updated>
+-    </task>
+-    <task id="LOCAL-00048" summary="code">
+-      <created>1613031908104</created>
+-      <option name="number" value="00048" />
+-      <option name="presentableId" value="LOCAL-00048" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1613031908104</updated>
+-    </task>
+-    <task id="LOCAL-00049" summary="code">
+-      <created>1613093021967</created>
+-      <option name="number" value="00049" />
+-      <option name="presentableId" value="LOCAL-00049" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1613093021968</updated>
+-    </task>
+-    <task id="LOCAL-00050" summary="code">
+-      <created>1613129554631</created>
+-      <option name="number" value="00050" />
+-      <option name="presentableId" value="LOCAL-00050" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1613129554632</updated>
+-    </task>
+-    <task id="LOCAL-00051" summary="code">
+-      <created>1621306012332</created>
+-      <option name="number" value="00051" />
+-      <option name="presentableId" value="LOCAL-00051" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1621306012332</updated>
+-    </task>
+-    <task id="LOCAL-00052" summary="code">
+-      <created>1621307541900</created>
+-      <option name="number" value="00052" />
+-      <option name="presentableId" value="LOCAL-00052" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1621307541900</updated>
+-    </task>
+-    <task id="LOCAL-00053" summary="code">
+-      <created>1621648393679</created>
+-      <option name="number" value="00053" />
+-      <option name="presentableId" value="LOCAL-00053" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1621648393679</updated>
+-    </task>
+-    <task id="LOCAL-00054" summary="code">
+-      <created>1621751990439</created>
+-      <option name="number" value="00054" />
+-      <option name="presentableId" value="LOCAL-00054" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1621751990440</updated>
+-    </task>
+-    <task id="LOCAL-00055" summary="code">
+-      <created>1621757464176</created>
+-      <option name="number" value="00055" />
+-      <option name="presentableId" value="LOCAL-00055" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1621757464176</updated>
+-    </task>
+-    <task id="LOCAL-00056" summary="code">
+-      <created>1621849282790</created>
+-      <option name="number" value="00056" />
+-      <option name="presentableId" value="LOCAL-00056" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1621849282791</updated>
+-    </task>
+-    <task id="LOCAL-00057" summary="code">
+-      <created>1622465689762</created>
+-      <option name="number" value="00057" />
+-      <option name="presentableId" value="LOCAL-00057" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1622465689763</updated>
+-    </task>
+-    <task id="LOCAL-00058" summary="code">
+-      <created>1622502376999</created>
+-      <option name="number" value="00058" />
+-      <option name="presentableId" value="LOCAL-00058" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1622502377000</updated>
+-    </task>
+-    <task id="LOCAL-00059" summary="code">
+-      <created>1624151127378</created>
+-      <option name="number" value="00059" />
+-      <option name="presentableId" value="LOCAL-00059" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624151127379</updated>
+-    </task>
+-    <task id="LOCAL-00060" summary="code">
+-      <created>1624168508774</created>
+-      <option name="number" value="00060" />
+-      <option name="presentableId" value="LOCAL-00060" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624168508774</updated>
+-    </task>
+-    <task id="LOCAL-00061" summary="code">
+-      <created>1624169018476</created>
+-      <option name="number" value="00061" />
+-      <option name="presentableId" value="LOCAL-00061" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624169018476</updated>
+-    </task>
+-    <task id="LOCAL-00062" summary="code">
+-      <created>1624169925694</created>
+-      <option name="number" value="00062" />
+-      <option name="presentableId" value="LOCAL-00062" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624169925694</updated>
+-    </task>
+-    <task id="LOCAL-00063" summary="code">
+-      <created>1624171765878</created>
+-      <option name="number" value="00063" />
+-      <option name="presentableId" value="LOCAL-00063" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624171765878</updated>
+-    </task>
+-    <task id="LOCAL-00064" summary="code">
+-      <created>1624173532508</created>
+-      <option name="number" value="00064" />
+-      <option name="presentableId" value="LOCAL-00064" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624173532508</updated>
+-    </task>
+-    <task id="LOCAL-00065" summary="code">
+-      <created>1624175353931</created>
+-      <option name="number" value="00065" />
+-      <option name="presentableId" value="LOCAL-00065" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624175353931</updated>
+-    </task>
+-    <task id="LOCAL-00066" summary="code">
+-      <created>1624186582099</created>
+-      <option name="number" value="00066" />
+-      <option name="presentableId" value="LOCAL-00066" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624186582099</updated>
+-    </task>
+-    <task id="LOCAL-00067" summary="code">
+-      <created>1624194854005</created>
+-      <option name="number" value="00067" />
+-      <option name="presentableId" value="LOCAL-00067" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624194854005</updated>
+-    </task>
+-    <task id="LOCAL-00068" summary="code">
+-      <created>1624195749011</created>
+-      <option name="number" value="00068" />
+-      <option name="presentableId" value="LOCAL-00068" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624195749011</updated>
+-    </task>
+-    <task id="LOCAL-00069" summary="code">
+-      <created>1624196547134</created>
+-      <option name="number" value="00069" />
+-      <option name="presentableId" value="LOCAL-00069" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624196547134</updated>
+-    </task>
+-    <task id="LOCAL-00070" summary="code">
+-      <created>1624840700253</created>
+-      <option name="number" value="00070" />
+-      <option name="presentableId" value="LOCAL-00070" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1624840700253</updated>
+-    </task>
+-    <option name="localTasksCounter" value="71" />
+-    <servers />
+-  </component>
+-  <component name="Vcs.Log.Tabs.Properties">
+-    <option name="TAB_STATES">
+-      <map>
+-        <entry key="MAIN">
+-          <value>
+-            <State />
+-          </value>
+-        </entry>
+-      </map>
+-    </option>
+-    <option name="oldMeFiltersMigrated" value="true" />
+-  </component>
+-  <component name="VcsManagerConfiguration">
+-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+-    <option name="CHECK_NEW_TODO" value="false" />
+-    <MESSAGE value="code" />
+-    <option name="LAST_COMMIT_MESSAGE" value="code" />
+-  </component>
+-  <component name="WindowStateProjectService">
+-    <state x="663" y="174" key="CommitChangelistDialog2" timestamp="1624840699217">
+-      <screen x="0" y="0" width="1920" height="1040" />
+-    </state>
+-    <state x="663" y="174" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840699217" />
+-    <state x="884" y="268" key="CommitChangelistDialog2/0.0.2560.1400@0.0.2560.1400" timestamp="1624788185706" />
+-    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog" timestamp="1624171777068">
+-      <screen x="0" y="0" width="2560" height="1400" />
+-    </state>
+-    <state x="70" y="69" width="1536" height="861" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1621849397039" />
+-    <state x="93" y="93" width="2375" height="1215" key="DiffContextDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1624171777068" />
+-    <state x="1061" y="455" key="FileChooserDialogImpl" timestamp="1624793982202">
+-      <screen x="0" y="0" width="2560" height="1400" />
+-    </state>
+-    <state x="1061" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1624793982202" />
+-    <state width="2518" height="395" key="GridCell.Tab.0.bottom" timestamp="1624788774395">
+-      <screen x="0" y="0" width="2560" height="1400" />
+-    </state>
+-    <state width="2518" height="395" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1624788774395" />
+-    <state width="2518" height="395" key="GridCell.Tab.0.center" timestamp="1624788774395">
+-      <screen x="0" y="0" width="2560" height="1400" />
+-    </state>
+-    <state width="2518" height="395" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1624788774395" />
+-    <state width="2518" height="395" key="GridCell.Tab.0.left" timestamp="1624788774395">
+-      <screen x="0" y="0" width="2560" height="1400" />
+-    </state>
+-    <state width="2518" height="395" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1624788774395" />
+-    <state width="2518" height="395" key="GridCell.Tab.0.right" timestamp="1624788774395">
+-      <screen x="0" y="0" width="2560" height="1400" />
+-    </state>
+-    <state width="2518" height="395" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1624788774395" />
+-    <state x="655" y="322" key="Vcs.Push.Dialog.v2" timestamp="1624840701267">
+-      <screen x="0" y="0" width="1920" height="1040" />
+-    </state>
+-    <state x="655" y="322" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1624840701267" />
+-    <state x="873" y="433" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624764215873" />
+-    <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1624151045106">
+-      <screen x="0" y="0" width="2560" height="1400" />
+-    </state>
+-    <state x="1079" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400@0.0.2560.1400" timestamp="1624151045106" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/markdown-navigator.xml
+===================================================================
+--- .idea/markdown-navigator.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/markdown-navigator.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,71 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="FlexmarkProjectSettings">
+-    <FlexmarkHtmlSettings flexmarkSpecExampleRendering="0" flexmarkSpecExampleRenderHtml="false">
+-      <flexmarkSectionLanguages>
+-        <option name="1" value="Markdown" />
+-        <option name="2" value="HTML" />
+-        <option name="3" value="flexmark-ast:1" />
+-      </flexmarkSectionLanguages>
+-    </FlexmarkHtmlSettings>
+-  </component>
+-  <component name="MarkdownProjectSettings">
+-    <PreviewSettings splitEditorLayout="SPLIT" splitEditorPreview="PREVIEW" useGrayscaleRendering="false" zoomFactor="1.25" maxImageWidth="0" synchronizePreviewPosition="true" highlightPreviewType="LINE" highlightFadeOut="5" highlightOnTyping="true" synchronizeSourcePosition="true" verticallyAlignSourceAndPreviewSyncPosition="true" showSearchHighlightsInPreview="true" showSelectionInPreview="true" lastLayoutSetsDefault="false">
+-      <PanelProvider>
+-        <provider providerId="com.vladsch.md.nav.editor.swing.html.panel" providerName="Default - Swing" />
+-      </PanelProvider>
+-    </PreviewSettings>
+-    <ParserSettings gitHubSyntaxChange="false" correctedInvalidSettings="false" emojiShortcuts="1" emojiImages="0">
+-      <PegdownExtensions>
+-        <option name="ATXHEADERSPACE" value="true" />
+-        <option name="FENCED_CODE_BLOCKS" value="true" />
+-        <option name="INTELLIJ_DUMMY_IDENTIFIER" value="true" />
+-        <option name="RELAXEDHRULES" value="true" />
+-        <option name="STRIKETHROUGH" value="true" />
+-        <option name="TABLES" value="true" />
+-        <option name="TASKLISTITEMS" value="true" />
+-      </PegdownExtensions>
+-      <ParserOptions>
+-        <option name="COMMONMARK_LISTS" value="true" />
+-        <option name="EMOJI_SHORTCUTS" value="true" />
+-        <option name="GFM_TABLE_RENDERING" value="true" />
+-        <option name="PRODUCTION_SPEC_PARSER" value="true" />
+-        <option name="SIM_TOC_BLANK_LINE_SPACER" value="true" />
+-      </ParserOptions>
+-    </ParserSettings>
+-    <HtmlSettings headerTopEnabled="false" headerBottomEnabled="false" bodyTopEnabled="false" bodyBottomEnabled="false" addPageHeader="false" addAnchorLinks="true" anchorLinksWrapText="false" imageUriSerials="false" addDocTypeHtml="true" noParaTags="false" defaultUrlTitle="false" migratedPlantUml="true" migratedAnchorLinks="true" plantUmlConversion="0">
+-      <GeneratorProvider>
+-        <provider providerId="com.vladsch.md.nav.editor.text.html.generator" providerName="Unmodified HTML Generator" />
+-      </GeneratorProvider>
+-      <headerTop />
+-      <headerBottom />
+-      <bodyTop />
+-      <bodyBottom />
+-      <fencedCodeConversions>
+-        <option name="c4plantuml" value="NONE" />
+-        <option name="ditaa" value="NONE" />
+-        <option name="erd" value="NONE" />
+-        <option name="graphviz" value="NONE" />
+-        <option name="latex" value="KATEX" />
+-        <option name="math" value="KATEX" />
+-        <option name="mermaid" value="NONE" />
+-        <option name="nomnoml" value="NONE" />
+-        <option name="plantuml" value="NONE" />
+-        <option name="puml" value="NONE" />
+-        <option name="svgbob" value="NONE" />
+-        <option name="umlet" value="NONE" />
+-        <option name="vega" value="NONE" />
+-        <option name="vegalite" value="NONE" />
+-        <option name="wavedrom" value="NONE" />
+-      </fencedCodeConversions>
+-    </HtmlSettings>
+-    <CssSettings previewScheme="UI_SCHEME" cssUri="" isCssUriEnabled="false" isCssUriSerial="true" isCssTextEnabled="false" isDynamicPageWidth="true">
+-      <StylesheetProvider>
+-        <provider providerId="com.vladsch.md.nav.editor.text.html.css" providerName="No Stylesheet" />
+-      </StylesheetProvider>
+-      <ScriptProviders />
+-      <cssText />
+-      <cssUriHistory />
+-    </CssSettings>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/libraries/Flutter_for_Android.xml
+===================================================================
+--- .idea/libraries/Flutter_for_Android.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/libraries/Flutter_for_Android.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,9 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Flutter for Android">
+-    <CLASSES>
+-      <root url="jar:///Users/laijihua/Desktop/Dev/lib/flutter/bin/cache/artifacts/engine/android-arm/flutter.jar!/" />
+-    </CLASSES>
+-    <JAVADOC />
+-    <SOURCES />
+-  </library>
+-</component>
+Index: .idea/libraries/Flutter_Plugins.xml
+===================================================================
+--- .idea/libraries/Flutter_Plugins.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/libraries/Flutter_Plugins.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,9 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
+-    <CLASSES>
+-      <root url="file://$PROJECT_DIR$" />
+-    </CLASSES>
+-    <JAVADOC />
+-    <SOURCES />
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/modules.xml
+===================================================================
+--- .idea/modules.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/modules.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,10 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/flt_im_plugin.iml" filepath="$PROJECT_DIR$/flt_im_plugin.iml" />
+-      <module fileurl="file://$PROJECT_DIR$/android/flt_im_plugin_android.iml" filepath="$PROJECT_DIR$/android/flt_im_plugin_android.iml" />
+-      <module fileurl="file://$PROJECT_DIR$/example/android/flt_im_plugin_example_android.iml" filepath="$PROJECT_DIR$/example/android/flt_im_plugin_example_android.iml" />
+-    </modules>
+-  </component>
+-</project>
+Index: .idea/libraries/Dart_SDK.xml
+===================================================================
+--- .idea/libraries/Dart_SDK.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/libraries/Dart_SDK.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,28 +0,0 @@
+-<component name="libraryTable">
+-  <library name="Dart SDK">
+-    <CLASSES>
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/async" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/cli" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/collection" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/convert" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/core" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/developer" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/ffi" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/html" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/indexed_db" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/io" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/isolate" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/js" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/js_util" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/math" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/mirrors" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/svg" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/typed_data" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/web_audio" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/web_gl" />
+-      <root url="file://C:/Android/flutter/bin/cache/dart-sdk/lib/web_sql" />
+-    </CLASSES>
+-    <JAVADOC />
+-    <SOURCES />
+-  </library>
+-</component>
+\ No newline at end of file
+Index: .idea/vcs.xml
+===================================================================
+--- .idea/vcs.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/vcs.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="VcsDirectoryMappings">
+-    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/codeStyles/Project.xml
+===================================================================
+--- .idea/codeStyles/Project.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/codeStyles/Project.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,137 +0,0 @@
+-<component name="ProjectCodeStyleConfiguration">
+-  <code_scheme name="Project" version="173">
+-    <JetCodeStyleSettings>
+-      <option name="PACKAGES_TO_USE_STAR_IMPORTS">
+-        <value>
+-          <package name="java.util" alias="false" withSubpackages="false" />
+-          <package name="kotlinx.android.synthetic" alias="false" withSubpackages="true" />
+-          <package name="io.ktor" alias="false" withSubpackages="true" />
+-        </value>
+-      </option>
+-      <option name="PACKAGES_IMPORT_LAYOUT">
+-        <value>
+-          <package name="" alias="false" withSubpackages="true" />
+-          <package name="java" alias="false" withSubpackages="true" />
+-          <package name="javax" alias="false" withSubpackages="true" />
+-          <package name="kotlin" alias="false" withSubpackages="true" />
+-          <package name="" alias="true" withSubpackages="true" />
+-        </value>
+-      </option>
+-    </JetCodeStyleSettings>
+-    <MarkdownNavigatorCodeStyleSettings>
+-      <option name="RIGHT_MARGIN" value="72" />
+-    </MarkdownNavigatorCodeStyleSettings>
+-    <codeStyleSettings language="XML">
+-      <indentOptions>
+-        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+-      </indentOptions>
+-      <arrangement>
+-        <rules>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>xmlns:android</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>xmlns:.*</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-              <order>BY_NAME</order>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*:id</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*:name</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>name</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>style</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>^$</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-              <order>BY_NAME</order>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-              <order>ANDROID_ATTRIBUTE_ORDER</order>
+-            </rule>
+-          </section>
+-          <section>
+-            <rule>
+-              <match>
+-                <AND>
+-                  <NAME>.*</NAME>
+-                  <XML_ATTRIBUTE />
+-                  <XML_NAMESPACE>.*</XML_NAMESPACE>
+-                </AND>
+-              </match>
+-              <order>BY_NAME</order>
+-            </rule>
+-          </section>
+-        </rules>
+-      </arrangement>
+-    </codeStyleSettings>
+-  </code_scheme>
+-</component>
+\ No newline at end of file
+Index: .idea/inspectionProfiles/Project_Default.xml
+===================================================================
+--- .idea/inspectionProfiles/Project_Default.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/inspectionProfiles/Project_Default.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,6 +0,0 @@
+-<component name="InspectionProjectProfileManager">
+-  <profile version="1.0">
+-    <option name="myName" value="Project Default" />
+-    <inspection_tool class="MarkdownUnresolvedFileReference" enabled="true" level="WARNING" enabled_by_default="true" />
+-  </profile>
+-</component>
+\ No newline at end of file
+Index: .idea/dictionaries/laijihua.xml
+===================================================================
+--- .idea/dictionaries/laijihua.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/dictionaries/laijihua.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,8 +0,0 @@
+-<component name="ProjectDictionaryState">
+-  <dictionary name="laijihua">
+-    <words>
+-      <w>cupertino</w>
+-      <w>oktoast</w>
+-    </words>
+-  </dictionary>
+-</component>
+\ No newline at end of file
+Index: .idea/markdown-navigator-enh.xml
+===================================================================
+--- .idea/markdown-navigator-enh.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/markdown-navigator-enh.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,29 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="MarkdownEnhProjectSettings">
+-    <AnnotatorSettings targetHasSpaces="true" linkCaseMismatch="true" wikiCaseMismatch="true" wikiLinkHasDashes="true" notUnderWikiHome="true" targetNotWikiPageExt="true" notUnderSourceWikiHome="true" targetNameHasAnchor="true" targetPathHasAnchor="true" wikiLinkHasSlash="true" wikiLinkHasSubdir="true" wikiLinkHasOnlyAnchor="true" linkTargetsWikiHasExt="true" linkTargetsWikiHasBadExt="true" notUnderSameRepo="true" targetNotUnderVcs="false" linkNeedsExt="true" linkHasBadExt="true" linkTargetNeedsExt="true" linkTargetHasBadExt="true" wikiLinkNotInWiki="true" imageTargetNotInRaw="true" repoRelativeAcrossVcsRoots="true" multipleWikiTargetsMatch="true" unresolvedLinkReference="true" linkIsIgnored="true" anchorIsIgnored="true" anchorIsUnresolved="true" anchorLineReferenceIsUnresolved="true" anchorLineReferenceFormat="true" anchorHasDuplicates="true" abbreviationDuplicates="true" abbreviationNotUsed="true" attributeIdDuplicateDefinition="true" attributeIdNotUsed="true" footnoteDuplicateDefinition="true" footnoteUnresolved="true" footnoteDuplicates="true" footnoteNotUsed="true" macroDuplicateDefinition="true" macroUnresolved="true" macroDuplicates="true" macroNotUsed="true" referenceDuplicateDefinition="true" referenceUnresolved="true" referenceDuplicates="true" referenceNotUsed="true" referenceUnresolvedNumericId="true" enumRefDuplicateDefinition="true" enumRefUnresolved="true" enumRefDuplicates="true" enumRefNotUsed="true" enumRefLinkUnresolved="true" enumRefLinkDuplicates="true" simTocUpdateNeeded="true" simTocTitleSpaceNeeded="true" />
+-    <HtmlExportSettings updateOnSave="false" parentDir="" targetDir="" cssDir="css" scriptDir="js" plainHtml="false" imageDir="" copyLinkedImages="false" imagePathType="0" targetPathType="2" targetExt="" useTargetExt="false" noCssNoScripts="false" useElementStyleAttribute="false" linkToExportedHtml="true" exportOnSettingsChange="true" regenerateOnProjectOpen="false" linkFormatType="HTTP_ABSOLUTE" />
+-    <LinkMapSettings>
+-      <textMaps />
+-    </LinkMapSettings>
+-  </component>
+-  <component name="MarkdownNavigatorHistory">
+-    <PasteImageHistory checkeredTransparentBackground="false" filename="image" directory="" onPasteImageTargetRef="3" onPasteLinkText="0" onPasteImageElement="1" onPasteLinkElement="1" onPasteReferenceElement="2" cornerRadius="20" borderColor="0" transparentColor="16777215" borderWidth="1" trimTop="0" trimBottom="0" trimLeft="0" trimRight="0" transparent="false" roundCorners="false" showPreview="true" bordered="false" scaled="false" cropped="false" hideInapplicableOperations="false" preserveLinkFormat="false" scale="50" scalingInterpolation="1" transparentTolerance="0" saveAsDefaultOnOK="false" linkFormat="0" addHighlights="false" showHighlightCoordinates="true" showHighlights="false" mouseSelectionAddsHighlight="false" outerFilled="false" outerFillColor="0" outerFillTransparent="true" outerFillAlpha="30">
+-      <highlightList />
+-      <directories />
+-      <filenames />
+-    </PasteImageHistory>
+-    <CopyImageHistory checkeredTransparentBackground="false" filename="image" directory="" onPasteImageTargetRef="3" onPasteLinkText="0" onPasteImageElement="1" onPasteLinkElement="1" onPasteReferenceElement="2" cornerRadius="20" borderColor="0" transparentColor="16777215" borderWidth="1" trimTop="0" trimBottom="0" trimLeft="0" trimRight="0" transparent="false" roundCorners="false" showPreview="true" bordered="false" scaled="false" cropped="false" hideInapplicableOperations="false" preserveLinkFormat="false" scale="50" scalingInterpolation="1" transparentTolerance="0" saveAsDefaultOnOK="false" linkFormat="0" addHighlights="false" showHighlightCoordinates="true" showHighlights="false" mouseSelectionAddsHighlight="false" outerFilled="false" outerFillColor="0" outerFillTransparent="true" outerFillAlpha="30">
+-      <highlightList />
+-      <directories />
+-      <filenames />
+-    </CopyImageHistory>
+-    <PasteLinkHistory onPasteImageTargetRef="3" onPasteTargetRef="1" onPasteLinkText="0" onPasteImageElement="1" onPasteLinkElement="1" onPasteWikiElement="2" onPasteReferenceElement="2" hideInapplicableOperations="false" preserveLinkFormat="false" useHeadingForLinkText="false" linkFormat="0" saveAsDefaultOnOK="false" />
+-    <TableToJsonHistory>
+-      <entries />
+-    </TableToJsonHistory>
+-    <TableSortHistory>
+-      <entries />
+-    </TableSortHistory>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+===================================================================
+--- .idea/misc.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/misc.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,9 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectRootManager">
+-    <output url="file://D:/android/build" />
+-  </component>
+-  <component name="ProjectType">
+-    <option name="id" value="io.flutter" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+===================================================================
+--- .idea/.gitignore	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/.gitignore	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,6 +0,0 @@
+-# Project exclude paths
+-/.
+-
+-
+-# Project exclude paths
+-/.
+\ No newline at end of file
+Index: .idea/runConfigurations/example_lib_main_dart.xml
+===================================================================
+--- .idea/runConfigurations/example_lib_main_dart.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .idea/runConfigurations/example_lib_main_dart.xml	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
+@@ -1,6 +0,0 @@
+-<component name="ProjectRunConfigurationManager">
+-  <configuration default="false" name="example/lib/main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+-    <option name="filePath" value="$PROJECT_DIR$/example/lib/main.dart" />
+-    <method />
+-  </configuration>
+-</component>
+\ No newline at end of file
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>.DS_Store\r\n.dart_tool/\r\n\r\n.packages\r\n.pub/\r\n\r\nbuild/\r\n\r\n.fvm\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .gitignore	(revision 1e5588fe68f872e10c50a0f7eedc259932d2385b)
++++ .gitignore	(date 1649996702854)
+@@ -1,6 +1,6 @@
+ .DS_Store
+ .dart_tool/
+-
++.ieda/
+ .packages
+ .pub/
+ 
