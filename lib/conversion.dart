@@ -80,3 +80,5 @@ class Conversion {
     message = Message.fromMap(ValueUtil.toMap(json['message']));
   }
 }
+
+

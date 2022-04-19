@@ -38,20 +38,20 @@ A new Flutter plugin.
      sp.dependency 'FMDB', '~> 2.7.0'
      sp.dependency 'Masonry', '~>1.1.0'
   end
- s.subspec 'voips' do |sp|
-     sp.source_files     = 'Classes/voips/**/*.{h,m,c}'
-     sp.dependency 'flt_im_plugin/imsdk'
-     sp.vendored_frameworks = 'frameworks/WebRTC.framework'
-     
-     sp.resource         = [
-       'Classes/voips/sound/*.{mp3,caf}',
-       'Classes/voips/Images.xcassets',
-     ]
-     
-     sp.pod_target_xcconfig = {
-         'OTHER_LDFLAGS' => '$(inherited) -all_load'
-     }
- end
+// s.subspec 'voips' do |sp|
+// sp.source_files     = 'Classes/voips/**/*.{h,m,c}'
+// sp.dependency 'flt_im_plugin/imsdk'
+// sp.vendored_frameworks = 'frameworks/WebRTC.framework'
+//
+// sp.resource         = [
+// 'Classes/voips/sound/*.{mp3,caf}',
+// 'Classes/voips/Images.xcassets',
+// ]
+//
+// sp.pod_target_xcconfig = {
+// 'OTHER_LDFLAGS' => '$(inherited) -all_load'
+// }
+// end
   s.subspec 'imkit' do |sp|
     sp.vendored_libraries = 'Classes/imkit/amr/*.a'
     sp.source_files     = 'Classes/imkit/**/*.{h,m,c}'

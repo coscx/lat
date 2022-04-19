@@ -49,10 +49,10 @@
 #import <CoreLocation/CoreLocation.h>
 #import <SDWebImage/UIImage+MultiFormat.h>
 #import "Conversation.h"
-#import "voips/voip/VOIPCommand.h"
-#import "voips/voip/VOIPViewController.h"
-#import "voips/voip/VOIPVideoViewController.h"
-#import "voips/voip/VOIPVoiceViewController.h"
+// #import "voips/voip/VOIPCommand.h"
+// #import "voips/voip/VOIPViewController.h"
+// #import "voips/voip/VOIPVideoViewController.h"
+// #import "voips/voip/VOIPVoiceViewController.h"
 
 //应用启动时间
 static int flt_im_uptime = 0;
@@ -126,18 +126,18 @@ GroupMessageObserver>
     else if ([@"logout" isEqualToString:call.method]) {
         [self logout];
     }
-    else if ([@"voice_call" isEqualToString:call.method]) {
-        [self voice_call:call.arguments result:result];
-    }
-    else if ([@"voice_receive_call" isEqualToString:call.method]) {
-        [self voice_receive_call:call.arguments result:result];
-    }
-    else if ([@"video_call" isEqualToString:call.method]) {
-        [self video_call:call.arguments result:result];
-    }
-    else if ([@"video_receive_call" isEqualToString:call.method]) {
-        [self video_receive_call:call.arguments result:result];
-    }
+ // else if ([@"voice_call" isEqualToString:call.method]) {
+ // [self voice_call:call.arguments result:result];
+ // }
+ // else if ([@"voice_receive_call" isEqualToString:call.method]) {
+ // [self voice_receive_call:call.arguments result:result];
+ // }
+ // else if ([@"video_call" isEqualToString:call.method]) {
+ // [self video_call:call.arguments result:result];
+ // }
+ // else if ([@"video_receive_call" isEqualToString:call.method]) {
+ // [self video_receive_call:call.arguments result:result];
+ // }
 
     else if ([@"createConversion" isEqualToString:call.method]) {
         [self createConversion:call.arguments result:result];
@@ -598,86 +598,87 @@ GroupMessageObserver>
         return;
     }
     
-    if (command.cmd == VOIP_COMMAND_DIAL) {
-      
-        [self.channelIDs addObject:command.channelID];
-
-        VOIPVideoViewController *controller = [[VOIPVoiceViewController alloc] init];
-        controller.currentUID = self.myUID;
-        controller.peerUID = rt.sender;
-        controller.peerName = @"聊天";
-        controller.token = @"self.token";
-        controller.isCaller = NO;
-        controller.channelID = command.channelID;
-        [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
-        
-    } else if (command.cmd == VOIP_COMMAND_DIAL_VIDEO) {
-        
-        
-        [self.channelIDs addObject:command.channelID];
-
-        VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
-        controller.currentUID = self.myUID;
-        controller.peerUID = rt.sender;
-        controller.peerName = @"聊天";
-        controller.token = @"self.token";
-        controller.isCaller = NO;
-        controller.channelID = command.channelID;
-        [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
-    }
+// if (command.cmd == VOIP_COMMAND_DIAL) {
+//
+// [self.channelIDs addObject:command.channelID];
+//
+// VOIPVideoViewController *controller = [[VOIPVoiceViewController alloc] init];
+// controller.currentUID = self.myUID;
+// controller.peerUID = rt.sender;
+// controller.peerName = @"聊天";
+// controller.token = @"self.token";
+// controller.isCaller = NO;
+// controller.channelID = command.channelID;
+// [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+//
+// } else if (command.cmd == VOIP_COMMAND_DIAL_VIDEO) {
+//
+//
+// [self.channelIDs addObject:command.channelID];
+//
+// VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
+// controller.currentUID = self.myUID;
+// controller.peerUID = rt.sender;
+// controller.peerName = @"聊天";
+// controller.token = @"self.token";
+// controller.isCaller = NO;
+// controller.channelID = command.channelID;
+// [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+// }
 }
-- (void)voice_call:(NSDictionary *)args result:(FlutterResult)result {
-    NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
-    int64_t peerUID = [peer_id intValue];
-    VOIPVoiceViewController *controller = [[VOIPVoiceViewController alloc] init];
-            controller.currentUID = self.myUID;
-            controller.peerUID = peerUID;
-            controller.peerName = @"聊天";
-            controller.token = @"self.token";
-            controller.isCaller = YES;
 
-    [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
-
-}
-- (void)video_call:(NSDictionary *)args result:(FlutterResult)result {
-    NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
-    int64_t peerUID = [peer_id intValue];
-            VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
-            controller.currentUID = self.myUID;
-            controller.peerUID = peerUID;
-            controller.peerName = @"聊天";
-            controller.token = @"self.token";
-            controller.isCaller = YES;
-
-    [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
-
-}
-- (void)voice_receive_call:(NSDictionary *)args result:(FlutterResult)result {
-    NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
-    int64_t peerUID = [peer_id intValue];
-    VOIPVoiceViewController *controller = [[VOIPVoiceViewController alloc] init];
-            controller.currentUID = self.myUID;
-            controller.peerUID = peerUID;
-            controller.peerName = @"聊天";
-            controller.token = @"self.token";
-            controller.isCaller = NO;
-
-    [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
-
-}
-- (void)video_receive_call:(NSDictionary *)args result:(FlutterResult)result {
-    NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
-    int64_t peerUID = [peer_id intValue];
-            VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
-            controller.currentUID = self.myUID;
-            controller.peerUID = peerUID;
-            controller.peerName = @"聊天";
-            controller.token = @"self.token";
-            controller.isCaller = NO;
-
-    [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
-
-}
+// - (void)voice_call:(NSDictionary *)args result:(FlutterResult)result {
+// NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
+// int64_t peerUID = [peer_id intValue];
+// VOIPVoiceViewController *controller = [[VOIPVoiceViewController alloc] init];
+// controller.currentUID = self.myUID;
+// controller.peerUID = peerUID;
+// controller.peerName = @"聊天";
+// controller.token = @"self.token";
+// controller.isCaller = YES;
+//
+// [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+//
+// }
+// - (void)video_call:(NSDictionary *)args result:(FlutterResult)result {
+// NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
+// int64_t peerUID = [peer_id intValue];
+// VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
+// controller.currentUID = self.myUID;
+// controller.peerUID = peerUID;
+// controller.peerName = @"聊天";
+// controller.token = @"self.token";
+// controller.isCaller = YES;
+//
+// [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+//
+// }
+// - (void)voice_receive_call:(NSDictionary *)args result:(FlutterResult)result {
+// NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
+// int64_t peerUID = [peer_id intValue];
+// VOIPVoiceViewController *controller = [[VOIPVoiceViewController alloc] init];
+// controller.currentUID = self.myUID;
+// controller.peerUID = peerUID;
+// controller.peerName = @"聊天";
+// controller.token = @"self.token";
+// controller.isCaller = NO;
+//
+// [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+//
+// }
+// - (void)video_receive_call:(NSDictionary *)args result:(FlutterResult)result {
+// NSString *peer_id = [self getStringValueFromArgs:args forKey:@"peer_id"];
+// int64_t peerUID = [peer_id intValue];
+// VOIPVideoViewController *controller = [[VOIPVideoViewController alloc] init];
+// controller.currentUID = self.myUID;
+// controller.peerUID = peerUID;
+// controller.peerName = @"聊天";
+// controller.token = @"self.token";
+// controller.isCaller = NO;
+//
+// [[self rootViewControllers] presentViewController:controller animated:YES completion:nil];
+//
+// }
 //展示视频用
 - (UIViewController *)rootViewControllers{
     UIViewController *rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
