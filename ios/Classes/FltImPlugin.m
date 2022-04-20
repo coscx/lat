@@ -593,10 +593,10 @@ GroupMessageObserver>
     if (rt.receiver != self.myUID) {
         return;
     }
-    VOIPCommand *command = [[VOIPCommand alloc] initWithContent:obj];
-    if ([self.channelIDs containsObject:command.channelID]) {
-        return;
-    }
+ //   VOIPCommand *command = [[VOIPCommand alloc] initWithContent:obj];
+  //  if ([self.channelIDs containsObject:command.channelID]) {
+  //      return;
+  //  }
     
 // if (command.cmd == VOIP_COMMAND_DIAL) {
 //
