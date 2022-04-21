@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-    api 'com.github.coscx:asynctcp:2.5'
+    api 'com.github.coscx:asynctcp:2.6'
     api 'com.github.coscx:imsdk:2.4'
     api 'com.github.coscx:imlib:1.5'
     api 'com.github.coscx:imkit:1.6'
