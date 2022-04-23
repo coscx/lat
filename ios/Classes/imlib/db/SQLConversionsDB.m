@@ -151,7 +151,7 @@
     return  isSuccess;
 
 }
--(Conversation*)getConversation:(int)cid type:(int)type {
+-(Conversation*)getConversation:(long long)cid type:(int)type {
     __block    Conversation *con = [[Conversation alloc] init];
     [self.db inDatabase:^(FMDatabase *db) {
             
@@ -197,7 +197,7 @@
     return convs;
 
 }
--(BOOL)setNewCount:(int)rowid count:(int)count {
+-(BOOL)setNewCount:(long long)rowid count:(int)count {
 
     __block BOOL isSuccess = NO;
     [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {

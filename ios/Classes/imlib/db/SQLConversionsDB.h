@@ -26,7 +26,7 @@
 -(BOOL)removeConversation:(Conversation*)conv;
 -(Conversation*)getConversation:(int)cid type:(int)type;
 -(NSMutableArray*)getConversations:(int)cid;
--(BOOL)setNewCount:(int)rowid count: (int)count;
+-(BOOL)setNewCount:(long long)rowid count: (int)count;
 -(BOOL)setState:(int)rowid state:(int)state;
 -(BOOL)resetState:(int)state;
 //获取最新的消息

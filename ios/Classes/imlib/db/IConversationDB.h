@@ -14,8 +14,8 @@
 -(id<IConversationIterator>)getConvIterator:(int64_t)ids;
 -(BOOL)addConversation:(Conversation*)conv;
 -(BOOL)removeConversation:(Conversation*)conv;
--(Conversation*)getConversation:(int)cid type:(int)type;
--(BOOL)setNewCount:(int)rowid count: (int)count;
+-(Conversation*)getConversation:(long long)cid type:(int)type;
+-(BOOL)setNewCount:(long long)rowid count: (int)count;
 -(BOOL)setState:(int)rowid state:(int)state;
 -(BOOL)resetState:(int)state;
 -(IMessage*)getMessage:(int64_t)msgID;

@@ -707,7 +707,7 @@ GroupMessageObserver>
 - (void)createGroupConversion:(NSDictionary *)args result:(FlutterResult)result {
     NSString *currentUID = [self getStringValueFromArgs:args forKey:@"currentUID"];
     NSString *groupUID = [self getStringValueFromArgs:args forKey:@"groupUID"];
-    BOOL secret = [self getBoolValueFromArgs:args forKey:@"secret"];
+    //BOOL secret = [self getBoolValueFromArgs:args forKey:@"secret"];
 
     self.messageDB = [GroupMessageDB instance];
     self.conversationID = [groupUID integerValue];
@@ -876,15 +876,15 @@ GroupMessageObserver>
         NSLog(@"refresh host ip...");
 
         for (int i = 0; i < 10; i++) {
-            NSString *host = host; //@"imnode2.gobelieve.io";
+            NSString *_host = host; //@"imnode2.gobelieve.io";
             NSString *ip = [self resolveIP:host];
 
-            NSString *apiHost = apiHost; // @"api.gobelieve.io";
+            NSString *_apiHost = apiHost; // @"api.gobelieve.io";
             NSString *apiIP = [self resolveIP:apiHost];
 
 
-            NSLog(@"host:%@ ip:%@", host, ip);
-            NSLog(@"api host:%@ ip:%@", apiHost, apiIP);
+            NSLog(@"host:%@ ip:%@", _host, ip);
+            NSLog(@"api host:%@ ip:%@", _apiHost, apiIP);
 
             if (ip.length == 0 || apiIP.length == 0) {
                 continue;
@@ -1185,7 +1185,7 @@ GroupMessageObserver>
         if (self.currentUID == msg.receiver) {
             con.newMsgCount += 1;
         }
-        bool re=  [[ConversationDB instance] addConversation:con];
+        [[ConversationDB instance] addConversation:con];
         [self.conversations insertObject:con atIndex:0];
     }
     [self callFlutter:[self resultSuccess:@{
