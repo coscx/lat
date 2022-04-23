@@ -377,10 +377,10 @@
         if ([rs next]) {
             
             msg.sender = [rs longLongIntForColumn:@"sender"];
-            msg.receiver = [rs longLongIntForColumn:@"receiver"];
+            msg.receiver = [rs longLongIntForColumn:@"group_id"];
             msg.timestamp = [rs intForColumn:@"timestamp"];
             msg.flags = [rs intForColumn:@"flags"];
-            msg.secret = [rs intForColumn:@"secret"] == 1;
+            msg.secret = 0;
             msg.rawContent = [rs stringForColumn:@"content"];
             msg.msgLocalID = [rs intForColumn:@"id"];
             [rs close];
