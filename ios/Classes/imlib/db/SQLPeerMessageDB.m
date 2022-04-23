@@ -360,83 +360,76 @@
 -(BOOL)addFlag:(int)msgLocalID flag:(int)f {
     
     __block BOOL isSuccess = NO;
-    __block FMResultSet *rs =nil;
+
     [self.db inDatabase:^(FMDatabase *db) {
             
-        rs = [db executeQuery:@"SELECT flags FROM peer_message WHERE id=?", @(msgLocalID)];
- 
-    }];
-    if (!rs) {
-        return isSuccess;
-    }
-    if ([rs next]) {
-        int flags = [rs intForColumn:@"flags"];
-        flags |= f;
-        
-        [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-                
-            @try {
+        FMResultSet *rs = [db executeQuery:@"SELECT flags FROM peer_message WHERE id=?", @(msgLocalID)];
 
-                [db executeUpdate:@"UPDATE peer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
-                      
-            } @catch (NSException *exception) {
-                NSLog(@"error = %@", [exception reason]);
-                *rollback = YES;
-            } @finally {
-                isSuccess = TRUE;
-                *rollback = NO;
-                
-            }
-            
-        }];
-    }
-    
-    [rs close];
+         if ([rs next]) {
+             int flags = [rs intForColumn:@"flags"];
+             flags |= f;
+
+             [db beginTransaction];
+
+                 @try {
+
+                     [db executeUpdate:@"UPDATE peer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
+
+                 } @catch (NSException *exception) {
+                     NSLog(@"error = %@", [exception reason]);
+                    [db rollback];
+                 } @finally {
+                     isSuccess = TRUE;
+
+
+                 }
+
+           [db commit];
+         }
+
+         [rs close];
+    }];
+
     return isSuccess;
 }
 
 
 -(BOOL)eraseMessageFailure:(int)msgLocalID {
-    
-    
-    __block BOOL isSuccess = NO;
 
-    __block FMResultSet *rs =nil;
-    [self.db inDatabase:^(FMDatabase *db) {
-            
-        rs = [db executeQuery:@"SELECT flags FROM peer_message WHERE id=?", @(msgLocalID)];
- 
-    }];
-    if (!rs) {
-        return isSuccess;
-    }
-    if ([rs next]) {
-        int flags = [rs intForColumn:@"flags"];
-        
-        int f = MESSAGE_FLAG_FAILURE;
-        flags &= ~f;
-        
-        [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-                
-            @try {
+       __block BOOL isSuccess = NO;
 
-                [db executeUpdate:@"UPDATE peer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
-                      
-            } @catch (NSException *exception) {
-                NSLog(@"error = %@", [exception reason]);
-                *rollback = YES;
-            } @finally {
-                isSuccess = TRUE;
-                *rollback = NO;
-                
-            }
-            
+        [self.db inDatabase:^(FMDatabase *db) {
+
+            FMResultSet *rs = [db executeQuery:@"SELECT flags FROM peer_message WHERE id=?", @(msgLocalID)];
+
+             if ([rs next]) {
+                 int flags = [rs intForColumn:@"flags"];
+
+                        int f = MESSAGE_FLAG_FAILURE;
+                        flags &= ~f;
+
+                 [db beginTransaction];
+
+                     @try {
+
+                         [db executeUpdate:@"UPDATE peer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
+
+                     } @catch (NSException *exception) {
+                         NSLog(@"error = %@", [exception reason]);
+                        [db rollback];
+                     } @finally {
+                         isSuccess = TRUE;
+
+
+                     }
+
+               [db commit];
+             }
+
+             [rs close];
         }];
-    }
-    
-    [rs close];
-    return isSuccess;
-    
+
+        return isSuccess;
     
 }
 

@@ -380,7 +380,6 @@
             msg.receiver = [rs longLongIntForColumn:@"group_id"];
             msg.timestamp = [rs intForColumn:@"timestamp"];
             msg.flags = [rs intForColumn:@"flags"];
-            msg.secret = 0;
             msg.rawContent = [rs stringForColumn:@"content"];
             msg.msgLocalID = [rs intForColumn:@"id"];
             [rs close];
