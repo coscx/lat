@@ -27,8 +27,6 @@
   <component name="ChangeListManager">
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLGroupMessageDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLGroupMessageDB.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLPeerMessageDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLPeerMessageDB.m" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,13 +87,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00039" summary="code">
-      <created>1612931275484</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1612931275484</updated>
     </task>
     <task id="LOCAL-00040" summary="code">
       <created>1612947962876</created>
@@ -433,7 +424,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650693076077</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="code">
+      <created>1650700464835</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1650700464835</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -463,10 +461,10 @@
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
     <state x="878" y="352" key="FileChooserDialogImpl/0.0.2194.1194@0.0.2194.1194" timestamp="1650424246651" />
-    <state x="690" y="316" key="Vcs.Push.Dialog.v2" timestamp="1650693077346">
+    <state x="690" y="316" key="Vcs.Push.Dialog.v2" timestamp="1650700466355">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
-    <state x="690" y="316" key="Vcs.Push.Dialog.v2/0.0.2194.1194@0.0.2194.1194" timestamp="1650693077346" />
+    <state x="690" y="316" key="Vcs.Push.Dialog.v2/0.0.2194.1194@0.0.2194.1194" timestamp="1650700466355" />
     <state x="894" y="510" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1649996849885">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>

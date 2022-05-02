@@ -1403,8 +1403,21 @@ GroupMessageObserver>
 
 
 }
--(void)onGroupMessageACK:(IMMessage*)msg error:(int)error {}
--(void)onGroupMessageFailure:(IMMessage*)msg {}
+-(void)onGroupMessageACK:(IMMessage*)msg error:(int)error {
+    [self callFlutter:[self resultSuccess:@{
+        @"type": @"onGroupMessageACK",
+        @"error": @(error),
+        @"result": [msg mj_keyValues]
+    }]];
+
+}
+-(void)onGroupMessageFailure:(IMMessage*)msg {
+  [self callFlutter:[self resultSuccess:@{
+        @"type": @"onGroupMessageFailure",
+        @"error": @(error),
+        @"result": [msg mj_keyValues]
+    }]];
+}
 
 
 #pragma mark - peer
