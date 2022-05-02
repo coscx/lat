@@ -1414,7 +1414,6 @@ GroupMessageObserver>
 -(void)onGroupMessageFailure:(IMMessage*)msg {
   [self callFlutter:[self resultSuccess:@{
         @"type": @"onGroupMessageFailure",
-        @"error": @(error),
         @"result": [msg mj_keyValues]
     }]];
 }
