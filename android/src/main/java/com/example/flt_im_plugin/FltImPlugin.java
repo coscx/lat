@@ -1444,26 +1444,20 @@ public class FltImPlugin implements FlutterPlugin,
     List  data= new ArrayList();
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonString = "";
-    //将对象转化为Json字符串
     try {
       jsonString = objectMapper.writeValueAsString(objects);
-      System.out.println("Jackson="+jsonString);
     } catch (JsonProcessingException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    //将json字符串解析成java对象
     try {
       List  data1 = objectMapper.readValue(jsonString, List.class);
       return  data1;
     } catch (JsonParseException e) {
-      // TODO Auto-generated catch block
+
       e.printStackTrace();
     } catch (JsonMappingException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return  data;
@@ -1474,26 +1468,19 @@ public class FltImPlugin implements FlutterPlugin,
     List  data= new ArrayList();
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonString = "";
-    //将对象转化为Json字符串
     try {
       jsonString = objectMapper.writeValueAsString(objects);
-      System.out.println("Jackson="+jsonString);
     } catch (JsonProcessingException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    //将json字符串解析成java对象
     try {
       List  data1 = objectMapper.readValue(jsonString, List.class);
       return  data1;
     } catch (JsonParseException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (JsonMappingException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return  data;
@@ -1504,26 +1491,19 @@ public class FltImPlugin implements FlutterPlugin,
     Map  data= new HashMap();
     ObjectMapper objectMapper = new ObjectMapper();
     String jsonString = "";
-    //将对象转化为Json字符串
     try {
       jsonString = objectMapper.writeValueAsString(obj);
-      System.out.println("Jackson="+jsonString);
     } catch (JsonProcessingException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    //将json字符串解析成java对象
     try {
       Map  data1 = objectMapper.readValue(jsonString, Map.class);
       return  data1;
     } catch (JsonParseException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (JsonMappingException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return  data;
