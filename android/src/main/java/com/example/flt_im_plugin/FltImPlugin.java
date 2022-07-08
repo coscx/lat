@@ -548,7 +548,7 @@ public class FltImPlugin implements FlutterPlugin,
         IMHttpAPI.setToken(token);
         IMService.getInstance().setToken(token);
 
-        SyncKeyHandler handler = new SyncKeyHandler(context.getApplicationContext(), "sync_key");
+        SyncKeyHandler handler = new SyncKeyHandler(context.getApplicationContext(), "sync_key"+"_"+uid);
         handler.load();
 
         HashMap<Long, Long> groupSyncKeys = handler.getSuperGroupSyncKeys();
