@@ -52,7 +52,9 @@ dependencies {
     api 'com.github.coscx:imkit:1.6'
     implementation 'com.netflix.rxjava:rxjava-core:0.20.7'
     implementation 'com.netflix.rxjava:rxjava-android:0.20.7'
-    implementation 'com.alibaba:fastjson:1.1.72.android'
+    implementation('com.fasterxml.jackson.core:jackson-core:2.11.1')
+    implementation('com.fasterxml.jackson.core:jackson-annotations:2.11.1')
+    implementation('com.fasterxml.jackson.core:jackson-databind:2.11.1')
     implementation 'top.zibin:Luban:1.1.8'
     implementation project(path: ':flutter_plugin_android_lifecycle')
     implementation fileTree(dir: 'libs', include: ['*.jar'])

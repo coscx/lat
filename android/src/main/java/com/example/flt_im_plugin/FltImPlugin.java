@@ -69,6 +69,17 @@ import com.beetle.im.PeerMessageObserver;
 import com.beetle.im.RTMessage;
 import com.beetle.im.RTMessageObserver;
 import com.beetle.im.SystemMessageObserver;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -1430,15 +1441,93 @@ public class FltImPlugin implements FlutterPlugin,
   }
 
   List<Object>convertToMapList(List<IMessage> objects) {
-    return com.alibaba.fastjson.JSONArray.parseArray(com.alibaba.fastjson.JSONArray.toJSONString(objects));
+    List  data= new ArrayList();
+    ObjectMapper objectMapper = new ObjectMapper();
+    String jsonString = "";
+    //将对象转化为Json字符串
+    try {
+      jsonString = objectMapper.writeValueAsString(objects);
+      System.out.println("Jackson="+jsonString);
+    } catch (JsonProcessingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    //将json字符串解析成java对象
+    try {
+      List  data1 = objectMapper.readValue(jsonString, List.class);
+      return  data1;
+    } catch (JsonParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (JsonMappingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return  data;
+    //return com.alibaba.fastjson.JSONArray.parseArray(com.alibaba.fastjson.JSONArray.toJSONString(objects));
   }
 
   List<Object> convertConversionToMapList(List<Conversation> objects) {
-    return com.alibaba.fastjson.JSONArray.parseArray(com.alibaba.fastjson.JSONArray.toJSONString(objects));
+    List  data= new ArrayList();
+    ObjectMapper objectMapper = new ObjectMapper();
+    String jsonString = "";
+    //将对象转化为Json字符串
+    try {
+      jsonString = objectMapper.writeValueAsString(objects);
+      System.out.println("Jackson="+jsonString);
+    } catch (JsonProcessingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    //将json字符串解析成java对象
+    try {
+      List  data1 = objectMapper.readValue(jsonString, List.class);
+      return  data1;
+    } catch (JsonParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (JsonMappingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return  data;
+    //return com.alibaba.fastjson.JSONArray.parseArray(com.alibaba.fastjson.JSONArray.toJSONString(objects));
   }
 
   Map<String, Object> convertToMap(Object obj) {
-    return com.alibaba.fastjson.JSONObject.parseObject(com.alibaba.fastjson.JSONObject.toJSONString(obj));
+    Map  data= new HashMap();
+    ObjectMapper objectMapper = new ObjectMapper();
+    String jsonString = "";
+    //将对象转化为Json字符串
+    try {
+      jsonString = objectMapper.writeValueAsString(obj);
+      System.out.println("Jackson="+jsonString);
+    } catch (JsonProcessingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    //将json字符串解析成java对象
+    try {
+      Map  data1 = objectMapper.readValue(jsonString, Map.class);
+      return  data1;
+    } catch (JsonParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (JsonMappingException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return  data;
+   // return com.alibaba.fastjson.JSONObject.parseObject(com.alibaba.fastjson.JSONObject.toJSONString(obj));
   }
 
   //  OutboxObserver,
