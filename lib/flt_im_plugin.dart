@@ -63,9 +63,31 @@ class FltImPlugin {
     });
   }
   Future<Map?> loadData({required String messageID}) async {
-    return _methodChannel.invokeMapMethod('loadData', {
+    Map? messsages;
+    await _methodChannel.invokeMapMethod('loadData', {
       'messageID': messageID,
+    }).then((value) {
+      if(value !=null){
+        if (value["code"]==0){
+          List m = value["data"];
+          m.map((e) {
+            var ff = e as Map;
+            if(ff.containsKey("uUID")){
+              e["uuid"] = e["uUID"];
+            }
+            if(ff.containsKey("content")){
+              var gg  = ff["content"] as Map;
+              if(gg.containsKey("uUID")){
+                gg["uuid"] = gg["uUID"];
+                e["content"] = gg;
+              }
+            }
+          }).toList();
+        }
+      }
+      messsages =value;
     });
+    return messsages;
   }
 
   Future<Map?> loadEarlierData({required String messageID}) {
