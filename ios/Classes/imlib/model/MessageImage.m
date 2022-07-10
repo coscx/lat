@@ -25,6 +25,22 @@
     }
     return self;
 }
+- (id)initWithImageURL:(NSString *)imageURL thumb:(NSString*)thumb  width:(int)width height:(int)height uuid:(NSString*)uuid {
+    self = [super init];
+    if (self) {
+        NSDictionary *image = @{@"url":imageURL,
+                                @"width":[NSNumber numberWithInt:width],
+                                @"height":[NSNumber numberWithInt:height]};
+        
+        //保留key:image是为了兼容性
+        NSDictionary *dic = @{@"image2":image,
+                              @"image":imageURL,
+                              @"uuid":uuid};
+        NSString* newStr = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:dic options:0 error:nil] encoding:NSUTF8StringEncoding];
+        self.raw = newStr;
+    }
+    return self;
+}
 - (id)initWithImageURL:(NSString *)imageURL width:(int)width height:(int)height {
     self = [super init];
     if (self) {

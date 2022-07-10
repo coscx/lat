@@ -161,6 +161,12 @@ GroupMessageObserver>
     else if ([@"sendGroupMessage" isEqualToString:call.method]) {
         [self sendGroupMessage:call.arguments result:result];
     }
+    else if ([@"sendFlutterMessage" isEqualToString:call.method]) {
+        [self sendFlutterMessage:call.arguments result:result];
+    }
+    else if ([@"sendFlutterGroupMessage" isEqualToString:call.method]) {
+        [self sendFlutterGroupMessage:call.arguments result:result];
+    }
     else if ([@"getLocalCacheImage" isEqualToString:call.method]) {
         [self getLocalCacheImage:call.arguments result:result];
     }
@@ -544,6 +550,170 @@ GroupMessageObserver>
         [self saveMessage:message];
         [self loadSenderInfo:message];
         [self sendGroupMessage:message secret:message.secret];
+        [self createMapSnapshot:message];
+        if (content.address.length == 0) {
+            [self reverseGeocodeLocation:message];
+        } else {
+            [self saveMessageAttachment:message address:content.address];
+        }
+        result([self resultSuccess:[message mj_keyValues]]);
+    } else {
+        result([self resultSuccess:@"暂不支持"]);
+    }
+}
+-(void)sendFlutterMessage:(NSDictionary *)args result:(FlutterResult)result {
+    int type = [self getIntValueFromArgs:args forKey:@"type"];
+    NSDictionary *params = args[@"message"];
+    IMessage *message = [self newOutMessage:params];
+
+    if (type == MESSAGE_TEXT) {
+        MessageTextContent *content = [[MessageTextContent alloc] initWithText:[self getStringValueFromArgs:params forKey:@"rawContent"]];
+        message.rawContent = content.raw;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendFlutterMessage:message secret:message.secret];
+        result([self resultSuccess:[message mj_keyValues]]);
+    } else if (type == MESSAGE_IMAGE) {
+        NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
+        NSString *thumbPath = [self getStringValueFromArgs:params forKey:@"thumbPath"];
+
+        MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path thumb:thumbPath width:0 height:0];
+        message.rawContent = content.raw;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendFlutterMessage:message secret:message.secret];
+        result([self resultSuccess:[message mj_keyValues]]);
+    } else if (type == MESSAGE_VIDEO) {
+        NSString *videoURL = [self getStringValueFromArgs:params forKey:@"path"];
+        NSString *thumbURL = [self getStringValueFromArgs:params forKey:@"thumbPath"];
+                    MessageVideoContent *content = [[MessageVideoContent alloc] initWithVideoURL:videoURL
+                                                                                       thumbnail:thumbURL
+                                                                                           width:0
+                                                                                          height:0
+                                                                                        duration:0
+                                                                                            size:0];
+
+                    message.rawContent = content.raw;
+                    message.timestamp = (int)time(NULL);
+                    message.isOutgoing = YES;
+                    [self saveMessage:message];
+                    [self loadSenderInfo:message];
+                    [self sendFlutterMessage:message secret:message.secret];
+                    result([self resultSuccess:[message mj_keyValues]]);
+        
+
+    } else if (type == MESSAGE_AUDIO) {
+        NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
+        int second = [self getIntValueFromArgs:params forKey:@"second"];
+        MessageAudioContent *content = [[MessageAudioContent alloc] initWithAudio:path duration:second];
+        message.rawContent = content.raw;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendFlutterMessage:message secret:message.secret];
+        result([self resultSuccess:[message mj_keyValues]]);
+
+    } else if (type == MESSAGE_LOCATION) {
+        double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
+        double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
+        NSString *address = [self getStringValueFromArgs:params forKey:@"address"];
+        CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
+        MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
+        message.rawContent = content.raw;
+        content = message.locationContent;
+        content.address = address;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendFlutterMessage:message secret:message.secret];
+        [self createMapSnapshot:message];
+        if (content.address.length == 0) {
+            [self reverseGeocodeLocation:message];
+        } else {
+            [self saveMessageAttachment:message address:content.address];
+        }
+        result([self resultSuccess:[message mj_keyValues]]);
+    } else {
+        result([self resultSuccess:@"暂不支持"]);
+    }
+}
+- (void)sendFlutterGroupMessage:(NSDictionary *)args result:(FlutterResult)result {
+    int type = [self getIntValueFromArgs:args forKey:@"type"];
+    NSDictionary *params = args[@"message"];
+    IMessage *message = [self newOutMessage:params];
+
+    if (type == MESSAGE_TEXT) {
+        MessageTextContent *content = [[MessageTextContent alloc] initWithText:[self getStringValueFromArgs:params forKey:@"rawContent"]];
+        message.rawContent = content.raw;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendFlutterGroupMessage:message secret:message.secret];
+        result([self resultSuccess:[message mj_keyValues]]);
+    } else if (type == MESSAGE_IMAGE) {
+        NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
+        NSString *thumbPath = [self getStringValueFromArgs:params forKey:@"thumbPath"];
+
+        MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path thumb:thumbPath width:0 height:0];
+        message.rawContent = content.raw;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendFlutterGroupMessage:message secret:message.secret];
+        result([self resultSuccess:[message mj_keyValues]]);
+    } else if (type == MESSAGE_VIDEO) {
+        NSString *videoURL = [self getStringValueFromArgs:params forKey:@"path"];
+        NSString *thumbURL = [self getStringValueFromArgs:params forKey:@"thumbPath"];
+                    MessageVideoContent *content = [[MessageVideoContent alloc] initWithVideoURL:videoURL
+                                                                                       thumbnail:thumbURL
+                                                                                           width:0
+                                                                                          height:0
+                                                                                        duration:0
+                                                                                            size:0];
+
+                    message.rawContent = content.raw;
+                    message.timestamp = (int)time(NULL);
+                    message.isOutgoing = YES;
+                    [self saveMessage:message];
+                    [self loadSenderInfo:message];
+                    [self sendFlutterGroupMessage:message secret:message.secret];
+                    result([self resultSuccess:[message mj_keyValues]]);
+        
+
+    } else if (type == MESSAGE_AUDIO) {
+        NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
+        int second = [self getIntValueFromArgs:params forKey:@"second"];
+        MessageAudioContent *content = [[MessageAudioContent alloc] initWithAudio:path duration:second];
+        message.rawContent = content.raw;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendFlutterGroupMessage:message secret:message.secret];
+        result([self resultSuccess:[message mj_keyValues]]);
+
+    } else if (type == MESSAGE_LOCATION) {
+        double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
+        double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
+        NSString *address = [self getStringValueFromArgs:params forKey:@"address"];
+        CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
+        MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
+        message.rawContent = content.raw;
+        content = message.locationContent;
+        content.address = address;
+        message.timestamp = (int)time(NULL);
+        message.isOutgoing = YES;
+        [self saveMessage:message];
+        [self loadSenderInfo:message];
+        [self sendFlutterGroupMessage:message secret:message.secret];
         [self createMapSnapshot:message];
         if (content.address.length == 0) {
             [self reverseGeocodeLocation:message];
@@ -1650,6 +1820,46 @@ GroupMessageObserver>
         }
         [self onNewGroupMessage:message cid:message.receiver];
     }
+}
+- (void)sendFlutterMessage:(IMessage *)message secret:(BOOL)secret{
+   
+        IMMessage *im = [[IMMessage alloc] init];
+        im.sender = message.sender;
+        im.receiver = message.receiver;
+        im.msgLocalID = message.msgLocalID;
+        im.isText = YES;
+        im.content = message.rawContent;
+        im.plainContent = message.rawContent;
+
+        BOOL r = YES;
+        if (secret) {
+            r = [self encrypt:im];
+        }
+        if (r) {
+            [[IMService instance] sendPeerMessageAsync:im];
+        }
+        [self onNewMessage:message cid:message.receiver];
+    
+}
+- (void)sendFlutterGroupMessage:(IMessage *)message secret:(BOOL)secret{
+    
+        IMMessage *im = [[IMMessage alloc] init];
+        im.sender = message.sender;
+        im.receiver = message.receiver;
+        im.msgLocalID = message.msgLocalID;
+        im.isText = YES;
+        im.content = message.rawContent;
+        im.plainContent = message.rawContent;
+
+        BOOL r = YES;
+        if (secret) {
+            r = [self encrypt:im];
+        }
+        if (r) {
+            [[IMService instance] sendGroupMessageAsync:im];
+        }
+        [self onNewGroupMessage:message cid:message.receiver];
+    
 }
 - (void)saveMessageAttachment:(IMessage*)msg address:(NSString*)address {
     [self.messageDB saveMessageAttachment:msg address:address];
