@@ -255,6 +255,183 @@ class FltImPlugin {
       'message': message,
     });
   }
+
+
+  Future<Map?> sendFlutterTextMessage({required bool secret, required String sender, required String receiver, required String rawContent}) async {
+    return sendFlutterMessage(type: 1, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'rawContent': rawContent,
+      'secret': secret ? 1 : 0,
+    });
+  }
+  Future<Map?> sendFlutterRevokeMessage({required bool secret, required String sender, required String receiver, required String uuid}) async {
+    return sendFlutterMessage(type: 14, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'uuid': uuid,
+      'secret': secret ? 1 : 0,
+    });
+  }
+  Future<Map?> sendFlutterGroupRevokeMessage({required bool secret, required String sender, required String receiver, required String uuid}) async {
+    return sendFlutterGroupMessage(type: 14, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'uuid': uuid,
+      'secret': secret ? 1 : 0,
+    });
+  }
+  Future<Map?> sendFlutterImageMessage({required bool secret, required String sender, required String receiver, required String path,required String thumbPath}) async {
+    return sendFlutterMessage(type: 2, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'path': path,
+      'thumbPath': thumbPath,
+      'secret': secret ? 1 : 0,
+    });
+  }
+
+  Future<Map?> sendFlutterVideoMessage({
+    required  String path,
+    required String thumbPath, // android 必传
+    required bool secret,
+    required String sender,
+    required String receiver,
+  }) async {
+    return sendFlutterMessage(type: 12, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'secret': secret ? 1 : 0,
+      'path': path,
+      'thumbPath': thumbPath,
+    });
+  }
+
+  Future<Map?> sendFlutterAudioMessage({
+    required String path,
+    required int second, // ios 必传
+    required bool secret,
+    required String sender,
+    required String receiver,
+  }) async {
+    return sendFlutterMessage(type: 3, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'secret': secret ? 1 : 0,
+      'path': path,
+      'second': second,
+    });
+  }
+
+  Future<Map?> sendFlutterLocationMessage({
+    required double latitude,
+    required double longitude,
+    required String address,
+    required bool secret,
+    required String sender,
+    required String receiver,
+  }) async {
+    return sendFlutterMessage(type: 4, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'secret': secret ? 1 : 0,
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
+    });
+  }
+
+  /// type: 1-text, 2-image, 3-audio, 4-location, 5-group-noti, 6-link
+  Future<Map?> sendFlutterMessage({
+    required int type,
+    required Map message,
+  }) async {
+    return _methodChannel.invokeMapMethod('sendFlutterMessage', {
+      'type': type,
+      'message': message,
+    });
+  }
+  Future<Map?> sendFlutterGroupTextMessage({required bool secret, required String sender, required String receiver, required String rawContent}) async {
+    return sendGroupMessage(type: 1, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'rawContent': rawContent,
+      'secret': secret ? 1 : 0,
+    });
+  }
+
+  Future<Map?> sendFlutterGroupImageMessage({required bool secret, required String sender, required String receiver, required String path,required String thumbPath}) async {
+    return sendGroupMessage(type: 2, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'path': path,
+      'thumbPath': thumbPath,
+      'secret': secret ? 1 : 0,
+    });
+  }
+
+  Future<Map?> sendFlutterGroupVideoMessage({
+    required  path,
+    required String thumbPath, // android 必传
+    required bool secret,
+    required String sender,
+    required String receiver,
+  }) async {
+    return sendFlutterGroupMessage(type: 12, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'secret': secret ? 1 : 0,
+      'path': path,
+      'thumbPath': thumbPath,
+    });
+  }
+
+  Future<Map?> sendFlutterGroupAudioMessage({
+    required String path,
+    required int second, // ios 必传
+    required bool secret,
+    required String sender,
+    required  String receiver,
+  }) async {
+    return sendFlutterGroupMessage(type: 3, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'secret': secret ? 1 : 0,
+      'path': path,
+      'second': second,
+    });
+  }
+
+  Future<Map?> sendFlutterGroupLocationMessage({
+    required double latitude,
+    required double longitude,
+    required String address,
+    required bool secret,
+    required String sender,
+    required String receiver,
+  }) async {
+    return sendFlutterGroupMessage(type: 4, message: {
+      'sender': sender,
+      'receiver': receiver,
+      'secret': secret ? 1 : 0,
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
+    });
+  }
+  /// type: 1-text, 2-image, 3-audio, 4-location, 5-group-noti, 6-link
+  Future<Map?> sendFlutterGroupMessage({
+    required int type,
+    required Map message,
+  }) async {
+    return _methodChannel.invokeMapMethod('sendFlutterGroupMessage', {
+      'type': type,
+      'message': message,
+    });
+  }
+
+
+
   Future<Map?> getLocalCacheImage({required String url}) async {
     return _methodChannel.invokeMapMethod('getLocalCacheImage', {
       'url': url,
