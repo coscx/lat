@@ -1741,8 +1741,8 @@ public class FltImPlugin implements FlutterPlugin,
         } else {
             insertMessage(imsg);
         }
-        loadUserName(imsg);
-        downloadMessageContent(imsg);
+        //loadUserName(imsg);
+        //downloadMessageContent(imsg);
         updateNotificationDesc(imsg);
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -1777,8 +1777,8 @@ public class FltImPlugin implements FlutterPlugin,
         } else {
             insertMessage(imsg);
         }
-        loadUserName(imsg);
-        downloadMessageContent(imsg);
+        //loadUserName(imsg);
+        //downloadMessageContent(imsg);
         updateNotificationDesc(imsg);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("type", "onPeerSecretMessage");
@@ -1907,9 +1907,8 @@ public class FltImPlugin implements FlutterPlugin,
             return;
         }
 
-        loadUserName(imsg);
-
-        downloadMessageContent(imsg);
+        //loadUserName(imsg);
+        //downloadMessageContent(imsg);
         updateNotificationDesc(imsg);
         if (imsg.getType() == MessageContent.MessageType.MESSAGE_REVOKE) {
             Revoke revoke = (Revoke) imsg.content;
@@ -2406,8 +2405,8 @@ public class FltImPlugin implements FlutterPlugin,
     }
 
     protected void prepareMessage(IMessage message) {
-        loadUserName(message);
-        downloadMessageContent(message);
+        //loadUserName(message);
+        //downloadMessageContent(message);
         updateNotificationDesc(message);
         checkMessageFailureFlag(message);
         checkAtName(message);
