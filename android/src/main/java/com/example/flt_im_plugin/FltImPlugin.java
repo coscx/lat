@@ -1043,7 +1043,8 @@ public class FltImPlugin implements FlutterPlugin,
             _sendFlutterMessage(imsg, result);
         } else if (type == MessageContent.MessageType.MESSAGE_AUDIO) {
             String path = (String) argMap.get("path");
-            Audio audio = Audio.newAudio(path, 0);
+            int second = (int) argMap.get("second");
+            Audio audio = Audio.newAudio(path, second);
             imsg.setContent(audio);
             _sendFlutterMessage(imsg, result);
         } else if (type == MessageContent.MessageType.MESSAGE_LOCATION) {
@@ -1336,7 +1337,8 @@ public class FltImPlugin implements FlutterPlugin,
             _sendFlutterGroupMessage(imsg, result);
         } else if (type == MessageContent.MessageType.MESSAGE_AUDIO) {
             String path = (String) argMap.get("path");
-            Audio audio = Audio.newAudio(path, 0);
+            int second = (int) argMap.get("second");
+            Audio audio = Audio.newAudio(path, second);
             imsg.setContent(audio);
             _sendFlutterGroupMessage(imsg, result);
         } else if (type == MessageContent.MessageType.MESSAGE_LOCATION) {
