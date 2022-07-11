@@ -47,9 +47,9 @@ android {
 
 dependencies {
     api 'com.github.coscx:asynctcp:2.7'
-    api 'com.github.coscx:imsdk:2.4'
-    api 'com.github.coscx:imlib:1.5'
-    api 'com.github.coscx:imkit:1.6'
+    api 'com.github.coscx:imsdk:2.5'
+    api 'com.github.coscx:imlib:2.1'
+    api 'com.github.coscx:imkit:1.9'
     implementation 'com.netflix.rxjava:rxjava-core:0.20.7'
     implementation 'com.netflix.rxjava:rxjava-android:0.20.7'
     implementation('com.fasterxml.jackson.core:jackson-core:2.11.1')

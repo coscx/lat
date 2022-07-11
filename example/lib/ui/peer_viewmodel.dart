@@ -84,11 +84,12 @@ class PeerViewModel extends ChangeNotifier {
   }
 
   sendImageMessage(Uint8List image) async {
-    Map result = await im.sendImageMessage(
+    Map result = await im.sendFlutterImageMessage(
       secret: false,
       sender: params.currentUID,
       receiver: params.peerUID,
-      image: image,
+      path: "https://queqiaoerp.oss-cn-shanghai.aliyuncs.com/uploads/2022-07-10-1657463763/tmp_c753629b093f4a79d3e04c4e8af3b342fa1cf732b10c9226.jpg",
+      thumbPath: "https://queqiaoerp.oss-cn-shanghai.aliyuncs.com/uploads/2022-07-10-1657463725/tmp_944139696b1fe4af7a47f71a0fedeca196134e4be815fba7.jpg"
     );
     logger.d(result);
     insertMessage(result);
