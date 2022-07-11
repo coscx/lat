@@ -54,7 +54,7 @@ class Conversion {
   int? timestamp;
   ConversionType? type;
   Message? message;
-
+  int? sex;
   Conversion.fromMap(Map json) {
     var typeObj = json['type'];
     if (typeObj is num) {
@@ -77,6 +77,7 @@ class Conversion {
     }
 
     timestamp = ValueUtil.toInt(json['timestamp']);
+    sex=0;
     message = Message.fromMap(ValueUtil.toMap(json['message']));
   }
 }
