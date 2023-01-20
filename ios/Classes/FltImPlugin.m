@@ -196,6 +196,7 @@ GroupMessageObserver>
 #pragma mark - api
 - (void)deleteConversation:(NSDictionary *)args result:(FlutterResult)result {
     int cid = [self getIntValueFromArgs:args forKey:@"cid"];
+    int type = [self getIntValueFromArgs:args forKey:@"type"];
     NSMutableArray *convs = [NSMutableArray arrayWithArray:self.conversations];
     for (Conversation *con in self.conversations) {
         if (con.cid == cid) {
@@ -208,9 +209,17 @@ GroupMessageObserver>
         }
     }
     self.conversations = convs;
-    Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
-    if (con) {
-        [[ConversationDB instance] removeConversation:con];
+    if(type==0){
+     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
+        if (con) {
+            [[ConversationDB instance] removeConversation:con];
+        }
+    }
+    if(type==1){
+        Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
+           if (con) {
+               [[ConversationDB instance] removeConversation:con];
+           }
     }
     result([self resultSuccess:@"完成"]);
 }

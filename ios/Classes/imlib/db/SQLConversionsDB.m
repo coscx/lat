@@ -133,10 +133,10 @@
 
     __block BOOL isSuccess = NO;
     [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
+            long long id =[con id];
         @try {
             
-            [db executeUpdate:@"DELETE FROM conversation WHERE id=?",  [con id]];
+            [db executeUpdate:@"DELETE FROM conversation WHERE id=?", @(id) ];
             
         } @catch (NSException *exception) {
             NSLog(@"error = %@", [exception reason]);
