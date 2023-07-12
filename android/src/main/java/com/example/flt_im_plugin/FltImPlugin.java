@@ -598,6 +598,7 @@ public class FltImPlugin implements FlutterPlugin,
             IMService.getInstance().addGroupObserver(this);
             IMService.getInstance().addSystemObserver(this);
             IMService.getInstance().addRTObserver(this);
+            IMService.getInstance().addCustomerServiceObserver(this);
             FileDownloader.getInstance().addObserver(this);
             this.conversations = ConversationDB.getInstance().getConversations();
             result.success(resultSuccess("login success"));
