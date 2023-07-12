@@ -62,6 +62,18 @@ class FltImPlugin {
       "secret": secret ? 1 : 0,
     });
   }
+  Future<Map?> createCustomerConversion({
+    required String currentUID,
+    required String peerUID,
+    bool secret = false,
+  }) async {
+    return _methodChannel.invokeMethod('createCustomerConversion', {
+      "currentUID": currentUID,
+      "peerUID": peerUID,
+      "secret": secret ? 1 : 0,
+    });
+  }
+
   Future<Map?> loadData({required String messageID}) {
     return _methodChannel.invokeMapMethod('loadData', {
       'messageID': messageID,
