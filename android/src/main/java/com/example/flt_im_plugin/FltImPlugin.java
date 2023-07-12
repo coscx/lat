@@ -827,9 +827,9 @@ public class FltImPlugin implements FlutterPlugin,
         Map argMap = convertToMap(arg);
         ;
         String currentUID = (String) argMap.get("currentUID");
-        String groupUID = (String) argMap.get("groupUID");
+        String peerUID = (String) argMap.get("peerUID");
         this.currentUID = Long.parseLong(currentUID);
-        this.conversationID = Long.parseLong(groupUID);
+        this.conversationID = Long.parseLong(peerUID);
         messageDB = CustomerMessageDB.getInstance();
         result.success(resultSuccess("createGroupConversion success"));
     }
