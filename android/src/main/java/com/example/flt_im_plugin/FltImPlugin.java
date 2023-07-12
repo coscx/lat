@@ -25,6 +25,7 @@ import com.beetle.bauhinia.api.body.PostDeviceToken;
 import com.beetle.bauhinia.db.CustomerMessageDB;
 import com.beetle.bauhinia.db.EPeerMessageDB;
 import com.beetle.bauhinia.db.GroupMessageDB;
+import com.beetle.bauhinia.db.ICustomerMessage;
 import com.beetle.bauhinia.db.IMessage;
 import com.beetle.bauhinia.db.IMessageDB;
 import com.beetle.bauhinia.db.MessageFlag;
@@ -48,6 +49,8 @@ import com.beetle.bauhinia.handler.CustomerMessageHandler;
 import com.beetle.bauhinia.handler.GroupMessageHandler;
 import com.beetle.bauhinia.handler.PeerMessageHandler;
 import com.beetle.bauhinia.handler.SyncKeyHandler;
+import com.beetle.bauhinia.outbox.CustomerOutbox;
+import com.beetle.bauhinia.outbox.CustomerSupportOutbox;
 import com.beetle.bauhinia.outbox.GroupOutbox;
 import com.beetle.bauhinia.outbox.OutboxObserver;
 import com.beetle.bauhinia.outbox.PeerOutbox;
@@ -57,6 +60,8 @@ import com.beetle.bauhinia.tools.FileCache;
 import com.beetle.bauhinia.tools.FileDownloader;
 import com.beetle.bauhinia.tools.TimeUtil;
 import com.beetle.bauhinia.tools.VideoUtil;
+import com.beetle.im.CustomerMessage;
+import com.beetle.im.CustomerMessageObserver;
 import com.beetle.im.GroupMessageObserver;
 import com.beetle.im.IMMessage;
 import com.beetle.im.IMService;
@@ -133,7 +138,7 @@ public class FltImPlugin implements FlutterPlugin,
         IMServiceObserver,
         GroupMessageObserver,
         SystemMessageObserver,
-        PeerMessageObserver, RTMessageObserver {
+        PeerMessageObserver, RTMessageObserver, CustomerMessageObserver {
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -305,6 +310,10 @@ public class FltImPlugin implements FlutterPlugin,
                 createGroupConversion(call.arguments, result);
                 break;
             }
+            case "createCustomerConversion": {
+                createCustomerConversion(call.arguments, result);
+                break;
+            }
             case "loadData": {
                 loadData(call.arguments, result);
                 break;
@@ -327,6 +336,14 @@ public class FltImPlugin implements FlutterPlugin,
             }
             case "sendFlutterMessage": {
                 sendFlutterMessage(call.arguments, result);
+                break;
+            }
+            case "sendFlutterCustomerMessage": {
+                sendFlutterCustomerMessage(call.arguments, result);
+                break;
+            }
+            case "sendFlutterCustomerSupportMessage": {
+                sendFlutterCustomerSupportMessage(call.arguments, result);
                 break;
             }
             case "sendFlutterGroupMessage": {
@@ -436,15 +453,13 @@ public class FltImPlugin implements FlutterPlugin,
                 updateConvNotificationDesc(conv);
                 updateConversationDetail(conv);
             } else if (conv.type == Conversation.CONVERSATION_CUSTOMER_SERVICE) {
-//        if (conv.cid != KEFU_ID) {
-//          continue;
-//        }
-//        IMessage msg = CustomerMessageDB.getInstance().getLastMessage(conv.cid);
-//        conv.message = msg;
-//        conv.setName("客服");
-//        updateConvNotificationDesc(conv);
-//        updateConversationDetail(conv);
-//        customerExists = true;
+
+                IMessage msg = CustomerMessageDB.getInstance().getLastMessage(conv.cid);
+                conv.message = msg;
+                conv.setName("客服");
+                updateConvNotificationDesc(conv);
+                updateConversationDetail(conv);
+
             }
         }
 
@@ -807,7 +822,16 @@ public class FltImPlugin implements FlutterPlugin,
         messageDB = GroupMessageDB.getInstance();
         result.success(resultSuccess("createGroupConversion success"));
     }
-
+    private void createCustomerConversion(Object arg, final Result result) {
+        Map argMap = convertToMap(arg);
+        ;
+        String currentUID = (String) argMap.get("currentUID");
+        String groupUID = (String) argMap.get("groupUID");
+        this.currentUID = Long.parseLong(currentUID);
+        this.conversationID = Long.parseLong(groupUID);
+        messageDB = CustomerMessageDB.getInstance();
+        result.success(resultSuccess("createGroupConversion success"));
+    }
 
     IMessage newOutMessage(Map arg) {
         IMessage msg = new IMessage();
@@ -816,7 +840,14 @@ public class FltImPlugin implements FlutterPlugin,
         msg.secret = (int) arg.get("secret") > 0;
         return msg;
     }
-
+    ICustomerMessage newOutCustomerMessage(Map arg) {
+        ICustomerMessage msg = new ICustomerMessage();
+        msg.sellerID = Long.parseLong((String) arg.get("seller_id"));
+        msg.customerID = Long.parseLong((String) arg.get("customer_id"));
+        msg.customerAppID = Long.parseLong((String) arg.get("customer_appid"));
+        msg.storeID = Long.parseLong((String) arg.get("store_id"));
+        return msg;
+    }
     private void sendMessage(Object arg, final Result result) {
         Map params = (Map) arg;
         Map argMap = (Map) params.get("message");
@@ -1093,7 +1124,100 @@ public class FltImPlugin implements FlutterPlugin,
         imsg.isOutgoing = true;
         return (imsg);
     }
-
+    private void sendFlutterCustomerMessage(Object arg, final Result result) {
+        Map params = (Map) arg;
+        Map argMap = (Map) params.get("message");
+        MessageContent.MessageType type = _getMessageTypeFromNumber((int) params.get("type"));
+        final ICustomerMessage imsg = newOutCustomerMessage(argMap);
+        if (type == MessageContent.MessageType.MESSAGE_TEXT) {
+            String rawContent = (String) argMap.get("rawContent");
+            imsg.setContent(Text.newText(rawContent));
+            _sendFlutterCustomerMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_IMAGE) {
+            String path = (String) argMap.get("path");
+            String thumbPath = (String) argMap.get("thumbPath");
+            imsg.setContent(Image.newImage(path, thumbPath, 0, 0));
+            _sendFlutterCustomerMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_VIDEO) {
+            String path = (String) argMap.get("path");
+            String thumbPath = (String) argMap.get("thumbPath");
+            imsg.setContent(Video.newVideo(path, thumbPath, 0, 0, 0));
+            _sendFlutterCustomerMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_AUDIO) {
+            String path = (String) argMap.get("path");
+            int second = (int) argMap.get("second");
+            Audio audio = Audio.newAudio(path, second);
+            imsg.setContent(audio);
+            _sendFlutterCustomerMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_LOCATION) {
+            float latitude = (float) argMap.get("latitude");
+            float longitude = (float) argMap.get("longitude");
+            String address = (String) argMap.get("address");
+            Location loc = Location.newLocation(latitude, longitude);
+            loc.address = address;
+            if (TextUtils.isEmpty(loc.address)) {
+                queryLocation(imsg);
+            }
+            _sendFlutterCustomerMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_REVOKE) {
+            String uuid = (String) argMap.get("uuid");
+            IMessage imsgs = this.revoke(imsg, uuid);
+            imsg.content.setUUID(uuid);
+            imsgs.sender = imsg.sender;
+            imsgs.receiver = imsg.receiver;
+            CustomerOutbox.getInstance().sendFlutterMessage(imsgs);
+            result.success(resultSuccess(convertToMap(imsgs)));
+        } else {
+            result.success(resultSuccess("暂不支持"));
+        }
+    }
+    private void sendFlutterCustomerSupportMessage(Object arg, final Result result) {
+        Map params = (Map) arg;
+        Map argMap = (Map) params.get("message");
+        MessageContent.MessageType type = _getMessageTypeFromNumber((int) params.get("type"));
+        final ICustomerMessage imsg = newOutCustomerMessage(argMap);
+        if (type == MessageContent.MessageType.MESSAGE_TEXT) {
+            String rawContent = (String) argMap.get("rawContent");
+            imsg.setContent(Text.newText(rawContent));
+            _sendFlutterCustomerSupportMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_IMAGE) {
+            String path = (String) argMap.get("path");
+            String thumbPath = (String) argMap.get("thumbPath");
+            imsg.setContent(Image.newImage(path, thumbPath, 0, 0));
+            _sendFlutterCustomerSupportMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_VIDEO) {
+            String path = (String) argMap.get("path");
+            String thumbPath = (String) argMap.get("thumbPath");
+            imsg.setContent(Video.newVideo(path, thumbPath, 0, 0, 0));
+            _sendFlutterCustomerSupportMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_AUDIO) {
+            String path = (String) argMap.get("path");
+            int second = (int) argMap.get("second");
+            Audio audio = Audio.newAudio(path, second);
+            imsg.setContent(audio);
+            _sendFlutterCustomerSupportMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_LOCATION) {
+            float latitude = (float) argMap.get("latitude");
+            float longitude = (float) argMap.get("longitude");
+            String address = (String) argMap.get("address");
+            Location loc = Location.newLocation(latitude, longitude);
+            loc.address = address;
+            if (TextUtils.isEmpty(loc.address)) {
+                queryLocation(imsg);
+            }
+            _sendFlutterCustomerSupportMessage(imsg, result);
+        } else if (type == MessageContent.MessageType.MESSAGE_REVOKE) {
+            String uuid = (String) argMap.get("uuid");
+            IMessage imsgs = this.revoke(imsg, uuid);
+            imsg.content.setUUID(uuid);
+            imsgs.sender = imsg.sender;
+            imsgs.receiver = imsg.receiver;
+            CustomerSupportOutbox.getInstance().sendFlutterMessage(imsgs);
+            result.success(resultSuccess(convertToMap(imsgs)));
+        } else {
+            result.success(resultSuccess("暂不支持"));
+        }
+    }
     void _sendMessage(IMessage imsg, final Result result) {
         imsg.timestamp = now();
         imsg.isOutgoing = true;
@@ -1109,6 +1233,24 @@ public class FltImPlugin implements FlutterPlugin,
         saveMessage(imsg);
         loadUserName(imsg);
         PeerOutbox.getInstance().sendFlutterMessage(imsg);
+        result.success(resultSuccess(convertToMap(imsg)));
+        onNewMessage(imsg, imsg.receiver);
+    }
+    void _sendFlutterCustomerMessage(ICustomerMessage imsg, final Result result) {
+        imsg.timestamp = now();
+        imsg.isOutgoing = true;
+        saveMessage(imsg);
+        loadUserName(imsg);
+        CustomerOutbox.getInstance().sendFlutterMessage(imsg);
+        result.success(resultSuccess(convertToMap(imsg)));
+        onNewMessage(imsg, imsg.receiver);
+    }
+    void _sendFlutterCustomerSupportMessage(ICustomerMessage imsg, final Result result) {
+        imsg.timestamp = now();
+        imsg.isOutgoing = true;
+        saveMessage(imsg);
+        loadUserName(imsg);
+        CustomerSupportOutbox.getInstance().sendFlutterMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
         onNewMessage(imsg, imsg.receiver);
     }
@@ -1484,6 +1626,56 @@ public class FltImPlugin implements FlutterPlugin,
         GroupMessageDB.getInstance().setDb(db);
         CustomerMessageDB.getInstance().setDb(db);
         ConversationDB.getInstance().setDb(db);
+    }
+
+    @Override
+    public void onCustomerSupportMessage(CustomerMessage msg) {
+        final CustomerMessage imsg = new CustomerMessage();
+        imsg.timestamp = msg.timestamp;
+        imsg.msgLocalID = msg.msgLocalID;
+        imsg.sellerID = msg.sellerID;
+        imsg.storeID = msg.storeID;
+        imsg.customerID = msg.customerID;
+        imsg.customerAppID = msg.customerAppID;
+        imsg.content=(msg.content);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("type", "onCustomerSupportMessage");
+        map.put("result", convertToMap(imsg));
+        this.callFlutter(resultSuccess(map));
+    }
+
+    @Override
+    public void onCustomerMessage(CustomerMessage msg) {
+        final CustomerMessage imsg = new CustomerMessage();
+        imsg.timestamp = msg.timestamp;
+        imsg.msgLocalID = msg.msgLocalID;
+        imsg.sellerID = msg.sellerID;
+        imsg.storeID = msg.storeID;
+        imsg.customerID = msg.customerID;
+        imsg.customerAppID = msg.customerAppID;
+        imsg.content=(msg.content);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("type", "onCustomerMessage");
+        map.put("result", convertToMap(imsg));
+        this.callFlutter(resultSuccess(map));
+    }
+
+    @Override
+    public void onCustomerMessageACK(CustomerMessage msg) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("type", "onCustomerMessageACK");
+        map.put("result", convertToMap(msg));
+        this.callFlutter(resultSuccess(map));
+    }
+
+    @Override
+    public void onCustomerMessageFailure(CustomerMessage msg) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("type", "onCustomerMessageFailure");
+        map.put("result", convertToMap(msg));
+        this.callFlutter(resultSuccess(map));
     }
 
     private static class LoginTread extends Thread {

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flt_im_plugin_example/ui/peer_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:flt_im_plugin/value_util.dart';
 class MessageView extends StatelessWidget {
   final Message message;
   final String uid;
-  MessageView({this.message, this.uid});
+  MessageView({required this.message, required this.uid});
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +47,12 @@ class MessageView extends StatelessWidget {
   //     "uuid": "A113EE7E-270A-4157-93E4-5F9236F632F7"
   //   }
   // }
-  _buildImageMessage({bool isSelf = true, Message message, BuildContext context}) {
-    double width = ValueUtil.toDouble(message.content['width']);
-    double height = ValueUtil.toDouble(message.content['height']);
-    String imageURL = ValueUtil.toStr(message.content['imageURL']);
+  _buildImageMessage({bool isSelf = true, required Message message, required BuildContext context}) {
+    double width = ValueUtil.toDouble(message.content?['width']);
+    double height = ValueUtil.toDouble(message.content?['height']);
+    String imageURL = ValueUtil.toStr(message.content?['imageURL']);
     if (imageURL == null || imageURL.length == 0) {
-      imageURL = ValueUtil.toStr(message.content['url']);
+      imageURL = ValueUtil.toStr(message.content?['url']);
     }
 
     PeerViewModel viewModel = Provider.of<PeerViewModel>(context, listen: false);
@@ -71,7 +72,7 @@ class MessageView extends StatelessWidget {
               return Container();
             }
             if (snapshot.hasData) {
-              return Image.memory(snapshot.data);
+              return Image.memory("" as Uint8List);
             } else {
               if (imageURL.startsWith("http://localhost")) {
                 return Container();
@@ -96,8 +97,8 @@ class MessageView extends StatelessWidget {
   //   },
   //   "text": "hello world"
   // }
-  _buildTextMessage({bool isSelf = true, Message message, BuildContext context}) {
-    String content = ValueUtil.toStr(message.content['text']);
+  _buildTextMessage({bool isSelf = true, required Message message, required BuildContext context}) {
+    String content = ValueUtil.toStr(message.content?['text']);
     return _buildWrapper(
         isSelf: isSelf,
         message: message,
@@ -112,7 +113,7 @@ class MessageView extends StatelessWidget {
         ));
   }
 
-  _buildWrapper({bool isSelf, Message message, Widget child, BuildContext context}) {
+  _buildWrapper({required bool isSelf, required Message message, required Widget child, required BuildContext context}) {
     return Container(
       margin: EdgeInsets.all(10),
       child: Row(

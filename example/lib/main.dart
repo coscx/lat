@@ -25,7 +25,6 @@ class _MyAppState extends State<MyApp> {
     return OKToast(
       textPadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: MaterialApp(
-        routes: buildRoutes,
         initialRoute: "/",
       ),
     );

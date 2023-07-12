@@ -7,7 +7,7 @@ import 'message_view.dart';
 
 class PeerPage extends StatelessWidget {
   final Map params;
-  PeerPage({this.params});
+  PeerPage({required this.params});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class PeerPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          FlatButton(
+                          ElevatedButton(
                               onPressed: () {
                                 FocusScope.of(context).requestFocus(FocusNode());
                                 model.sendTextMessage();
@@ -62,10 +62,10 @@ class PeerPage extends StatelessWidget {
                               child: Text('发送文本'))
                         ],
                       )),
-                      FlatButton(
+                      ElevatedButton(
                           onPressed: () async {
-                            PickedFile pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
-                            model.sendImageMessage(await pickedFile.readAsBytes());
+                            PickedFile? pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
+                            model.sendImageMessage(await pickedFile!.readAsBytes());
                           },
                           child: Text('发送图片')),
                       // FlatButton(

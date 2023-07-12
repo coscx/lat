@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RenameDialog extends AlertDialog {
-  RenameDialog({Widget contentWidget})
+  RenameDialog({required Widget contentWidget})
       : super(
           content: contentWidget,
           contentPadding: EdgeInsets.zero,
@@ -21,12 +21,12 @@ class RenameDialogContent extends StatefulWidget {
   final VoidCallback okBtnTap;
   final TextEditingController vc;
   RenameDialogContent(
-      {@required this.title,
+      {required this.title,
       this.cancelBtnTitle = "Cancel",
       this.okBtnTitle = "Ok",
-      this.cancelBtnTap,
-      this.okBtnTap,
-      this.vc});
+      required this.cancelBtnTap,
+      required this.okBtnTap,
+      required this.vc});
 
   @override
   _RenameDialogContentState createState() => _RenameDialogContentState();
@@ -79,7 +79,7 @@ class _RenameDialogContentState extends State<RenameDialogContent> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      FlatButton(
+                      ElevatedButton(
                         onPressed: () {
                           widget.vc.text = "";
                           widget.cancelBtnTap();
@@ -96,7 +96,7 @@ class _RenameDialogContentState extends State<RenameDialogContent> {
                         color: Colors.blue,
                         height: btnHeight - borderWidth - borderWidth,
                       ),
-                      FlatButton(
+                      ElevatedButton(
                           onPressed: () {
                             widget.okBtnTap();
                             Navigator.of(context).pop();

@@ -10,13 +10,13 @@ import 'package:oktoast/oktoast.dart';
 import 'response.dart';
 
 class _Params {
-  String peerUID;
-  String peerName;
-  String peerAvatar;
-  bool secret; //点对点加密
-  int state; //加密会话的状态
+  late String peerUID;
+  late String peerName;
+  late String peerAvatar;
+  late bool secret; //点对点加密
+  late int state; //加密会话的状态
 
-  String currentUID;
+  late String currentUID;
 
   _Params.fromMap(Map json) {
     peerUID = ValueUtil.toStr(json['peerUID']);
@@ -33,11 +33,11 @@ class PeerViewModel extends ChangeNotifier {
 
   final FltImPlugin im = FltImPlugin();
 
-  String text;
+  late String text;
 
   List<Message> messages = [];
 
-  PeerViewModel({@required Map params}) : params = _Params.fromMap(params) {
+  PeerViewModel({required Map params}) : params = _Params.fromMap(params) {
     // 创建会话
     listenNative();
     setup();
@@ -49,21 +49,21 @@ class PeerViewModel extends ChangeNotifier {
       peerUID: params.peerUID,
     );
     logger.d(res);
-    Map response = await im.loadData();
+    Map? response = await im.loadData(messageID: '');
     logger.d(response);
-    messages = ValueUtil.toArr(response["data"]).map((e) => Message.fromMap(ValueUtil.toMap(e))).toList();
+    messages = ValueUtil.toArr(response?["data"]).map((e) => Message.fromMap(ValueUtil.toMap(e))).toList();
     notifyListeners();
   }
 
-  Future<Uint8List> getLocalCacheImage({String url}) async {
-    Map result = await im.getLocalCacheImage(url: url);
-    NativeResponse response = NativeResponse.fromMap(result);
+  Future<Uint8List> getLocalCacheImage({required String url}) async {
+    Map? result = await im.getLocalCacheImage(url: url);
+    NativeResponse response = NativeResponse.fromMap(result!);
     return response.data;
   }
 
-  Future<String> getLocalMediaURL({String url}) async {
-    Map result = await im.getLocalMediaURL(url: url);
-    NativeResponse response = NativeResponse.fromMap(result);
+  Future<String> getLocalMediaURL({required String url}) async {
+    Map? result = await im.getLocalMediaURL(url: url);
+    NativeResponse response = NativeResponse.fromMap(result!);
     return response.data;
   }
 
@@ -72,7 +72,7 @@ class PeerViewModel extends ChangeNotifier {
       showToast('输入内容不能为空');
       return;
     }
-    Map result = await im.sendTextMessage(
+    Map? result = await im.sendTextMessage(
       secret: false,
       sender: params.currentUID,
       receiver: params.peerUID,
@@ -80,11 +80,11 @@ class PeerViewModel extends ChangeNotifier {
     );
     text = '';
     logger.d(result);
-    insertMessage(result);
+    insertMessage(result!);
   }
 
   sendImageMessage(Uint8List image) async {
-    Map result = await im.sendFlutterImageMessage(
+    Map? result = await im.sendFlutterImageMessage(
       secret: false,
       sender: params.currentUID,
       receiver: params.peerUID,
@@ -92,22 +92,22 @@ class PeerViewModel extends ChangeNotifier {
       thumbPath: "https://queqiaoerp.oss-cn-shanghai.aliyuncs.com/uploads/2022-07-10-1657463725/tmp_944139696b1fe4af7a47f71a0fedeca196134e4be815fba7.jpg"
     );
     logger.d(result);
-    insertMessage(result);
+    insertMessage(result!);
   }
 
   sendVideoMessage(String path) async {
-    Map result = await im.sendVideoMessage(
+    Map? result = await im.sendVideoMessage(
       secret: false,
       sender: params.currentUID,
       receiver: params.peerUID,
-      path: path,
+      path: path, thumbPath: '',
     );
     logger.d(result);
-    insertMessage(result);
+    insertMessage(result!);
   }
 
-  sendAudioMessage({String path, int second}) async {
-    Map result = await im.sendAudioMessage(
+  sendAudioMessage({required String path, required int second}) async {
+    Map? result = await im.sendAudioMessage(
       secret: false,
       sender: params.currentUID,
       receiver: params.peerUID,
@@ -115,11 +115,11 @@ class PeerViewModel extends ChangeNotifier {
       second: second,
     );
     logger.d(result);
-    insertMessage(result);
+    insertMessage(result!);
   }
 
-  sendLocationMessage({double latitude, double longitude, String address}) async {
-    Map result = await im.sendLocationMessage(
+  sendLocationMessage({required double latitude, required double longitude, required String address}) async {
+    Map? result = await im.sendLocationMessage(
       secret: false,
       sender: params.currentUID,
       receiver: params.peerUID,
@@ -128,7 +128,7 @@ class PeerViewModel extends ChangeNotifier {
       address: address,
     );
     logger.d(result);
-    insertMessage(result);
+    insertMessage(result!);
   }
 
   logout() {

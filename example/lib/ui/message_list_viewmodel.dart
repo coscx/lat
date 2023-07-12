@@ -10,7 +10,7 @@ class MessageListViewModel extends ChangeNotifier {
   List<Conversion> conversions = [];
   FltImPlugin im = FltImPlugin();
 
-  String tfSender;
+  late String tfSender;
 
   MessageListViewModel(Map params) {
     tfSender = ValueUtil.toStr(params['currentUID']);
@@ -19,14 +19,14 @@ class MessageListViewModel extends ChangeNotifier {
   }
 
   loadConversions() async {
-    Map response = await im.getConversations();
+    Map? response = await im.getConversations();
     logger.d(response);
-    conversions = ValueUtil.toArr(response["data"]).map((e) => Conversion.fromMap(ValueUtil.toMap(e))).toList();
+    conversions = ValueUtil.toArr(response?["data"]).map((e) => Conversion.fromMap(ValueUtil.toMap(e))).toList();
     notifyListeners();
   }
 
   deleteConversion(String cid) async {
-    Map res = await im.deleteConversation(cid: cid);
+    Map? res = await im.deleteConversation(cid: cid);
     conversions.removeWhere((element) => element.cid == cid);
     notifyListeners();
   }

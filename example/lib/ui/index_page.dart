@@ -25,8 +25,8 @@ class IndexPage extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(top: 20),
-                child: FlatButton(
-                  color: Colors.blue,
+                child: ElevatedButton(
+
                   onPressed: () {
                     FocusScope.of(context).requestFocus(FocusNode());
                     model.login(success: () {

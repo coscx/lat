@@ -7,7 +7,7 @@ import 'dialog.dart';
 
 class MessageListPage extends StatelessWidget {
   final Map params;
-  MessageListPage({this.params});
+  MessageListPage({required this.params});
   final TextEditingController _vc = TextEditingController();
 
   @override
@@ -79,7 +79,7 @@ class MessageListPage extends StatelessWidget {
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  model.addConversion(con.cid, context);
+                  model.addConversion(con.cid!, context);
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),
@@ -91,12 +91,12 @@ class MessageListPage extends StatelessWidget {
                         margin: EdgeInsets.only(right: 10),
                         alignment: Alignment.center,
                         child: Text(
-                          con.name,
+                          con.name!,
                           style: TextStyle(color: Colors.white),
                         ),
                         color: Colors.blue,
                       ),
-                      Text(con.detail)
+                      Text(con.detail!)
                     ],
                   ),
                 ),
