@@ -584,8 +584,8 @@ class FltImPlugin {
   Future<Map?> getConversations() async {
     return _methodChannel.invokeMapMethod('getConversations', {});
   }
-  Future<Map?> deleteConversation({required String cid,String type ="0"}) async {
-    return _methodChannel.invokeMapMethod('deleteConversation', {'cid': cid,'type': type});
+  Future<Map?> deleteConversation({required String cid, String appid="0",String type ="0"}) async {
+    return _methodChannel.invokeMapMethod('deleteConversation', {'cid': cid,'type': type, appid: appid});
   }
 
 
