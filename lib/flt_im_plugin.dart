@@ -91,7 +91,29 @@ class FltImPlugin {
       'messageID': messageID,
     });
   }
+  Future<Map?> loadCustomerData({required String appId,required String uid,required String messageID}) {
+    return _methodChannel.invokeMapMethod('loadCustomerData', {
+      'appId': appId,
+      'uid': uid,
+      'messageID': messageID,
+    });
+  }
 
+  Future<Map?> loadCustomerEarlierData({required String appId,required String uid,required String messageID}) {
+    return _methodChannel.invokeMapMethod('loadCustomerEarlierData', {
+      'appId': appId,
+      'uid': uid,
+      'messageID': messageID,
+    });
+  }
+
+  Future<Map?> loadCustomerLateData({required String appId,required String uid,required String messageID}) {
+    return _methodChannel.invokeMapMethod('loadCustomerLateData', {
+      'appId': appId,
+      'uid': uid,
+      'messageID': messageID,
+    });
+  }
   /// 登出
   Future<Map?> logout() async {
     return _methodChannel.invokeMethod('logout');
