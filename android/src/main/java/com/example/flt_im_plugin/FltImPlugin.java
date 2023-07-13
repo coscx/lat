@@ -411,22 +411,27 @@ public class FltImPlugin implements FlutterPlugin,
 
     private void deleteConversation(Object arg, final Result result) {
         Map argMap = convertToMap(arg);
+        String rowid = (String) argMap.get("rowid"); // imnode2.gobelieve.io
+        long l_rowid = Long.parseLong(rowid);
         String cid = (String) argMap.get("cid"); // imnode2.gobelieve.io
         long l_cid = Long.parseLong(cid);
-
-        int pos = findConversationPosition(l_cid, Conversation.CONVERSATION_PEER);
-        if (pos != -1) {
-            Conversation conversation = conversations.get(pos);
-            ConversationDB.getInstance().removeConversation(conversation);
-            PeerMessageDB.getInstance().clearConversation(l_cid);
-        } else {
-            pos = findConversationPosition(l_cid, Conversation.CONVERSATION_GROUP);
-            if (pos != -1) {
-                Conversation conversation = conversations.get(pos);
-                ConversationDB.getInstance().removeConversation(conversation);
-                GroupMessageDB.getInstance().clearConversation(l_cid);
-
+        Conversation conv = ConversationDB.getInstance().getConversation(l_rowid);
+        if (conv != null) {
+            if(conv.type == Conversation.CONVERSATION_PEER){
+                ConversationDB.getInstance().removeConversation(conv);
+                PeerMessageDB.getInstance().clearConversation(l_cid);
             }
+            if(conv.type == Conversation.CONVERSATION_GROUP){
+                ConversationDB.getInstance().removeConversation(conv);
+                GroupMessageDB.getInstance().clearConversation(l_cid);
+            }
+            if(conv.type == Conversation.CONVERSATION_CUSTOMER_SERVICE){
+                ConversationDB.getInstance().removeConversation(conv);
+                String appid = (String) argMap.get("appid"); // imnode2.gobelieve.io
+                long l_appid = Long.parseLong(appid);
+                CustomerMessageDB.getInstance().clearConversation(l_appid,l_cid);
+            }
+
         }
         result.success(resultSuccess("完成"));
     }

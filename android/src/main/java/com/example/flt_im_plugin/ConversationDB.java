@@ -74,7 +74,51 @@ public class ConversationDB {
         }
         return convs;
     }
+    public Conversation getConversation(long row_id) {
+        Cursor cursor = null;
+        try {
 
+            cursor = mDB.query(TABLE_NAME, new String[]{"id", "appid","target", "type", "name","attrs","flags","detail","state","timestamp","unread"},
+                    "appid =? ",
+                    new String[]{
+                            String.valueOf(row_id),
+                    },
+                    null, null, null);
+            if (cursor.moveToNext()) {
+                long rowid = cursor.getLong(cursor.getColumnIndex("id"));
+                long appid = cursor.getLong(cursor.getColumnIndex("appid"));
+                long cid = cursor.getLong(cursor.getColumnIndex("target"));
+                int type = cursor.getInt(cursor.getColumnIndex("type"));
+                String name = cursor.getString(cursor.getColumnIndex("name"));
+                String attrs = cursor.getString(cursor.getColumnIndex("attrs"));
+                int flags = cursor.getInt(cursor.getColumnIndex("flags"));
+                String detail = cursor.getString(cursor.getColumnIndex("detail"));
+                int timestamp = cursor.getInt(cursor.getColumnIndex("timestamp"));
+                int state = cursor.getInt(cursor.getColumnIndex("state"));
+                int unread = cursor.getInt(cursor.getColumnIndex("unread"));
+                Conversation conv = new Conversation();
+                conv.rowid = rowid;
+                conv.appid = appid;
+                conv.cid = cid;
+                conv.type = type;
+                conv.state = state;
+                conv.setAttrs(attrs);
+                conv.setDetail(detail);
+                conv.setFlags(flags);
+                conv.setTimestamp(timestamp);
+                conv.setUnreadCount(unread);
+                conv.setName(name);
+                return conv;
+            }
+        } catch (Exception ex) {
+            Log.e("getConversation", ex.toString());
+        } finally {
+            if (null != cursor) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
     public Conversation getConversation(long appid,long cid, int type) {
         Cursor cursor = null;
         try {

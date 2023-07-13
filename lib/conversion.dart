@@ -45,6 +45,7 @@ extension ConversionTypeIntParse on int {
 }
 
 class Conversion {
+  int?    rowid;
   String? memId;
   String? appid;
   String? cid;
@@ -63,6 +64,8 @@ class Conversion {
     } else {
       type = ValueUtil.toStr(typeObj).conversionType;
     }
+    rowid = ValueUtil.toInt(json['rowid']);
+    appid = ValueUtil.toStr(json['appid']);
     memId = ValueUtil.toStr(json['memId']);
     appid = ValueUtil.toStr(json['appid']);
     cid = ValueUtil.toStr(json['cid']);
