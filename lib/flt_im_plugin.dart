@@ -442,23 +442,23 @@ class FltImPlugin {
     });
   }
 
-  Future<Map?> sendFlutterCustomerTextMessage({required bool secret, required String customer_id, required String customer_appid, required String seller_id, required String store_id, required String rawContent}) async {
+  Future<Map?> sendFlutterCustomerTextMessage({required bool secret, required String sender_appid, required String sender, required String receiver_appid, required String receiver, required String rawContent}) async {
     return sendFlutterCustomerMessage(type: 1, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
+      'sender_appid': sender_appid,
+      'sender': sender,
+      'receiver_appid': receiver_appid,
+      'receiver': receiver,
       'rawContent': rawContent,
       'secret': secret ? 1 : 0,
     });
   }
 
-  Future<Map?> sendFlutterCustomerImageMessage({required bool secret, required String customer_id, required String customer_appid, required String seller_id, required String store_id, required String path,required String thumbPath}) async {
+  Future<Map?> sendFlutterCustomerImageMessage({required bool secret, required String sender_appid, required String sender, required String receiver_appid, required String receiver,  required String path,required String thumbPath}) async {
     return sendFlutterCustomerMessage(type: 2, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
+      'sender_appid': sender_appid,
+      'sender': sender,
+      'receiver_appid': receiver_appid,
+      'receiver': receiver,
       'path': path,
       'thumbPath': thumbPath,
       'secret': secret ? 1 : 0,
@@ -469,16 +469,13 @@ class FltImPlugin {
     required  path,
     required String thumbPath, // android 必传
     required bool secret,
-    required String customer_id,
-    required String customer_appid,
-    required String seller_id,
-    required String store_id,
+    required String sender_appid, required String sender, required String receiver_appid, required String receiver,
   }) async {
     return sendFlutterCustomerMessage(type: 12, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
+      'sender_appid': sender_appid,
+      'sender': sender,
+      'receiver_appid': receiver_appid,
+      'receiver': receiver,
       'secret': secret ? 1 : 0,
       'path': path,
       'thumbPath': thumbPath,
@@ -489,16 +486,13 @@ class FltImPlugin {
     required String path,
     required int second, // ios 必传
     required bool secret,
-    required String customer_id,
-    required String customer_appid,
-    required String seller_id,
-    required String store_id,
+    required String sender_appid, required String sender, required String receiver_appid, required String receiver,
   }) async {
     return sendFlutterCustomerMessage(type: 3, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
+      'sender_appid': sender_appid,
+      'sender': sender,
+      'receiver_appid': receiver_appid,
+      'receiver': receiver,
       'secret': secret ? 1 : 0,
       'path': path,
       'second': second,
@@ -510,16 +504,13 @@ class FltImPlugin {
     required double longitude,
     required String address,
     required bool secret,
-    required String customer_id,
-    required String customer_appid,
-    required String seller_id,
-    required String store_id,
+    required String sender_appid, required String sender, required String receiver_appid, required String receiver,
   }) async {
     return sendFlutterCustomerMessage(type: 4, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
+      'sender_appid': sender_appid,
+      'sender': sender,
+      'receiver_appid': receiver_appid,
+      'receiver': receiver,
       'latitude': latitude,
       'longitude': longitude,
       'address': address,
@@ -537,100 +528,6 @@ class FltImPlugin {
     });
   }
 
-  Future<Map?> sendFlutterCustomerSupportTextMessage({required bool secret, required String customer_id, required String customer_appid, required String seller_id, required String store_id, required String rawContent}) async {
-    return sendFlutterCustomerSupportMessage(type: 1, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
-      'rawContent': rawContent,
-      'secret': secret ? 1 : 0,
-    });
-  }
-
-  Future<Map?> sendFlutterCustomerSupportImageMessage({required bool secret, required String customer_id, required String customer_appid, required String seller_id, required String store_id, required String path,required String thumbPath}) async {
-    return sendFlutterCustomerSupportMessage(type: 2, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
-      'path': path,
-      'thumbPath': thumbPath,
-      'secret': secret ? 1 : 0,
-    });
-  }
-
-  Future<Map?> sendFlutterCustomerSupportVideoMessage({
-    required  path,
-    required String thumbPath, // android 必传
-    required bool secret,
-    required String customer_id,
-    required String customer_appid,
-    required String seller_id,
-    required String store_id,
-  }) async {
-    return sendFlutterCustomerSupportMessage(type: 12, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
-      'secret': secret ? 1 : 0,
-      'path': path,
-      'thumbPath': thumbPath,
-    });
-  }
-
-  Future<Map?> sendFlutterCustomerSupportAudioMessage({
-    required String path,
-    required int second, // ios 必传
-    required bool secret,
-    required String customer_id,
-    required String customer_appid,
-    required String seller_id,
-    required String store_id,
-  }) async {
-    return sendFlutterCustomerSupportMessage(type: 3, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
-      'secret': secret ? 1 : 0,
-      'path': path,
-      'second': second,
-    });
-  }
-
-  Future<Map?> sendFlutterCustomerSupportLocationMessage({
-    required double latitude,
-    required double longitude,
-    required String address,
-    required bool secret,
-    required String customer_id,
-    required String customer_appid,
-    required String seller_id,
-    required String store_id,
-  }) async {
-    return sendFlutterCustomerSupportMessage(type: 4, message: {
-      'customer_id': customer_id,
-      'customer_appid': customer_appid,
-      'seller_id': seller_id,
-      'store_id': store_id,
-      'latitude': latitude,
-      'longitude': longitude,
-      'address': address,
-      'secret': secret ? 1 : 0,
-    });
-  }
-  /// type: 1-text, 2-image, 3-audio, 4-location, 5-group-noti, 6-link
-  Future<Map?> sendFlutterCustomerSupportMessage({
-    required int type,
-    required Map message,
-  }) async {
-    return _methodChannel.invokeMapMethod('sendFlutterCustomerSupportMessage', {
-      'type': type,
-      'message': message,
-    });
-  }
 
   Future<Map?> getLocalCacheImage({required String url}) async {
     return _methodChannel.invokeMapMethod('getLocalCacheImage', {
