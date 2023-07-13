@@ -37,7 +37,7 @@ public class ConversationDB {
         ArrayList<Conversation> convs = new ArrayList<>();
         Cursor cursor = null;
         try {
-            cursor = mDB.query(TABLE_NAME, new String[]{"id", "appid","target", "type", "name", "state", "unread"},
+            cursor = mDB.query(TABLE_NAME, new String[]{"id", "appid","target", "type", "name","attrs","flags","detail","state","timestamp","unread"},
                     null, null, null, null, null);
             while (cursor.moveToNext()) {
                 long rowid = cursor.getLong(cursor.getColumnIndex("id"));
@@ -45,6 +45,10 @@ public class ConversationDB {
                 long cid = cursor.getLong(cursor.getColumnIndex("target"));
                 int type = cursor.getInt(cursor.getColumnIndex("type"));
                 String name = cursor.getString(cursor.getColumnIndex("name"));
+                String attrs = cursor.getString(cursor.getColumnIndex("attrs"));
+                int flags = cursor.getInt(cursor.getColumnIndex("flags"));
+                String detail = cursor.getString(cursor.getColumnIndex("detail"));
+                int timestamp = cursor.getInt(cursor.getColumnIndex("timestamp"));
                 int state = cursor.getInt(cursor.getColumnIndex("state"));
                 int unread = cursor.getInt(cursor.getColumnIndex("unread"));
                 Conversation conv = new Conversation();
@@ -53,6 +57,10 @@ public class ConversationDB {
                 conv.cid = cid;
                 conv.type = type;
                 conv.state = state;
+                conv.setAttrs(attrs);
+                conv.setDetail(detail);
+                conv.setFlags(flags);
+                conv.setTimestamp(timestamp);
                 conv.setUnreadCount(unread);
                 conv.setName(name);
                 convs.add(conv);
@@ -67,13 +75,12 @@ public class ConversationDB {
         return convs;
     }
 
-
     public Conversation getConversation(long appid,long cid, int type) {
         Cursor cursor = null;
         try {
 
-            cursor = mDB.query(TABLE_NAME, new String[]{"id", "appid","target", "type", "name", "unread"},
-                    " appid =? AND target=? AND type=?",
+            cursor = mDB.query(TABLE_NAME, new String[]{"id", "appid","target", "type", "name","attrs","flags","detail","state","timestamp","unread"},
+                    "appid =? AND target=? AND type=?",
                     new String[]{
                             String.valueOf(appid),
                             String.valueOf(cid),
@@ -83,6 +90,10 @@ public class ConversationDB {
             if (cursor.moveToNext()) {
                 long rowid = cursor.getLong(cursor.getColumnIndex("id"));
                 String name = cursor.getString(cursor.getColumnIndex("name"));
+                String attrs = cursor.getString(cursor.getColumnIndex("attrs"));
+                int flags = cursor.getInt(cursor.getColumnIndex("flags"));
+                String detail = cursor.getString(cursor.getColumnIndex("detail"));
+                int timestamp = cursor.getInt(cursor.getColumnIndex("timestamp"));
                 int state = cursor.getInt(cursor.getColumnIndex("state"));
                 int unread = cursor.getInt(cursor.getColumnIndex("unread"));
                 Conversation conv = new Conversation();
@@ -91,6 +102,10 @@ public class ConversationDB {
                 conv.cid = cid;
                 conv.type = type;
                 conv.state = state;
+                conv.setAttrs(attrs);
+                conv.setDetail(detail);
+                conv.setFlags(flags);
+                conv.setTimestamp(timestamp);
                 conv.setUnreadCount(unread);
                 conv.setName(name);
                 return conv;
@@ -107,7 +122,6 @@ public class ConversationDB {
 
     public boolean addConversation(Conversation conv) {
         boolean result = true;
-
         try {
             mDB.beginTransaction();
             ContentValues values = new ContentValues();
@@ -115,7 +129,11 @@ public class ConversationDB {
             values.put("target", conv.cid);
             values.put("type", conv.type);
             values.put("name", conv.getName());
+            values.put("attrs", conv.getAttrs());
+            values.put("flags", conv.getFlags());
+            values.put("detail", conv.getDetail());
             values.put("state", conv.state);
+            values.put("timestamp", conv.getTimestamp());
             values.put("unread", conv.getUnreadCount());
             conv.rowid = mDB.insert(TABLE_NAME, null, values);
             values.clear();

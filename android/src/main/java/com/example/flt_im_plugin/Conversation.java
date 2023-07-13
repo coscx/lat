@@ -20,7 +20,6 @@ public class Conversation {
     public static final int STATE_EXCHANGE = 2;//交换密钥中,暂时未被使用
     public static final int STATE_CONNECTED = 3;//连接成功，可以发送加密消息
 
-
     public long rowid;
     public int type;
     public long appid;
@@ -32,6 +31,34 @@ public class Conversation {
     public ArrayList<IMessage> messages = new ArrayList<>();
 
     private String name;
+
+    public String getAttrs() {
+        return attrs;
+    }
+
+    public void setAttrs(String attrs) {
+        this.attrs = attrs;
+    }
+
+    public int getFlags() {
+        return flags;
+    }
+
+    public void setFlags(int flags) {
+        this.flags = flags;
+    }
+
+    public int getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(int timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    private String attrs;
+    private int flags;
+    private int timestamp;
     private String avatar;
     private String detail;
     private int unreadCount;
