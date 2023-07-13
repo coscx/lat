@@ -50,7 +50,6 @@ import com.beetle.bauhinia.handler.GroupMessageHandler;
 import com.beetle.bauhinia.handler.PeerMessageHandler;
 import com.beetle.bauhinia.handler.SyncKeyHandler;
 import com.beetle.bauhinia.outbox.CustomerOutbox;
-import com.beetle.bauhinia.outbox.CustomerSupportOutbox;
 import com.beetle.bauhinia.outbox.GroupOutbox;
 import com.beetle.bauhinia.outbox.OutboxObserver;
 import com.beetle.bauhinia.outbox.PeerOutbox;
@@ -326,6 +325,18 @@ public class FltImPlugin implements FlutterPlugin,
                 loadLateData(call.arguments, result);
                 break;
             }
+            case "loadCustomerData": {
+                loadCustomerData(call.arguments, result);
+                break;
+            }
+            case "loadCustomerEarlierData": {
+                loadCustomerEarlierData(call.arguments, result);
+                break;
+            }
+            case "loadCustomerLateData": {
+                loadCustomerLateData(call.arguments, result);
+                break;
+            }
             case "sendMessage": {
                 sendMessage(call.arguments, result);
                 break;
@@ -340,10 +351,6 @@ public class FltImPlugin implements FlutterPlugin,
             }
             case "sendFlutterCustomerMessage": {
                 sendFlutterCustomerMessage(call.arguments, result);
-                break;
-            }
-            case "sendFlutterCustomerSupportMessage": {
-                sendFlutterCustomerSupportMessage(call.arguments, result);
                 break;
             }
             case "sendFlutterGroupMessage": {
@@ -812,7 +819,68 @@ public class FltImPlugin implements FlutterPlugin,
         wrapperMessages(messages);
         result.success(resultSuccess(convertToMapList(messages)));
     }
+    private void loadCustomerData(Object arg, final Result result) {
+        Map argMap = convertToMap(arg);
+        Object msd = argMap.get("messageID");
+        int messageID = msd == null ? 0 : Integer.parseInt(msd.toString());
+        long appId = Long.parseLong(argMap.get("appId").toString());
+        long uid = Long.parseLong(argMap.get("uid").toString());
+        List<IMessage> messages;
+        if (messageID > 0) {
+            messages = this.loadCustomerConversationData(appId,uid,messageID);
+        } else {
+            messages = this.loadCustomerConversationData(appId,uid);
+        }
+        wrapperMessages(messages);
+        result.success(resultSuccess(convertToMapList(messages)));
+    }
 
+    private void loadCustomerEarlierData(Object arg, final Result result) {
+        Map argMap = convertToMap(arg);
+        long messageID = Long.parseLong(argMap.get("messageID").toString());
+        long appId = Long.parseLong(argMap.get("appId").toString());
+        long uid = Long.parseLong(argMap.get("uid").toString());
+        ArrayList<IMessage> messages = new ArrayList<IMessage>();
+        int count = 0;
+        MessageIterator iter = createCustomerForwardMessageIterator(appId,uid,messageID);
+        while (iter != null) {
+            IMessage msg = iter.next();
+            if (msg == null) {
+                break;
+            }
+            msg.isOutgoing = (msg.sender == currentUID);
+            messages.add(0, msg);
+            if (++count >= pageSize) {
+                break;
+            }
+        }
+        wrapperMessages(messages);
+        result.success(resultSuccess(convertToMapList(messages)));
+    }
+
+    private void loadCustomerLateData(Object arg, final Result result) {
+        Map argMap = convertToMap(arg);
+        long messageID = Long.parseLong(argMap.get("messageID").toString());
+        long appId = Long.parseLong(argMap.get("appId").toString());
+        long uid = Long.parseLong(argMap.get("uid").toString());
+        ArrayList<IMessage> messages = new ArrayList<IMessage>();
+        int count = 0;
+        MessageIterator iter = createCustomerBackwardMessageIterator(appId,uid,messageID);
+        while (true) {
+            IMessage msg = iter.next();
+            if (msg == null) {
+                break;
+            }
+
+            msg.isOutgoing = (msg.sender == currentUID);
+            messages.add(msg);
+            if (++count >= pageSize) {
+                break;
+            }
+        }
+        wrapperMessages(messages);
+        result.success(resultSuccess(convertToMapList(messages)));
+    }
     private void createGroupConversion(Object arg, final Result result) {
         Map argMap = convertToMap(arg);
         ;
@@ -825,7 +893,6 @@ public class FltImPlugin implements FlutterPlugin,
     }
     private void createCustomerConversion(Object arg, final Result result) {
         Map argMap = convertToMap(arg);
-        ;
         String currentUID = (String) argMap.get("currentUID");
         String peerUID = (String) argMap.get("peerUID");
         this.currentUID = Long.parseLong(currentUID);
@@ -843,10 +910,10 @@ public class FltImPlugin implements FlutterPlugin,
     }
     ICustomerMessage newOutCustomerMessage(Map arg) {
         ICustomerMessage msg = new ICustomerMessage();
-        msg.sellerID = Long.parseLong((String) arg.get("seller_id"));
-        msg.customerID = Long.parseLong((String) arg.get("customer_id"));
-        msg.customerAppID = Long.parseLong((String) arg.get("customer_appid"));
-        msg.storeID = Long.parseLong((String) arg.get("store_id"));
+        msg.senderAppID = Long.parseLong((String) arg.get("sender_appid"));
+        msg.sender = Long.parseLong((String) arg.get("sender"));
+        msg.receiverAppID = Long.parseLong((String) arg.get("receiver_appid"));
+        msg.receiver = Long.parseLong((String) arg.get("receiver"));
         return msg;
     }
     private void sendMessage(Object arg, final Result result) {
@@ -1172,53 +1239,7 @@ public class FltImPlugin implements FlutterPlugin,
             result.success(resultSuccess("暂不支持"));
         }
     }
-    private void sendFlutterCustomerSupportMessage(Object arg, final Result result) {
-        Map params = (Map) arg;
-        Map argMap = (Map) params.get("message");
-        MessageContent.MessageType type = _getMessageTypeFromNumber((int) params.get("type"));
-        final ICustomerMessage imsg = newOutCustomerMessage(argMap);
-        if (type == MessageContent.MessageType.MESSAGE_TEXT) {
-            String rawContent = (String) argMap.get("rawContent");
-            imsg.setContent(Text.newText(rawContent));
-            _sendFlutterCustomerSupportMessage(imsg, result);
-        } else if (type == MessageContent.MessageType.MESSAGE_IMAGE) {
-            String path = (String) argMap.get("path");
-            String thumbPath = (String) argMap.get("thumbPath");
-            imsg.setContent(Image.newImage(path, thumbPath, 0, 0));
-            _sendFlutterCustomerSupportMessage(imsg, result);
-        } else if (type == MessageContent.MessageType.MESSAGE_VIDEO) {
-            String path = (String) argMap.get("path");
-            String thumbPath = (String) argMap.get("thumbPath");
-            imsg.setContent(Video.newVideo(path, thumbPath, 0, 0, 0));
-            _sendFlutterCustomerSupportMessage(imsg, result);
-        } else if (type == MessageContent.MessageType.MESSAGE_AUDIO) {
-            String path = (String) argMap.get("path");
-            int second = (int) argMap.get("second");
-            Audio audio = Audio.newAudio(path, second);
-            imsg.setContent(audio);
-            _sendFlutterCustomerSupportMessage(imsg, result);
-        } else if (type == MessageContent.MessageType.MESSAGE_LOCATION) {
-            float latitude = (float) argMap.get("latitude");
-            float longitude = (float) argMap.get("longitude");
-            String address = (String) argMap.get("address");
-            Location loc = Location.newLocation(latitude, longitude);
-            loc.address = address;
-            if (TextUtils.isEmpty(loc.address)) {
-                queryLocation(imsg);
-            }
-            _sendFlutterCustomerSupportMessage(imsg, result);
-        } else if (type == MessageContent.MessageType.MESSAGE_REVOKE) {
-            String uuid = (String) argMap.get("uuid");
-            IMessage imsgs = this.revoke(imsg, uuid);
-            imsg.content.setUUID(uuid);
-            imsgs.sender = imsg.sender;
-            imsgs.receiver = imsg.receiver;
-            CustomerSupportOutbox.getInstance().sendFlutterMessage(imsgs);
-            result.success(resultSuccess(convertToMap(imsgs)));
-        } else {
-            result.success(resultSuccess("暂不支持"));
-        }
-    }
+
     void _sendMessage(IMessage imsg, final Result result) {
         imsg.timestamp = now();
         imsg.isOutgoing = true;
@@ -1226,7 +1247,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         PeerOutbox.getInstance().sendMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewMessage(imsg, imsg.receiver);
+        onNewMessage(imsg,0, imsg.receiver);
     }
     void _sendFlutterMessage(IMessage imsg, final Result result) {
         imsg.timestamp = now();
@@ -1235,7 +1256,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         PeerOutbox.getInstance().sendFlutterMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewMessage(imsg, imsg.receiver);
+        onNewMessage(imsg, 0,imsg.receiver);
     }
     void _sendFlutterCustomerMessage(ICustomerMessage imsg, final Result result) {
         imsg.timestamp = now();
@@ -1244,17 +1265,9 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         CustomerOutbox.getInstance().sendFlutterMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewMessage(imsg, imsg.receiver);
+        onNewCustomerMessage(imsg,imsg.senderAppID, imsg.sender);
     }
-    void _sendFlutterCustomerSupportMessage(ICustomerMessage imsg, final Result result) {
-        imsg.timestamp = now();
-        imsg.isOutgoing = true;
-        saveMessage(imsg);
-        loadUserName(imsg);
-        CustomerSupportOutbox.getInstance().sendFlutterMessage(imsg);
-        result.success(resultSuccess(convertToMap(imsg)));
-        onNewMessage(imsg, imsg.receiver);
-    }
+
     private void sendGroupMessage(Object arg, final Result result) {
         Map params = (Map) arg;
         Map argMap = (Map) params.get("message");
@@ -1513,7 +1526,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         GroupOutbox.getInstance().sendMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewGroupMessage(imsg, imsg.receiver);
+        onNewGroupMessage(imsg,0, imsg.receiver);
     }
     void _sendFlutterGroupMessage(IMessage imsg, final Result result) {
         imsg.timestamp = now();
@@ -1522,7 +1535,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         GroupOutbox.getInstance().sendFlutterMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewGroupMessage(imsg, imsg.receiver);
+        onNewGroupMessage(imsg, 0,imsg.receiver);
     }
     private void getLocalCacheImage(Object arg, final Result result) {
         Map argMap = convertToMap(arg);
@@ -1552,19 +1565,21 @@ public class FltImPlugin implements FlutterPlugin,
 
     private void clearReadCount(Object arg, final Result result) {
         Map argMap = convertToMap(arg);
+        String appid = (String) argMap.get("appid");
         String cid = (String) argMap.get("cid");
+        long l_appid = 0;
         long l_uid = 0;
         try {
+            l_appid = Long.parseLong(appid);
             l_uid = Long.parseLong(cid);
 
         } catch (Exception e) {
             result.success(resultError("clear fail", 1));
         }
-        int pos = findConversationPosition(l_uid, Conversation.CONVERSATION_PEER);
+        Conversation conv =  ConversationDB.getInstance().getConversation(l_appid,l_uid, Conversation.CONVERSATION_PEER);
         Conversation conversation = null;
-        if (pos >= 0) {
-
-            conversation = conversations.get(pos);
+        if (conv !=null) {
+            conversation =conv;
             conversation.setUnreadCount(0);
             ConversationDB.getInstance().setNewCount(conversation.rowid, 0);
             updateConversationDetail(conversation);
@@ -1579,19 +1594,22 @@ public class FltImPlugin implements FlutterPlugin,
 
     private void clearGroupReadCount(Object arg, final Result result) {
         Map argMap = convertToMap(arg);
+        String appid = (String) argMap.get("appid");
         String cid = (String) argMap.get("cid");
+        long l_appid = 0;
         long l_uid = 0;
         try {
+            l_appid = Long.parseLong(appid);
             l_uid = Long.parseLong(cid);
 
         } catch (Exception e) {
             result.success(resultError("clear fail", 1));
         }
-        int pos = findConversationPosition(l_uid, Conversation.CONVERSATION_GROUP);
+        Conversation conv =  ConversationDB.getInstance().getConversation(l_appid,l_uid, Conversation.CONVERSATION_GROUP);
         Conversation conversation = null;
-        if (pos >= 0) {
+        if (conv !=null) {
 
-            conversation = conversations.get(pos);
+            conversation = conv;
             conversation.setUnreadCount(0);
             ConversationDB.getInstance().setNewCount(conversation.rowid, 0);
             updateConversationDetail(conversation);
@@ -1629,38 +1647,23 @@ public class FltImPlugin implements FlutterPlugin,
         ConversationDB.getInstance().setDb(db);
     }
 
-    @Override
-    public void onCustomerSupportMessage(CustomerMessage msg) {
-        final CustomerMessage imsg = new CustomerMessage();
-        imsg.timestamp = msg.timestamp;
-        imsg.msgLocalID = msg.msgLocalID;
-        imsg.sellerID = msg.sellerID;
-        imsg.storeID = msg.storeID;
-        imsg.customerID = msg.customerID;
-        imsg.customerAppID = msg.customerAppID;
-        imsg.content=(msg.content);
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("type", "onCustomerSupportMessage");
-        map.put("result", convertToMap(imsg));
-        this.callFlutter(resultSuccess(map));
-    }
 
     @Override
     public void onCustomerMessage(CustomerMessage msg) {
-        final CustomerMessage imsg = new CustomerMessage();
+        final ICustomerMessage imsg = new ICustomerMessage();
         imsg.timestamp = msg.timestamp;
         imsg.msgLocalID = msg.msgLocalID;
-        imsg.sellerID = msg.sellerID;
-        imsg.storeID = msg.storeID;
-        imsg.customerID = msg.customerID;
-        imsg.customerAppID = msg.customerAppID;
-        imsg.content=(msg.content);
+        imsg.senderAppID = msg.senderAppID;
+        imsg.sender = msg.sender;
+        imsg.receiverAppID = msg.receiverAppID;
+        imsg.receiver = msg.receiver;
+        imsg.setContent(msg.content);
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("type", "onCustomerMessage");
         map.put("result", convertToMap(imsg));
         this.callFlutter(resultSuccess(map));
+        onNewCustomerMessage(imsg,msg.senderAppID,msg.sender);
     }
 
     @Override
@@ -1949,7 +1952,7 @@ public class FltImPlugin implements FlutterPlugin,
         } else {
             cid = msg.sender;
         }
-        onNewMessage(imsg, cid);
+        onNewMessage(imsg,0, cid);
     }
 
     public void onPeerSecretMessage(IMMessage msg) {
@@ -1984,16 +1987,16 @@ public class FltImPlugin implements FlutterPlugin,
         } else {
             cid = msg.sender;
         }
-        onNewMessage(imsg, cid);
+        onNewMessage(imsg, 0,cid);
     }
 
-    private void onNewMessage(IMessage imsg, long cid) {
-        int pos = findConversationPosition(cid, Conversation.CONVERSATION_PEER);
+    private void onNewMessage(IMessage imsg,long appid, long cid) {
+        Conversation conv =  ConversationDB.getInstance().getConversation(appid,cid, Conversation.CONVERSATION_PEER);
         Conversation conversation = null;
-        if (pos == -1) {
+        if (conv == null) {
             conversation = newPeerConversation(cid);
         } else {
-            conversation = conversations.get(pos);
+            conversation = conv;
         }
         conversation.message = imsg;
         if (memberId == imsg.receiver && currentUID != imsg.receiver) {
@@ -2001,19 +2004,34 @@ public class FltImPlugin implements FlutterPlugin,
             ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
         }
         updateConversationDetail(conversation);
-        if (pos == -1) {
+        if (conv == null) {
             conversations.add(0, conversation);
-        } else if (pos > 0) {
-            conversations.remove(pos);
-            conversations.add(0, conversation);
-        } else {
-            //pos == 0
         }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("type", "onNewMessage");
         this.callFlutter(resultSuccess(map));
     }
-
+    private void onNewCustomerMessage(ICustomerMessage imsg,long appid, long cid) {
+        Conversation conv = ConversationDB.getInstance().getConversation(appid,cid, Conversation.CONVERSATION_CUSTOMER_SERVICE);
+        Conversation conversation = null;
+        if (conv==null) {
+            conversation = newCustomerConversation(appid,cid);
+        } else {
+            conversation = conv;
+        }
+        conversation.message = imsg;
+        if (memberId == imsg.receiver) {
+            //conversation.setUnreadCount(conversation.getUnreadCount());
+            ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
+        }
+        updateConversationDetail(conversation);
+        if (conv== null) {
+            conversations.add(0, conversation);
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("type", "onNewCustomerMessage");
+        this.callFlutter(resultSuccess(map));
+    }
 
     public void onPeerMessageACK(IMMessage msg, int error) {
 
@@ -2123,16 +2141,16 @@ public class FltImPlugin implements FlutterPlugin,
         //} else {
         //  cid = msg.sender;
         //}
-        onNewGroupMessage(imsg, cid);
+        onNewGroupMessage(imsg, 0,cid);
     }
 
-    private void onNewGroupMessage(IMessage imsg, long cid) {
-        int pos = findConversationPosition(cid, Conversation.CONVERSATION_GROUP);
+    private void onNewGroupMessage(IMessage imsg,long appid, long cid) {
+        Conversation conv =  ConversationDB.getInstance().getConversation(appid,cid, Conversation.CONVERSATION_GROUP);
         Conversation conversation = null;
-        if (pos == -1) {
+        if (conv == null) {
             conversation = newGroupConversation(cid);
         } else {
-            conversation = conversations.get(pos);
+            conversation = conv;
         }
         conversation.message = imsg;
         if (currentUID == imsg.receiver) {
@@ -2140,13 +2158,8 @@ public class FltImPlugin implements FlutterPlugin,
             ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
         }
         updateConversationDetail(conversation);
-        if (pos == -1) {
+        if (conv == null) {
             conversations.add(0, conversation);
-        } else if (pos > 0) {
-            conversations.remove(pos);
-            conversations.add(0, conversation);
-        } else {
-            //pos == 0
         }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("type", "onNewGroupMessage");
@@ -2643,6 +2656,24 @@ public class FltImPlugin implements FlutterPlugin,
 
     protected int pageSize = 20;
 
+
+
+    protected MessageIterator createMiddleMessageIterator(long messageID) {
+        MessageIterator iter = messageDB.newMiddleMessageIterator(conversationID, messageID);
+        return iter;
+    }
+
+    protected MessageIterator createForwardMessageIterator(long messageID) {
+        MessageIterator iter = messageDB.newForwardMessageIterator(conversationID, messageID);
+        return iter;
+    }
+
+    protected MessageIterator createBackwardMessageIterator(long messageID) {
+        MessageIterator iter = messageDB.newBackwardMessageIterator(conversationID, messageID);
+        return iter;
+    }
+
+
     private List<IMessage> loadConversationData() {
         ArrayList<IMessage> messages = new ArrayList<IMessage>();
         int count = 0;
@@ -2695,20 +2726,87 @@ public class FltImPlugin implements FlutterPlugin,
         return messages;
     }
 
-    protected MessageIterator createMiddleMessageIterator(long messageID) {
-        MessageIterator iter = messageDB.newMiddleMessageIterator(conversationID, messageID);
+
+
+
+    protected MessageIterator createCustomerMessageIterator(long appId,long uid) {
+        CustomerMessageDB db = (CustomerMessageDB) messageDB;
+        MessageIterator iter = db.newCustomerPeerMessageIterator(appId, uid);
         return iter;
     }
 
-    protected MessageIterator createForwardMessageIterator(long messageID) {
-        MessageIterator iter = messageDB.newForwardMessageIterator(conversationID, messageID);
+    protected MessageIterator createCustomerMiddleMessageIterator(long appId,long uid,long messageID) {
+        CustomerMessageDB db = (CustomerMessageDB) messageDB;
+        MessageIterator iter = db.newCustomerPeerMiddleMessageIterator(appId,uid,messageID);
         return iter;
     }
 
-    protected MessageIterator createBackwardMessageIterator(long messageID) {
-        MessageIterator iter = messageDB.newBackwardMessageIterator(conversationID, messageID);
+    protected MessageIterator createCustomerForwardMessageIterator(long appId,long uid,long messageID) {
+        CustomerMessageDB db = (CustomerMessageDB) messageDB;
+        MessageIterator iter = db.newCustomerPeerForwardMessageIterator(appId,uid, messageID);
         return iter;
     }
+
+    protected MessageIterator createCustomerBackwardMessageIterator(long appId,long uid,long messageID) {
+        CustomerMessageDB db = (CustomerMessageDB) messageDB;
+        MessageIterator iter = db.newCustomerPeerBackwardMessageIterator(appId,uid, messageID);
+        return iter;
+    }
+
+
+
+    private List<IMessage> loadCustomerConversationData(long appId,long uid) {
+        ArrayList<IMessage> messages = new ArrayList<IMessage>();
+        int count = 0;
+        MessageIterator iter = createCustomerMessageIterator(appId, uid);
+        while (iter != null) {
+            IMessage msg = iter.next();
+            if (msg == null) {
+                break;
+            }
+
+            msg.isOutgoing = (msg.sender == currentUID);
+            messages.add(0, msg);
+            if (++count >= pageSize) {
+                break;
+            }
+        }
+        return messages;
+    }
+
+    private List<IMessage> loadCustomerConversationData(long appId,long uid,long messageID) {
+        HashSet<String> uuidSet = new HashSet<String>();
+        ArrayList<IMessage> messages = new ArrayList<IMessage>();
+
+        int count = 0;
+        MessageIterator iter;
+
+        iter = createCustomerMiddleMessageIterator(appId,uid,messageID);
+
+        while (iter != null) {
+            IMessage msg = iter.next();
+            if (msg == null) {
+                break;
+            }
+
+            //不加载重复的消息
+            if (!TextUtils.isEmpty(msg.getUUID()) && uuidSet.contains(msg.getUUID())) {
+                continue;
+            }
+
+            if (!TextUtils.isEmpty(msg.getUUID())) {
+                uuidSet.add(msg.getUUID());
+            }
+            msg.isOutgoing = (msg.sender == currentUID);
+            messages.add(0, msg);
+            if (++count >= pageSize * 2) {
+                break;
+            }
+        }
+
+        return messages;
+    }
+
 
     MessageContent.MessageType _getMessageTypeFromNumber(int number) {
         switch (number) {
@@ -3022,4 +3120,14 @@ public class FltImPlugin implements FlutterPlugin,
         ConversationDB.getInstance().addConversation(conversation);
         return conversation;
     }
+    public Conversation newCustomerConversation(long appid,long cid) {
+        Conversation conversation = new Conversation();
+        conversation.type = Conversation.CONVERSATION_CUSTOMER_SERVICE;
+        conversation.appid =appid;
+        conversation.cid = cid;
+        updateGroupConversationName(conversation);
+        ConversationDB.getInstance().addConversation(conversation);
+        return conversation;
+    }
+
 }

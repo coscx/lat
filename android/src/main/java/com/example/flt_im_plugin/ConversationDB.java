@@ -37,18 +37,20 @@ public class ConversationDB {
         ArrayList<Conversation> convs = new ArrayList<>();
         Cursor cursor = null;
         try {
-            cursor = mDB.query(TABLE_NAME, new String[]{"id", "cid", "type", "name", "state", "unread"},
+            cursor = mDB.query(TABLE_NAME, new String[]{"id", "appid","target", "type", "name", "state", "unread"},
                     null, null, null, null, null);
             while (cursor.moveToNext()) {
                 long rowid = cursor.getLong(cursor.getColumnIndex("id"));
-                long id = cursor.getLong(cursor.getColumnIndex("cid"));
+                long appid = cursor.getLong(cursor.getColumnIndex("appid"));
+                long cid = cursor.getLong(cursor.getColumnIndex("target"));
                 int type = cursor.getInt(cursor.getColumnIndex("type"));
                 String name = cursor.getString(cursor.getColumnIndex("name"));
                 int state = cursor.getInt(cursor.getColumnIndex("state"));
                 int unread = cursor.getInt(cursor.getColumnIndex("unread"));
                 Conversation conv = new Conversation();
                 conv.rowid = rowid;
-                conv.cid = id;
+                conv.appid =appid;
+                conv.cid = cid;
                 conv.type = type;
                 conv.state = state;
                 conv.setUnreadCount(unread);
@@ -66,13 +68,14 @@ public class ConversationDB {
     }
 
 
-    public Conversation getConversation(long cid, int type) {
+    public Conversation getConversation(long appid,long cid, int type) {
         Cursor cursor = null;
         try {
 
-            cursor = mDB.query(TABLE_NAME, new String[]{"id", "cid", "type", "name", "unread"},
-                    "cid=? AND type=?",
+            cursor = mDB.query(TABLE_NAME, new String[]{"id", "appid","target", "type", "name", "unread"},
+                    " appid =? AND target=? AND type=?",
                     new String[]{
+                            String.valueOf(appid),
                             String.valueOf(cid),
                             String.valueOf(type)
                     },
@@ -84,6 +87,7 @@ public class ConversationDB {
                 int unread = cursor.getInt(cursor.getColumnIndex("unread"));
                 Conversation conv = new Conversation();
                 conv.rowid = rowid;
+                conv.appid = appid;
                 conv.cid = cid;
                 conv.type = type;
                 conv.state = state;
@@ -107,7 +111,8 @@ public class ConversationDB {
         try {
             mDB.beginTransaction();
             ContentValues values = new ContentValues();
-            values.put("cid", conv.cid);
+            values.put("appid", conv.appid);
+            values.put("target", conv.cid);
             values.put("type", conv.type);
             values.put("name", conv.getName());
             values.put("state", conv.state);

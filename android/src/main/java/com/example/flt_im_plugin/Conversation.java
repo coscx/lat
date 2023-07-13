@@ -23,6 +23,7 @@ public class Conversation {
 
     public long rowid;
     public int type;
+    public long appid;
     public long cid;
     public int state;//p2p加密会话的状态,普通会话此字段无意义
     public IMessage message;

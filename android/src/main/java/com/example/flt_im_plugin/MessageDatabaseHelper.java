@@ -1,3 +1,13 @@
+/*                                                                            
+  Copyright (c) 2014-2019, GoBelieve     
+    All rights reserved.		    				     			
+ 
+  This source code is licensed under the BSD-style license found in the
+  LICENSE file in the root directory of this source tree. An additional grant
+  of patent rights can be found in the PATENTS file in the same directory.
+*/
+
+
 package com.example.flt_im_plugin;
 
 import android.content.Context;
@@ -24,7 +34,10 @@ public class MessageDatabaseHelper {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            db.beginTransaction();
             createDatabase(db);
+            db.setTransactionSuccessful();
+            db.endTransaction();
         }
 
         @Override
@@ -40,10 +53,17 @@ public class MessageDatabaseHelper {
             db.execSQL(SQLCreator.PEER_MESSAGE_FTS);
             db.execSQL(SQLCreator.GROUP_MESSAGE_FTS);
             db.execSQL(SQLCreator.CUSTOMER_MESSAGE_FTS);
+            db.execSQL(SQLCreator.GROUP_MESSAGE_READED);
+
             db.execSQL(SQLCreator.PEER_MESSAGE_IDX);
             db.execSQL(SQLCreator.PEER_MESSAGE_UUID_IDX);
+            db.execSQL(SQLCreator.GROUP_MESSAGE_IDX);
             db.execSQL(SQLCreator.GROUP_MESSAGE_UUID_IDX);
+
+            db.execSQL(SQLCreator.CUSTOMER_MESSAGE_IDX);
+            db.execSQL(SQLCreator.CUSTOMER_PEER_MESSAGE_IDX);
             db.execSQL(SQLCreator.CUSTOMER_MESSAGE_UUID_IDX);
+
             db.execSQL(SQLCreator.CONVERSATION);
             db.execSQL(SQLCreator.CONVERSATION_IDX);
         }
