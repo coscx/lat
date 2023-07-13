@@ -29,8 +29,8 @@
 #define MSG_SYSTEM 21
 #define MSG_UNREAD_COUNT 22
 
-#define MSG_CUSTOMER 24
-#define MSG_CUSTOMER_SUPPORT 25
+#define MSG_CUSTOMER_ 24
+#define MSG_CUSTOMER_SUPPORT_ 25
 #define MSG_VOIP_CONTROL 64
 
 //客户端->服务端
@@ -54,7 +54,7 @@
 #define MSG_GROUP_SYNC_KEY 35
 
 #define MSG_METADATA 37
-
+#define MSG_CUSTOMER 38
 
 #define PLATFORM_IOS  1
 #define PLATFORM_ANDROID 2
@@ -84,7 +84,11 @@
 
 @property(nonatomic, copy)NSString *plainContent;
 @property(nonatomic, assign)BOOL secret;
+//群组已读消息，通过点对点消息来发送
+@property(nonatomic, assign)int64_t groupID;
 
+//会话未读数减一
+@property(nonatomic, assign)BOOL decrementUnread;
 //文本消息
 @property(nonatomic, assign) BOOL isText;
 
@@ -93,6 +97,9 @@
 //群组通知消息
 @property(nonatomic, assign) BOOL isGroupNotification;
 @end
+
+typedef IMMessage GroupMessage;
+typedef IMMessage PeerMessage;
 
 @interface CustomerMessage : NSObject
 //本地消息id 不会序列化传到服务器
@@ -153,6 +160,7 @@ typedef GroupSyncKey GroupSyncNotify;
 @property(nonatomic, assign) int64_t prevSyncKey;
 @end
 
+__attribute__((objc_runtime_name("GoBelieveMessage")))
 @interface Message : NSObject
 @property(nonatomic, assign)int cmd;
 @property(nonatomic, assign)int seq;

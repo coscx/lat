@@ -174,6 +174,32 @@
     return con;
 
 }
+-(Conversation*)getConversation:(int)cid appid:(int)appid type:(int)type {
+    __block    Conversation *con = [[Conversation alloc] init];
+    [self.db inDatabase:^(FMDatabase *db) {
+
+        FMResultSet *rs = [db executeQuery:@"SELECT * FROM conversation WHERE appid =? AND  cid = ? AND type = ?", @(appid),@(cid), @(type)];
+        if ([rs next]) {
+            con.type = CONVERSATION_PEER;
+            con.id = [rs longLongIntForColumn:@"id"];
+            con.appid = [rs longLongIntForColumn:@"appid"];
+            con.cid = [rs longLongIntForColumn:@"target"];
+            con.type = [rs intForColumn:@"type"];
+            con.name = [rs stringForColumn:@"name"];
+            con.newMsgCount = [rs intForColumn:@"unread"];
+            con.attrs = [rs stringForColumn:@"attrs"];
+            con.flags = [rs intForColumn:@"flags"];
+            con.detail = [rs stringForColumn:@"detail"];
+            con.state = [rs intForColumn:@"state"];
+            con.timestamp = [rs intForColumn:@"timestamp"];
+        }else{
+            con = nil;
+        }
+        [rs close];
+    }];
+    return con;
+
+}
 -(NSMutableArray*)getConversations:(int)cid {
     NSMutableArray *convs = [NSMutableArray arrayWithCapacity:30];
     [self.db inDatabase:^(FMDatabase *db) {
@@ -188,6 +214,11 @@
             con.type = [rs intForColumn:@"type"];
             con.name = [rs stringForColumn:@"name"];
             con.newMsgCount = [rs intForColumn:@"unread"];
+            con.attrs = [rs stringForColumn:@"attrs"];
+            con.flags = [rs intForColumn:@"flags"];
+            con.detail = [rs stringForColumn:@"detail"];
+            con.state = [rs intForColumn:@"state"];
+            con.timestamp = [rs intForColumn:@"timestamp"];
             [convs addObject:con];
             
         }

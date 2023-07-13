@@ -25,7 +25,6 @@
 @end
 
 @protocol IMCustomerMessageHandler <NSObject>
--(BOOL)handleCustomerSupportMessage:(CustomerMessage*)msg;
 -(BOOL)handleMessage:(CustomerMessage*)msg;
 -(BOOL)handleMessageACK:(CustomerMessage*)msg;
 -(BOOL)handleMessageFailure:(CustomerMessage*)msg;
@@ -123,19 +122,17 @@ __attribute__((objc_runtime_name("GoBelieveIMService")))
 -(void)sendPeerMessageAsync:(IMMessage*)msg;
 -(void)sendGroupMessageAsync:(IMMessage*)msg;
 -(void)sendRoomMessageAsync:(RoomMessage*)msg;
-//顾客->客服
+
 -(void)sendCustomerMessageAsync:(CustomerMessage*)im;
-//客服->顾客
--(void)sendCustomerSupportMessageAsync:(CustomerMessage*)im;
+
 -(void)sendRTMessageAsync:(RTMessage*)msg;
 
 -(BOOL)sendPeerMessage:(IMMessage*)msg;
 -(BOOL)sendGroupMessage:(IMMessage*)msg;
 -(BOOL)sendRoomMessage:(RoomMessage*)msg;
-//顾客->客服
+
 -(BOOL)sendCustomerMessage:(CustomerMessage*)im;
-//客服->顾客
--(BOOL)sendCustomerSupportMessage:(CustomerMessage*)im;
+
 -(BOOL)sendRTMessage:(RTMessage*)msg;
 
 -(void)enterRoom:(int64_t)roomID;
