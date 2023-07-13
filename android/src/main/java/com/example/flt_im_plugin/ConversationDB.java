@@ -58,7 +58,7 @@ public class ConversationDB {
                 convs.add(conv);
             }
         } catch (Exception ex) {
-            Log.e(TAG, ex.toString());
+            Log.e("getConversations", ex.toString());
         } finally {
             if (null != cursor) {
                 cursor.close();
@@ -96,7 +96,7 @@ public class ConversationDB {
                 return conv;
             }
         } catch (Exception ex) {
-            Log.e(TAG, ex.toString());
+            Log.e("getConversation", ex.toString());
         } finally {
             if (null != cursor) {
                 cursor.close();
@@ -144,7 +144,7 @@ public class ConversationDB {
 
             result = r > 0;
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            Log.e("setNewCount", e.toString());
             result = false;
         }
         return result;
@@ -166,7 +166,7 @@ public class ConversationDB {
 
             result = r > 0;
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            Log.e("setState", e.toString());
             result = false;
         }
         return result;
@@ -184,7 +184,7 @@ public class ConversationDB {
                     null);
 
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            Log.e("resetState", e.toString());
             result = false;
         }
         return result;
