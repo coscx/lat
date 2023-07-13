@@ -377,12 +377,24 @@ public class FltImPlugin implements FlutterPlugin,
                 deletePeerMessage(call.arguments, result);
                 break;
             }
+            case "deleteGroupMessage": {
+                deleteGroupMessage(call.arguments, result);
+                break;
+            }
+            case "deleteCustomerMessage": {
+                deleteCustomerMessage(call.arguments, result);
+                break;
+            }
             case "clearReadCount": {
                 clearReadCount(call.arguments, result);
                 break;
             }
             case "clearGroupReadCount": {
                 clearGroupReadCount(call.arguments, result);
+                break;
+            }
+            case "clearCustomerReadCount": {
+                clearCustomerReadCount(call.arguments, result);
                 break;
             }
             default:
@@ -437,7 +449,42 @@ public class FltImPlugin implements FlutterPlugin,
         map.put("id", msgid);
         this.callFlutter(resultSuccess(map));
     }
-
+    private void deleteGroupMessage(Object arg, final Result result) {
+        Map argMap = convertToMap(arg);
+        String msgid = (String) argMap.get("id");
+        String results = "";
+        GroupMessageDB db = GroupMessageDB.getInstance();
+        long msgLocalID = db.getMessageId(msgid);
+        if (msgLocalID > 0) {
+            db.removeMessage(msgLocalID);
+            results = "success";
+        } else {
+            results = "error";
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("type", "deletePeerMessageSuccess");
+        map.put("result", results);
+        map.put("id", msgid);
+        this.callFlutter(resultSuccess(map));
+    }
+    private void deleteCustomerMessage(Object arg, final Result result) {
+        Map argMap = convertToMap(arg);
+        String msgid = (String) argMap.get("id");
+        String results = "";
+        CustomerMessageDB db = CustomerMessageDB.getInstance();
+        long msgLocalID = db.getMessageId(msgid);
+        if (msgLocalID > 0) {
+            db.removeMessage(msgLocalID);
+            results = "success";
+        } else {
+            results = "error";
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("type", "deletePeerMessageSuccess");
+        map.put("result", results);
+        map.put("id", msgid);
+        this.callFlutter(resultSuccess(map));
+    }
     void loadConversations() {
         conversations = ConversationDB.getInstance().getConversations();
         for (Conversation conv : conversations) {
@@ -1619,7 +1666,33 @@ public class FltImPlugin implements FlutterPlugin,
         map.put("type", "clearReadCountSuccess");
         this.callFlutter(resultSuccess(map));
     }
+    private void clearCustomerReadCount(Object arg, final Result result) {
+        Map argMap = convertToMap(arg);
+        String appid = (String) argMap.get("appid");
+        String cid = (String) argMap.get("cid");
+        long l_appid = 0;
+        long l_uid = 0;
+        try {
+            l_appid = Long.parseLong(appid);
+            l_uid = Long.parseLong(cid);
 
+        } catch (Exception e) {
+            result.success(resultError("clear fail", 1));
+        }
+        Conversation conv =  ConversationDB.getInstance().getConversation(l_appid,l_uid, Conversation.CONVERSATION_CUSTOMER_SERVICE);
+        Conversation conversation = null;
+        if (conv !=null) {
+            conversation =conv;
+            conversation.setUnreadCount(0);
+            ConversationDB.getInstance().setNewCount(conversation.rowid, 0);
+            updateConversationDetail(conversation);
+
+        }
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("type", "clearReadCountSuccess");
+        this.callFlutter(resultSuccess(map));
+    }
     @Override
     public void onListen(Object arguments, EventChannel.EventSink events) {
         this.eventSink = events;

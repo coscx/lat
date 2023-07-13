@@ -556,6 +556,13 @@ class FltImPlugin {
       'url': url,
     });
   }
+  Future<Map?> getLocalMediaURL({required String url}) async {
+    return _methodChannel.invokeMapMethod('getLocalMediaURL', {
+      'url': url,
+    });
+  }
+
+
   Future<Map?> clearReadCount({required String cid}) async {
     return _methodChannel.invokeMapMethod('clearReadCount', {
       'cid': cid,
@@ -566,22 +573,33 @@ class FltImPlugin {
       'cid': cid,
     });
   }
-  Future<Map?> getLocalMediaURL({required String url}) async {
-    return _methodChannel.invokeMapMethod('getLocalMediaURL', {
-      'url': url,
+  Future<Map?> clearCustomerReadCount({required String appid,required String cid}) async {
+    return _methodChannel.invokeMapMethod('clearCustomerReadCount', {
+      'appid': appid,
+      'cid': cid,
     });
   }
+
 
   Future<Map?> getConversations() async {
     return _methodChannel.invokeMapMethod('getConversations', {});
   }
-
   Future<Map?> deleteConversation({required String cid,String type ="0"}) async {
     return _methodChannel.invokeMapMethod('deleteConversation', {'cid': cid,'type': type});
   }
+
+
   Future<Map?> deletePeerMessage({required String id}) async {
     return _methodChannel.invokeMapMethod('deletePeerMessage', {'id': id});
   }
+  Future<Map?> deleteGroupMessage({required String id}) async {
+    return _methodChannel.invokeMapMethod('deleteGroupMessage', {'id': id});
+  }
+  Future<Map?> deleteCustomerMessage({required String id}) async {
+    return _methodChannel.invokeMapMethod('deleteCustomerMessage', {'id': id});
+  }
+
+
   Future<Map?> voiceCall(String peerId) async {
     return _methodChannel.invokeMapMethod('voice_call', {'uid': "1",'peer_id':peerId});
   }
