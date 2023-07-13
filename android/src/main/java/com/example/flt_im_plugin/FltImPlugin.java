@@ -1265,7 +1265,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         CustomerOutbox.getInstance().sendFlutterMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewCustomerMessage(imsg,imsg.senderAppID, imsg.sender);
+        onNewCustomerMessage(imsg,imsg.receiverAppID, imsg.receiver);
     }
 
     private void sendGroupMessage(Object arg, final Result result) {
