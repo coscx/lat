@@ -79,7 +79,7 @@ public class ConversationDB {
         try {
 
             cursor = mDB.query(TABLE_NAME, new String[]{"id", "appid","target", "type", "name","attrs","flags","detail","state","timestamp","unread"},
-                    "appid =? ",
+                    "id =? ",
                     new String[]{
                             String.valueOf(row_id),
                     },
