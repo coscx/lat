@@ -6,8 +6,8 @@ import 'message.dart';
 enum ConversionType {
   CONVERSATION_PEER, // 1
   CONVERSATION_GROUP, // 2
-  CONVERSATION_SYSTEM, // 3
-  CONVERSATION_CUSTOMER_SERVICE, // 4
+  CONVERSATION_CUSTOMER_SERVICE, // 3
+  CONVERSATION_SYSTEM, // 4
 }
 
 extension ConversionTypeStringParse on String {
@@ -35,9 +35,9 @@ extension ConversionTypeIntParse on int {
       case 2:
         return ConversionType.CONVERSATION_GROUP;
       case 3:
-        return ConversionType.CONVERSATION_SYSTEM;
-      case 4:
         return ConversionType.CONVERSATION_CUSTOMER_SERVICE;
+      case 4:
+        return ConversionType.CONVERSATION_SYSTEM;
       default:
         return ConversionType.CONVERSATION_PEER;
     }
@@ -46,6 +46,7 @@ extension ConversionTypeIntParse on int {
 
 class Conversion {
   String? memId;
+  String? appid;
   String? cid;
   String? name;
   String? avatarURL;
@@ -63,6 +64,7 @@ class Conversion {
       type = ValueUtil.toStr(typeObj).conversionType;
     }
     memId = ValueUtil.toStr(json['memId']);
+    appid = ValueUtil.toStr(json['appid']);
     cid = ValueUtil.toStr(json['cid']);
     name = ValueUtil.toStr(json['name']);
     avatarURL = ValueUtil.toStr(json['avatarURL']);
