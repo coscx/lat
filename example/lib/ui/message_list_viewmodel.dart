@@ -26,7 +26,7 @@ class MessageListViewModel extends ChangeNotifier {
   }
 
   deleteConversion(String cid) async {
-    Map? res = await im.deleteConversation(cid: cid);
+    Map? res = await im.deleteConversation(rowid:"0",cid: cid);
     conversions.removeWhere((element) => element.cid == cid);
     notifyListeners();
   }
