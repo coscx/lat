@@ -461,7 +461,7 @@ public class FltImPlugin implements FlutterPlugin,
                 updateConversationDetail(conv);
             } else if (conv.type == Conversation.CONVERSATION_CUSTOMER_SERVICE) {
 
-                IMessage msg = CustomerMessageDB.getInstance().getLastMessage(conv.cid);
+                IMessage msg = CustomerMessageDB.getInstance().getLastMessage(conv.appid,conv.cid);
                 conv.message = msg;
                 conv.setName("客服");
                 updateConvNotificationDesc(conv);
@@ -470,27 +470,25 @@ public class FltImPlugin implements FlutterPlugin,
             }
         }
 
-        Comparator<Conversation> cmp = new Comparator<Conversation>() {
-            public int compare(Conversation c1, Conversation c2) {
+        Comparator<Conversation> cmp = (c1, c2) -> {
 
-                int t1 = 0;
-                int t2 = 0;
-                if (c1.message != null) {
-                    t1 = c1.message.timestamp;
-                }
-                if (c2.message != null) {
-                    t2 = c2.message.timestamp;
-                }
-
-                if (t1 > t2) {
-                    return -1;
-                } else if (t1 == t2) {
-                    return 0;
-                } else {
-                    return 1;
-                }
-
+            int t1 = 0;
+            int t2 = 0;
+            if (c1.message != null) {
+                t1 = c1.message.timestamp;
             }
+            if (c2.message != null) {
+                t2 = c2.message.timestamp;
+            }
+
+            if (t1 > t2) {
+                return -1;
+            } else if (t1 == t2) {
+                return 0;
+            } else {
+                return 1;
+            }
+
         };
         Collections.sort(conversations, cmp);
     }
