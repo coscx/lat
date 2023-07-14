@@ -1305,7 +1305,9 @@ public class FltImPlugin implements FlutterPlugin,
             ICustomerMessage imsgs = this.revokeCustomer(imsg, uuid);
             imsgs.content.setUUID(uuid);
             imsgs.sender = imsg.sender;
+            imsgs.senderAppID = imsg.senderAppID;
             imsgs.receiver = imsg.receiver;
+            imsgs.receiverAppID =imsg.receiverAppID;
             CustomerOutbox.getInstance().sendFlutterMessage(imsgs);
             result.success(resultSuccess(convertToMap(imsgs)));
         } else {
