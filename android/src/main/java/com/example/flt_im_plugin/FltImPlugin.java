@@ -1303,6 +1303,7 @@ public class FltImPlugin implements FlutterPlugin,
         } else if (type == MessageContent.MessageType.MESSAGE_REVOKE) {
             String uuid = (String) argMap.get("uuid");
             ICustomerMessage imsgs = this.revokeCustomer(imsg, uuid);
+            imsgs.content.setUUID(uuid);
             imsgs.sender = imsg.sender;
             imsgs.receiver = imsg.receiver;
             CustomerOutbox.getInstance().sendFlutterMessage(imsgs);
