@@ -143,6 +143,7 @@ class FltImPlugin {
       'secret': secret ? 1 : 0,
     });
   }
+
   Future<Map?> sendImageMessage({required bool secret, required String sender, required String receiver, required Uint8List image}) async {
     return sendMessage(type: 2, message: {
       'sender': sender,
@@ -537,6 +538,16 @@ class FltImPlugin {
       'longitude': longitude,
       'address': address,
       'secret': secret ? 1 : 0,
+    });
+  }
+  Future<Map?> sendCustomerRevokeMessage({  required String sender_appid, required String sender, required String receiver_appid, required String receiver, required String uuid}) async {
+    return sendFlutterCustomerMessage(type: 14, message: {
+      'sender_appid': sender_appid,
+      'sender': sender,
+      'receiver_appid': receiver_appid,
+      'receiver': receiver,
+      'uuid': uuid,
+      'secret': 0,
     });
   }
   /// type: 1-text, 2-image, 3-audio, 4-location, 5-group-noti, 6-link

@@ -67,7 +67,6 @@ class Conversion {
     rowid = ValueUtil.toInt(json['rowid']);
     appid = ValueUtil.toStr(json['appid']);
     memId = ValueUtil.toStr(json['memId']);
-    appid = ValueUtil.toStr(json['appid']);
     cid = ValueUtil.toStr(json['cid']);
     name = ValueUtil.toStr(json['name']);
     avatarURL = ValueUtil.toStr(json['avatarURL']);
