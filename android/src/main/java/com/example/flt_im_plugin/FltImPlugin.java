@@ -1242,6 +1242,29 @@ public class FltImPlugin implements FlutterPlugin,
         imsg.isOutgoing = true;
         return (imsg);
     }
+    protected ICustomerMessage revokeCustomer(ICustomerMessage msg, String uuid) {
+        if (TextUtils.isEmpty(uuid)) {
+            return null;
+        }
+
+        int now = now();
+        if (now - msg.timestamp > REVOKE_EXPIRE) {
+//      Toast.makeText(this, getString(com.beetle.imkit.R.string.revoke_timed_out), Toast.LENGTH_SHORT).show();
+            // return null;
+        }
+
+        if (IMService.getInstance().getConnectState() != IMService.ConnectState.STATE_CONNECTED) {
+//      Toast.makeText(this, getString(com.beetle.imkit.R.string.revoke_connection_disconnect), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+        Revoke revoke = Revoke.newRevoke(uuid);
+        ICustomerMessage imsg = new ICustomerMessage();
+        imsg.setContent(revoke);
+        imsg.timestamp = now();
+        imsg.isOutgoing = true;
+        return (imsg);
+    }
     private void sendFlutterCustomerMessage(Object arg, final Result result) {
         Map params = (Map) arg;
         Map argMap = (Map) params.get("message");
@@ -1279,8 +1302,7 @@ public class FltImPlugin implements FlutterPlugin,
             _sendFlutterCustomerMessage(imsg, result);
         } else if (type == MessageContent.MessageType.MESSAGE_REVOKE) {
             String uuid = (String) argMap.get("uuid");
-            IMessage imsgs = this.revoke(imsg, uuid);
-            imsg.content.setUUID(uuid);
+            ICustomerMessage imsgs = this.revokeCustomer(imsg, uuid);
             imsgs.sender = imsg.sender;
             imsgs.receiver = imsg.receiver;
             CustomerOutbox.getInstance().sendFlutterMessage(imsgs);
