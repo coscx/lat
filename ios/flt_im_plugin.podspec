@@ -60,7 +60,6 @@ A new Flutter plugin.
       'Classes/imkit/imKitRes/sounds/*.aiff',
       'Classes/imkit/imKitRes/gobelieve.xcassets',
       'Classes/imkit/imKitRes/Emoji.xcassets',
-      'Classes/imkit/imKitRes/gobelieve.db'
     ]
 
     sp.pod_target_xcconfig = {
