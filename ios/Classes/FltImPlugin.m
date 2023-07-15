@@ -20,7 +20,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
-#import <Database.h>
+#import "Database.h"
 #import <fmdb/FMDB.h>
 #import <sqlite3.h>
 #import "PeerMessageDB.h"
@@ -240,8 +240,8 @@ GroupMessageObserver>
 
 - (void)deletePeerMessage:(NSDictionary *)args result:(FlutterResult)result {
     NSString *uuid = [self getStringValueFromArgs:args forKey:@"id"];
-    int id = 0;
-    int con_db = [[PeerMessageDB instance] getMessageId:uuid];
+    int64_t id = 0;
+    int64_t con_db = [[PeerMessageDB instance] getMessageId:uuid];
     if (con_db) {
         id = con_db;
      } else{
@@ -370,7 +370,14 @@ GroupMessageObserver>
     msg.secret = [self getBoolValueFromArgs:args forKey:@"secret"];
     return msg;
 }
-
+- (ICustomerMessage *)newCustomerOutMessage:(NSDictionary *)args {
+    ICustomerMessage *msg = [[ICustomerMessage alloc] init];
+    msg.sender = [self getIntValueFromArgs:args forKey:@"sender"];
+    msg.receiver = [self getIntValueFromArgs:args forKey:@"receiver"];
+    msg.senderAppID = [self getBoolValueFromArgs:args forKey:@"sender_appid"];
+    msg.receiverAppID = [self getBoolValueFromArgs:args forKey:@"receiver_appid"];
+    return msg;
+}
 - (void)sendMessage:(NSDictionary *)args result:(FlutterResult)result {
     int type = [self getIntValueFromArgs:args forKey:@"type"];
     NSDictionary *params = args[@"message"];
@@ -459,12 +466,10 @@ GroupMessageObserver>
     } else if (type == MESSAGE_LOCATION) {
         double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
         double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
-        NSString *address = [self getStringValueFromArgs:params forKey:@"address"];
         CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
         MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
         message.rawContent = content.raw;
         content = message.locationContent;
-        content.address = address;
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
         [self saveMessage:message];
@@ -473,8 +478,6 @@ GroupMessageObserver>
         [self createMapSnapshot:message];
         if (content.address.length == 0) {
             [self reverseGeocodeLocation:message];
-        } else {
-            [self saveMessageAttachment:message address:content.address];
         }
         result([self resultSuccess:[message mj_keyValues]]);
     } else {
@@ -569,12 +572,12 @@ GroupMessageObserver>
     } else if (type == MESSAGE_LOCATION) {
         double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
         double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
-        NSString *address = [self getStringValueFromArgs:params forKey:@"address"];
+      
         CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
         MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
         message.rawContent = content.raw;
         content = message.locationContent;
-        content.address = address;
+    
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
         [self saveMessage:message];
@@ -583,8 +586,6 @@ GroupMessageObserver>
         [self createMapSnapshot:message];
         if (content.address.length == 0) {
             [self reverseGeocodeLocation:message];
-        } else {
-            [self saveMessageAttachment:message address:content.address];
         }
         result([self resultSuccess:[message mj_keyValues]]);
     } else {
@@ -607,9 +608,9 @@ GroupMessageObserver>
         result([self resultSuccess:[message mj_keyValues]]);
     } else if (type == MESSAGE_IMAGE) {
         NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
-        NSString *thumbPath = [self getStringValueFromArgs:params forKey:@"thumbPath"];
+      
 
-        MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path thumb:thumbPath width:0 height:0];
+        MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path width:0 height:0];
         message.rawContent = content.raw;
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
@@ -651,12 +652,12 @@ GroupMessageObserver>
     } else if (type == MESSAGE_LOCATION) {
         double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
         double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
-        NSString *address = [self getStringValueFromArgs:params forKey:@"address"];
+       
         CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
         MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
         message.rawContent = content.raw;
         content = message.locationContent;
-        content.address = address;
+      
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
         [self saveMessage:message];
@@ -665,8 +666,6 @@ GroupMessageObserver>
         [self createMapSnapshot:message];
         if (content.address.length == 0) {
             [self reverseGeocodeLocation:message];
-        } else {
-            [self saveMessageAttachment:message address:content.address];
         }
         result([self resultSuccess:[message mj_keyValues]]);
     } else {
@@ -689,9 +688,9 @@ GroupMessageObserver>
         result([self resultSuccess:[message mj_keyValues]]);
     } else if (type == MESSAGE_IMAGE) {
         NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
-        NSString *thumbPath = [self getStringValueFromArgs:params forKey:@"thumbPath"];
+    
 
-        MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path thumb:thumbPath width:0 height:0];
+        MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path width:0 height:0];
         message.rawContent = content.raw;
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
@@ -733,12 +732,12 @@ GroupMessageObserver>
     } else if (type == MESSAGE_LOCATION) {
         double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
         double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
-        NSString *address = [self getStringValueFromArgs:params forKey:@"address"];
+   
         CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
         MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
         message.rawContent = content.raw;
         content = message.locationContent;
-        content.address = address;
+       
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
         [self saveMessage:message];
@@ -747,8 +746,6 @@ GroupMessageObserver>
         [self createMapSnapshot:message];
         if (content.address.length == 0) {
             [self reverseGeocodeLocation:message];
-        } else {
-            [self saveMessageAttachment:message address:content.address];
         }
         result([self resultSuccess:[message mj_keyValues]]);
     } else {
@@ -758,7 +755,7 @@ GroupMessageObserver>
 -(void)sendFlutterCustomerMessage:(NSDictionary *)args result:(FlutterResult)result {
     int type = [self getIntValueFromArgs:args forKey:@"type"];
     NSDictionary *params = args[@"message"];
-    IMessage *message = [self newCustomerOutMessage:params];
+    ICustomerMessage *message = [self newCustomerOutMessage:params];
 
     if (type == MESSAGE_TEXT) {
         MessageTextContent *content = [[MessageTextContent alloc] initWithText:[self getStringValueFromArgs:params forKey:@"rawContent"]];
@@ -771,9 +768,7 @@ GroupMessageObserver>
         result([self resultSuccess:[message mj_keyValues]]);
     } else if (type == MESSAGE_IMAGE) {
         NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
-        NSString *thumbPath = [self getStringValueFromArgs:params forKey:@"thumbPath"];
-
-        MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path thumb:thumbPath width:0 height:0];
+        MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path  width:0 height:0];
         message.rawContent = content.raw;
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
@@ -815,12 +810,12 @@ GroupMessageObserver>
     } else if (type == MESSAGE_LOCATION) {
         double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
         double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
-        NSString *address = [self getStringValueFromArgs:params forKey:@"address"];
+       
         CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
         MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
         message.rawContent = content.raw;
         content = message.locationContent;
-        content.address = address;
+      
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
         [self saveMessage:message];
@@ -829,8 +824,6 @@ GroupMessageObserver>
         [self createMapSnapshot:message];
         if (content.address.length == 0) {
             [self reverseGeocodeLocation:message];
-        } else {
-            [self saveMessageAttachment:message address:content.address];
         }
         result([self resultSuccess:[message mj_keyValues]]);
     } else {
@@ -1028,8 +1021,6 @@ GroupMessageObserver>
 - (void)createCustomerConversion:(NSDictionary *)args result:(FlutterResult)result {
     NSString *currentUID = [self getStringValueFromArgs:args forKey:@"currentUID"];
     NSString *peerUID = [self getStringValueFromArgs:args forKey:@"peerUID"];
-    BOOL secret = [self getBoolValueFromArgs:args forKey:@"secret"];
-
     self.messageDB = [CustomerMessageDB instance];
     self.conversationID = [peerUID integerValue];
     self.currentUID = [currentUID integerValue];
@@ -1078,7 +1069,7 @@ GroupMessageObserver>
     self.myUID = [uid intValue];
     NSString *path = [self getDocumentPath];
     NSString *dbPath = [NSString stringWithFormat:@"%@/gobelieve_%lld.db", path, l_uid];
-    FMDatabase *db = [Database openMessageDB:dbPath]
+    FMDatabaseQueue *db = [Database openMessageDB:dbPath];
     [ConversationDB instance].db = db;
     [PeerMessageDB instance].db = db;
     [GroupMessageDB instance].db = db;
@@ -1396,7 +1387,7 @@ GroupMessageObserver>
     m.sender = im.sender;
     m.receiver = im.receiver;
     m.secret = NO;
-    m.msgLocalID = im.msgLocalID;
+    m.msgId = im.msgLocalID;
     m.rawContent = im.content;
     m.timestamp = im.timestamp;
     m.isOutgoing = (im.sender == self.currentUID);
@@ -1426,7 +1417,7 @@ GroupMessageObserver>
     m.sender = im.sender;
     m.receiver = im.receiver;
     m.secret = YES;
-    m.msgLocalID = im.msgLocalID;
+    m.msgId = im.msgLocalID;
     m.rawContent = im.content;
     m.timestamp = im.timestamp;
     m.isOutgoing = (im.sender == self.currentUID);
@@ -1557,7 +1548,7 @@ GroupMessageObserver>
     }]];
 }
 
--(void)onNewCustomerMessage:(IMessage*)msg cid:(int64_t)cid appid:(int64_t)appid{
+-(void)onNewCustomerMessage:(ICustomerMessage*)msg cid:(int64_t)cid appid:(int64_t)appid{
     int index = -1;
 
    Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_CUSTOMER_SERVICE];
@@ -1623,7 +1614,7 @@ GroupMessageObserver>
     m.sender = im.sender;
     m.receiver = im.receiver;
     m.secret = NO;
-    m.msgLocalID = im.msgLocalID;
+    m.msgId = im.msgLocalID;
     m.rawContent = im.content;
     m.timestamp = im.timestamp;
     m.isOutgoing = (im.sender == self.currentUID);
@@ -1804,7 +1795,7 @@ GroupMessageObserver>
     }
 
     count = 0;
-    iterator = [self.messageDB newForwardMessageIterator:self.conversationID last:messageID];
+    iterator = [self.messageDB newForwardMessageIterator:self.conversationID messageID:messageID];
     msg = [iterator next];
     while (msg) {
         if (msg.type == MESSAGE_ATTACHMENT) {
@@ -1867,7 +1858,7 @@ GroupMessageObserver>
 
 - (NSArray*)loadEarlierData:(int)messageID {
     NSMutableArray *messages = [NSMutableArray array];
-    id<IMessageIterator> iterator = [self.messageDB newForwardMessageIterator:self.conversationID last:messageID];
+    id<IMessageIterator> iterator = [self.messageDB newForwardMessageIterator:self.conversationID messageID:messageID];
 
     int count = 0;
     IMessage *msg = [iterator next];
@@ -1948,7 +1939,7 @@ GroupMessageObserver>
     }
 
     count = 0;
-    iterator = [self.messageDB newForwardMessageIterator:self.conversationID last:messageID];
+    iterator = [self.messageDB newForwardMessageIterator:self.conversationID messageID:messageID];
     msg = [iterator next];
     while (msg) {
         if (msg.type == MESSAGE_ATTACHMENT) {
@@ -2010,7 +2001,7 @@ GroupMessageObserver>
 }
 - (NSArray*)loadCustomerEarlierData:(int)messageID {
     NSMutableArray *messages = [NSMutableArray array];
-    id<IMessageIterator> iterator = [self.messageDB newForwardMessageIterator:self.conversationID last:messageID];
+    id<IMessageIterator> iterator = [self.messageDB newForwardMessageIterator:self.conversationID messageID:messageID];
 
     int count = 0;
     IMessage *msg = [iterator next];
@@ -2090,11 +2081,10 @@ GroupMessageObserver>
         IMMessage *im = [[IMMessage alloc] init];
         im.sender = message.sender;
         im.receiver = message.receiver;
-        im.msgLocalID = message.msgLocalID;
+        im.msgLocalID = message.msgId;
         im.isText = YES;
         im.content = message.rawContent;
-        im.plainContent = message.rawContent;
-
+       
         BOOL r = YES;
         if (secret) {
             r = [self encrypt:im];
@@ -2134,11 +2124,10 @@ GroupMessageObserver>
         IMMessage *im = [[IMMessage alloc] init];
         im.sender = message.sender;
         im.receiver = message.receiver;
-        im.msgLocalID = message.msgLocalID;
+        im.msgLocalID = message.msgId;
         im.isText = YES;
         im.content = message.rawContent;
-        im.plainContent = message.rawContent;
-
+    
         BOOL r = YES;
         if (secret) {
             r = [self encrypt:im];
@@ -2154,10 +2143,10 @@ GroupMessageObserver>
         IMMessage *im = [[IMMessage alloc] init];
         im.sender = message.sender;
         im.receiver = message.receiver;
-        im.msgLocalID = message.msgLocalID;
+        im.msgLocalID = message.msgId;
         im.isText = YES;
         im.content = message.rawContent;
-        im.plainContent = message.rawContent;
+        
 
         BOOL r = YES;
         if (secret) {
@@ -2174,10 +2163,10 @@ GroupMessageObserver>
         IMMessage *im = [[IMMessage alloc] init];
         im.sender = message.sender;
         im.receiver = message.receiver;
-        im.msgLocalID = message.msgLocalID;
+        im.msgLocalID = message.msgId;
         im.isText = YES;
         im.content = message.rawContent;
-        im.plainContent = message.rawContent;
+       
 
         BOOL r = YES;
         if (secret) {
@@ -2189,30 +2178,19 @@ GroupMessageObserver>
         [self onNewGroupMessage:message cid:message.receiver];
     
 }
-- (void)sendFlutterCustomerMessage:(IMessage *)message secret:(BOOL)secret{
+- (void)sendFlutterCustomerMessage:(ICustomerMessage *)message secret:(BOOL)secret{
 
-        ICustomerMessage *im = [[CustomerMessage alloc] init];
+        CustomerMessage *im = [[CustomerMessage alloc] init];
         im.senderAppID = message.sender;
         im.receiver = message.receiver;
         im.receiverAppID = message.sender;
         im.receiver = message.receiver;
-        im.msgId = message.msgId;
-        im.isText = YES;
+        im.msgLocalID = message.msgId;
         im.content = message.rawContent;
-        im.plainContent = message.rawContent;
+        [[IMService instance] sendCustomerMessageAsync:im];
+    
+        [self onNewCustomerMessage:(ICustomerMessage*)im cid:im.receiver appid:im.receiverAppID];
 
-        BOOL r = YES;
-        if (secret) {
-            r = [self encrypt:im];
-        }
-        if (r) {
-            [[IMService instance] sendCustomerMessageAsync:im];
-        }
-        [self onNewCustomerMessage:message cid:message.receiver];
-
-}
-- (void)saveMessageAttachment:(IMessage*)msg address:(NSString*)address {
-    [self.messageDB saveMessageAttachment:msg address:address];
 }
 
 - (BOOL)saveMessage:(IMessage*)msg {
@@ -2220,19 +2198,19 @@ GroupMessageObserver>
 }
 
 - (BOOL)removeMessage:(IMessage*)msg {
-    return [self.messageDB removeMessage:msg.msgLocalID];
+    return [self.messageDB removeMessage:msg.msgId];
 }
 
 - (BOOL)markMessageFailure:(IMessage*)msg {
-    return [self.messageDB markMessageFailure:msg.msgLocalID];
+    return [self.messageDB markMessageFailure:msg.msgId];
 }
 
 - (BOOL)markMesageListened:(IMessage*)msg {
-    return [self.messageDB markMesageListened:msg.msgLocalID];
+    return [self.messageDB markMesageListened:msg.msgId];
 }
 
 - (BOOL)eraseMessageFailure:(IMessage*)msg {
-    return [self.messageDB eraseMessageFailure:msg.msgLocalID];
+    return [self.messageDB eraseMessageFailure:msg.msgId];
 }
 
 - (BOOL)encrypt:(IMMessage*)msg {
@@ -2280,7 +2258,7 @@ GroupMessageObserver>
     FileCache *cache = [FileCache instance];
     AudioDownloader *downloader = [AudioDownloader instance];
     if (msg.type == MESSAGE_AUDIO) {
-        MessageAttachmentContent *attachment = [self.attachments objectForKey:[NSNumber numberWithInt:msg.msgLocalID]];
+        MessageAttachmentContent *attachment = [self.attachments objectForKey:[NSNumber numberWithInt:(int)msg.msgId]];
 
         if (attachment.url.length > 0) {
             MessageAudioContent *content = [msg.audioContent cloneWithURL:attachment.url];
@@ -2302,25 +2280,12 @@ GroupMessageObserver>
            ![[SDImageCache sharedImageCache] diskImageDataExistsWithKey:url]){
             [self createMapSnapshot:msg];
         }
-        //加载附件中的地址
-        MessageAttachmentContent *attachment = [self.attachments objectForKey:[NSNumber numberWithInt:msg.msgLocalID]];
-        if (attachment && attachment.address) {
-            content.address = attachment.address;
-        }
-
+       
         if (content.address.length == 0) {
             [self reverseGeocodeLocation:msg];
         }
     } else if (msg.type == MESSAGE_IMAGE) {
         NSLog(@"image url:%@", msg.imageContent.imageURL);
-        MessageAttachmentContent *attachment = [self.attachments objectForKey:[NSNumber numberWithInt:msg.msgLocalID]];
-
-        if (attachment.url.length > 0) {
-            MessageImageContent *content = [msg.imageContent cloneWithURL:attachment.url];
-            msg.rawContent = content.raw;
-        }
-
-
         if (msg.secret) {
             MessageImageContent *content = msg.imageContent;
             BOOL exists = [[SDImageCache sharedImageCache] diskImageDataExistsWithKey:content.imageURL];
@@ -2539,10 +2504,7 @@ GroupMessageObserver>
     CLLocation *loc = [[CLLocation alloc] initWithLatitude:location.latitude longitude:location.longitude];
     [geocoder reverseGeocodeLocation:loc completionHandler:^(NSArray *array, NSError *error) {
         if (!error && array.count > 0) {
-            CLPlacemark *placemark = [array objectAtIndex:0];
-            content.address = placemark.name;
-
-            [self saveMessageAttachment:msg address:placemark.name];
+           
         }
         msg.geocoding = NO;
     }];

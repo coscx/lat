@@ -41,7 +41,7 @@
     
 }
 
--(SQLGroupMessageIterator*)initWithDB:(FMDatabaseQueue*)db gid:(int64_t)gid position:(int)msgID {
+-(SQLGroupMessageIterator*)initWithDB:(FMDatabaseQueue*)db gid:(int64_t)gid position:(int64_t)msgID {
     
     self = [super init];
 
@@ -55,7 +55,7 @@
     
 }
 
--(SQLGroupMessageIterator*)initWithDB:(FMDatabaseQueue*)db gid:(int64_t)gid middle:(int)msgID {
+-(SQLGroupMessageIterator*)initWithDB:(FMDatabaseQueue*)db gid:(int64_t)gid middle:(int64_t)msgID {
     
     self = [super init];
     if (self) {
@@ -69,7 +69,7 @@
 }
 
 //上拉刷新
--(SQLGroupMessageIterator*)initWithDB:(FMDatabaseQueue*)db gid:(int64_t)gid last:(int)msgID {
+-(SQLGroupMessageIterator*)initWithDB:(FMDatabaseQueue*)db gid:(int64_t)gid last:(int64_t)msgID {
     
     self = [super init];
 
@@ -83,7 +83,7 @@
     
 
 }
--(SQLGroupMessageIterator*)initWithDB:(FMDatabase*)db gid:(int64_t)gid topic:(NSString*)uuid {
+-(SQLGroupMessageIterator*)initWithDB:(FMDatabaseQueue*)db gid:(int64_t)gid topic:(NSString*)uuid {
     self = [super init];
     if (self) {
         [db inDatabase:^(FMDatabase *db) {
@@ -467,7 +467,7 @@
            msg.referenceCount = [rs intForColumn:@"reference_count"];
            msg.reference = [rs stringForColumn:@"reference"];
            msg.rawContent = [rs stringForColumn:@"content"];
-           NSString *tags = [rs stringForColumn:@"tags"];
+         
            
         }else{
             msg = nil;
@@ -479,25 +479,35 @@
 
 }
 -(int)getMessageReferenceCount:(NSString*)uuid {
-    FMResultSet *rs = [self.db executeQuery:@"SELECT reference_count FROM group_message WHERE uuid=?", uuid];
-    if ([rs next]) {
-        int count = [rs intForColumn:@"reference_count"];
-        [rs close];
+        __block int count = 0;
+        [self.db inDatabase:^(FMDatabase *db) {
+                
+            FMResultSet *rs = [db executeQuery:@"SELECT reference_count FROM group_message WHERE uuid=?", uuid];
+            if ([rs next]) {
+               count = [rs intForColumn:@"reference_count"];
+            }
+            [rs close];
+            
+        }];
         return count;
-    }
-    return 0;
 }
 
 -(int)getMessageReaderCount:(int64_t)msgID {
-    FMResultSet *rs = [self.db executeQuery:@"SELECT reader_count FROM group_message WHERE id=?", @(msgID)];
-    if ([rs next]) {
-        int count = [rs intForColumn:@"reader_count"];
-        [rs close];
+        
+        __block int count = 0;
+        [self.db inDatabase:^(FMDatabase *db) {
+                
+            FMResultSet *rs = [db executeQuery:@"SELECT reader_count FROM group_message WHERE id=?", @(msgID)];
+            if ([rs next]) {
+               count = [rs intForColumn:@"reader_count"];
+            }
+            [rs close];
+            
+        }];
         return count;
-    }
-    return 0;
+       
 }
--(BOOL)acknowledgeMessage:(int)msgLocalID {
+-(int)acknowledgeMessage:(int64_t)msgLocalID {
     return [self addFlag:msgLocalID flag:MESSAGE_FLAG_ACK];
 }
 
@@ -554,7 +564,7 @@
 }
 
 
--(BOOL)eraseMessageFailure:(int)msgLocalID {
+-(BOOL)eraseMessageFailure:(int64_t)msgLocalID {
     
     __block BOOL isSuccess = NO;
     __block FMResultSet *rs =nil;
@@ -598,7 +608,7 @@
     
 }
 
--(BOOL)updateFlags:(int)msgLocalID flags:(int)flags {
+-(BOOL)updateFlags:(int64_t)msgLocalID flags:(int)flags {
     
     __block BOOL isSuccess = NO;
     [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
@@ -627,107 +637,138 @@
 -(BOOL)saveMessage:(IMessage*)msg {
     return [self insertMessage:msg];
 }
+
+- (int)markMessageReaded:(int64_t)msg {
+    
+        return 0;
+}
+
+
+- (id<IMessageIterator>)newMessageIterator:(int64_t)conversationID {
+         return 0;
+}
+
 -(BOOL)addMessage:(int64_t)msgId tag:(NSString*)tag {
-    if (tag.length == 0) {
-        return NO;
-    }
-
-    FMDatabase *db = self.db;
-    FMResultSet *rs = [db executeQuery:@"SELECT tags FROM group_message WHERE id=?", @(msgId)];
-    if (!rs) {
-        return NO;
-    }
-    if ([rs next]) {
-        NSString *tags = [rs stringForColumn:@"tags"];
-        if (![tags containsString:tag]) {
-            if (tags.length == 0) {
-                tags = tag;
-            } else {
-                tags = [NSString stringWithFormat:@"%@,%@", tags, tag];
-            }
-            BOOL r = [db executeUpdate:@"UPDATE group_message SET tags= ? WHERE id= ?", tags, @(msgId)];
-            if (!r) {
-                NSLog(@"error = %@", [db lastErrorMessage]);
-                return NO;
-            }
+        if (tag.length == 0) {
+            return NO;
         }
-    }
+        __block BOOL isSuccess = YES;
+        [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            FMResultSet *rs = [db executeQuery:@"SELECT tags FROM group_message WHERE id=?", @(msgId)];
+            if (!rs) {
+                isSuccess = NO;
+            }else{
+                if ([rs next]) {
+                    NSString *tags = [rs stringForColumn:@"tags"];
+                    if (![tags containsString:tag]) {
+                        if (tags.length == 0) {
+                            tags = tag;
+                        } else {
+                            tags = [NSString stringWithFormat:@"%@,%@", tags, tag];
+                        }
+                        BOOL r = [db executeUpdate:@"UPDATE group_message SET tags= ? WHERE id= ?", tags, @(msgId)];
+                        if (!r) {
+                            NSLog(@"error = %@", [db lastErrorMessage]);
+                            isSuccess = NO;
+                        }
+                    }
+                }
 
-    [rs close];
-    return YES;
+                [rs close];
+            }
+            
+            
+        }];
+        return  isSuccess;
+   
 }
 
 -(BOOL)removeMessage:(int64_t)msgId tag:(NSString*)tag {
     if (tag.length == 0) {
         return NO;
     }
+        __block BOOL isSuccess = YES;
+        [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            FMResultSet *rs = [db executeQuery:@"SELECT tags FROM group_message WHERE id=?", @(msgId)];
+            if (!rs) {
+                isSuccess = NO;
+            }else{
+                if ([rs next]) {
+                    NSString *tags = [rs stringForColumn:@"tags"];
+                    if ([tags containsString:tag]) {
+                        NSString *t = [NSString stringWithFormat:@"%@,", tag];
+                        tags = [tags stringByReplacingOccurrencesOfString:t withString:@""];
+                        tags = [tags stringByReplacingOccurrencesOfString:tag withString:@""];
+                        BOOL r = [db executeUpdate:@"UPDATE group_message SET tags = ? WHERE id= ?", tags, @(msgId)];
+                        if (!r) {
+                            NSLog(@"error = %@", [db lastErrorMessage]);
+                            isSuccess =  NO;
+                        }
+                    }
+                }
 
-    FMDatabase *db = self.db;
-    FMResultSet *rs = [db executeQuery:@"SELECT tags FROM group_message WHERE id=?", @(msgId)];
-    if (!rs) {
-        return NO;
-    }
-    if ([rs next]) {
-        NSString *tags = [rs stringForColumn:@"tags"];
-        if ([tags containsString:tag]) {
-            NSString *t = [NSString stringWithFormat:@"%@,", tag];
-            tags = [tags stringByReplacingOccurrencesOfString:t withString:@""];
-            tags = [tags stringByReplacingOccurrencesOfString:tag withString:@""];
-            BOOL r = [db executeUpdate:@"UPDATE group_message SET tags = ? WHERE id= ?", tags, @(msgId)];
-            if (!r) {
-                NSLog(@"error = %@", [db lastErrorMessage]);
-                return NO;
+                [rs close];
             }
-        }
-    }
+            
+            
+        }];
+        return  isSuccess;
 
-    [rs close];
-    return YES;
 }
 
 
 -(BOOL)addMessage:(int64_t)msgId reader:(int64_t)uid {
-    FMDatabase *db = self.db;
-    [db beginTransaction];
-    BOOL r = [db executeUpdate:@"INSERT INTO group_message_readed (msg_id, uid) VALUES (?, ?)", @(msgId), @(uid)];
-    if (!r) {
-        NSLog(@"error = %@", [db lastErrorMessage]);
-        [db rollback];
-        return NO;
-    }
+        __block BOOL isSuccess = YES;
+        [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            [db beginTransaction];
+            BOOL r = [db executeUpdate:@"INSERT INTO group_message_readed (msg_id, uid) VALUES (?, ?)", @(msgId), @(uid)];
+            if (!r) {
+                NSLog(@"error = %@", [db lastErrorMessage]);
+                [db rollback];
+                isSuccess = NO;
+                return;
+            }
 
-    FMResultSet *rs = [db executeQuery:@"SELECT COUNT(*) as count FROM group_message_readed WHERE msg_id=?", @(msgId)];
-    if (!rs) {
-        NSLog(@"error = %@", [db lastErrorMessage]);
-        [db rollback];
-        return NO;
-    }
+            FMResultSet *rs = [db executeQuery:@"SELECT COUNT(*) as count FROM group_message_readed WHERE msg_id=?", @(msgId)];
+            if (!rs) {
+                NSLog(@"error = %@", [db lastErrorMessage]);
+                [db rollback];
+                isSuccess = NO;
+                return;
+            }
 
-    int count = 0;
-    if ([rs next]) {
-        count = [rs intForColumn:@"count"];
-    }
-    [rs close];
+            int count = 0;
+            if ([rs next]) {
+                count = [rs intForColumn:@"count"];
+            }
+            [rs close];
 
-    r = [db executeUpdate:@"UPDATE group_message SET reader_count = ? WHERE id= ?", @(count), @(msgId)];
-    if (!r) {
-        NSLog(@"error = %@", [db lastErrorMessage]);
-        [db rollback];
-        return NO;
-    }
-    [db commit];
-    return YES;
+            r = [db executeUpdate:@"UPDATE group_message SET reader_count = ? WHERE id= ?", @(count), @(msgId)];
+            if (!r) {
+                NSLog(@"error = %@", [db lastErrorMessage]);
+                [db rollback];
+                isSuccess = NO;
+                return;
+            }
+            [db commit];
+            
+        }];
+        return  isSuccess;
+    
 }
 
 -(NSArray*)getMessageReaders:(int64_t)msgId {
-    FMDatabase *db = self.db;
-    FMResultSet *rs = [db executeQuery:@"SELECT uid FROM group_message_readed WHERE msg_id = ?", @(msgId)];
-    NSMutableArray *array = [NSMutableArray array];
-    while ([rs next]) {
-        int64_t uid = [rs longLongIntForColumn:@"uid"];
-        [array addObject:@(uid)];
-    }
-    [rs close];
+        __block   NSMutableArray *array = [NSMutableArray array];
+        [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            FMResultSet *rs = [db executeQuery:@"SELECT uid FROM group_message_readed WHERE msg_id = ?", @(msgId)];
+            while ([rs next]) {
+                int64_t uid = [rs longLongIntForColumn:@"uid"];
+                [array addObject:@(uid)];
+            }
+            [rs close];
+            
+        }];
+      
     return array;
 }
 @end

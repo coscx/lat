@@ -1,6 +1,6 @@
-/*                                                                            
-  Copyright (c) 2014-2015, GoBelieve     
-    All rights reserved.		    				     			
+/*
+  Copyright (c) 2014-2015, GoBelieve
+    All rights reserved.
  
   This source code is licensed under the BSD-style license found in the
   LICENSE file in the root directory of this source tree. An additional grant
@@ -31,7 +31,7 @@
 
 #define MSG_CUSTOMER_ 24
 #define MSG_CUSTOMER_SUPPORT_ 25
-#define MSG_VOIP_CONTROL 64
+
 
 //客户端->服务端
 #define MSG_SYNC  26 //同步消息
@@ -54,7 +54,9 @@
 #define MSG_GROUP_SYNC_KEY 35
 
 #define MSG_METADATA 37
+
 #define MSG_CUSTOMER 38
+
 
 #define PLATFORM_IOS  1
 #define PLATFORM_ANDROID 2
@@ -73,24 +75,26 @@
 #define MSG_ACK_NOT_MY_FRIEND  1
 #define MSG_ACK_NOT_YOUR_FRIEND  2
 #define MSG_ACK_IN_YOUR_BLACKLIST  3
-#define MSg_ACK_NOT_GROUP_MEMBER  64
+#define MSG_ACK_NOT_GROUP_MEMBER  64
 
 @interface IMMessage : NSObject
 @property(nonatomic, assign)int64_t sender;
 @property(nonatomic, assign)int64_t receiver;
 @property(nonatomic, assign)int32_t timestamp;
-@property(nonatomic, assign)int32_t msgLocalID;
+@property(nonatomic, assign)int64_t msgLocalID;
 @property(nonatomic, copy)NSString *content;
 
-@property(nonatomic, copy)NSString *plainContent;
+@property(nonatomic)NSDictionary *dict;//content dict
+
 @property(nonatomic, assign)BOOL secret;
+
+//文本消息
+@property(nonatomic, assign) BOOL isText;
 //群组已读消息，通过点对点消息来发送
 @property(nonatomic, assign)int64_t groupID;
 
 //会话未读数减一
 @property(nonatomic, assign)BOOL decrementUnread;
-//文本消息
-@property(nonatomic, assign) BOOL isText;
 
 //消息由当前用户在当前设备发出
 @property(nonatomic, assign) BOOL isSelf;
@@ -98,22 +102,15 @@
 @property(nonatomic, assign) BOOL isGroupNotification;
 @end
 
+
 typedef IMMessage GroupMessage;
 typedef IMMessage PeerMessage;
 
-@interface CustomerMessage : NSObject
-//本地消息id 不会序列化传到服务器
-@property(nonatomic, assign)int32_t msgLocalID;
 
-@property(nonatomic, assign)int64_t customerAppID;
-@property(nonatomic, assign)int64_t customerID;
-@property(nonatomic, assign)int64_t storeID;
-@property(nonatomic, assign)int64_t sellerID;
-@property(nonatomic, assign)int32_t timestamp;
-@property(nonatomic, copy)NSString *content;
 
-//消息由当前用户在当前设备发出
-@property(nonatomic, assign) BOOL isSelf;
+@interface CustomerMessage : IMMessage
+@property(nonatomic, assign)int64_t senderAppID;
+@property(nonatomic, assign)int64_t receiverAppID;
 @end
 
 @interface RoomMessage : NSObject
@@ -131,12 +128,6 @@ typedef RoomMessage RTMessage;
 @property(nonatomic, copy) NSString *deviceID;
 @end
 
-@interface VOIPControl : NSObject
-@property(nonatomic, assign) int64_t sender;
-@property(nonatomic, assign) int64_t receiver;
-@property(nonatomic) NSData *content;
-
-@end
 
 @interface ACKMessage : NSObject
 @property(nonatomic, assign) int seq;

@@ -18,7 +18,7 @@
 
 
 
-@property(nonatomic, strong) FMDatabase *db;
+
 @property (nonatomic, strong) FMDatabaseQueue *db;
 @property(nonatomic, assign) BOOL secret;
 

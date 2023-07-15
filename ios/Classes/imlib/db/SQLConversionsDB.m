@@ -151,7 +151,7 @@
     return  isSuccess;
 
 }
--(Conversation*)getConversation:(long long)cid type:(int)type {
+-(Conversation*)getConversation:(int)cid type:(int)type {
     __block    Conversation *con = [[Conversation alloc] init];
     [self.db inDatabase:^(FMDatabase *db) {
             
@@ -486,7 +486,7 @@
             msg.flags = [rs intForColumn:@"flags"];
             msg.secret = [rs intForColumn:@"secret"] == 1;
             msg.rawContent = [rs stringForColumn:@"content"];
-            msg.msgLocalID = [rs intForColumn:@"id"];
+            msg.msgId = [rs intForColumn:@"id"];
           
         
         }else{
@@ -526,7 +526,7 @@
             msg.flags = [rs intForColumn:@"flags"];
             msg.secret = [rs intForColumn:@"secret"] == 1;
             msg.rawContent = [rs stringForColumn:@"content"];
-            msg.msgLocalID = [rs intForColumn:@"id"];
+            msg.msgId = [rs intForColumn:@"id"];
            
         }else{
             msg = nil;
