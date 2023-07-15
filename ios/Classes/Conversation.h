@@ -27,7 +27,6 @@
 @property(nonatomic) int timestamp;
 @property(nonatomic) int flags;
 @property(nonatomic, copy) NSString *attrs;
-@property(nonatomic, copy) NSString *detail;
 @property(nonatomic) int state;
 @end
 

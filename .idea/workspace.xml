@@ -26,55 +26,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Flutter/AppFrameworkInfo.plist" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Flutter/AppFrameworkInfo.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/Database.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/Database.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/Database.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/Database.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/ConversationDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/ConversationDB.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLGroupMessageDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLGroupMessageDB.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLGroupMessageDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLGroupMessageDB.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLPeerMessageDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLPeerMessageDB.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLPeerMessageDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLPeerMessageDB.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/ICustomerMessage.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/ICustomerMessage.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/ICustomerMessage.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/ICustomerMessage.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/IMessage.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/IMessage.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/IMessage.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/IMessage.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageACK.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageACK.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageAttachment.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageAttachment.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageAttachment.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageAttachment.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageAudio.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageAudio.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageClassroom.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageClassroom.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageClassroom.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageClassroom.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageContent.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageContent.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageContent.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageContent.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageFile.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageFile.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageGroupNotification.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageGroupNotification.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageGroupVOIP.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageGroupVOIP.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageHeadline.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageHeadline.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageImage.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageImage.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageImage.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageImage.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageLocation.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageLocation.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageLocation.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageLocation.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageP2PSession.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageP2PSession.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageRevoke.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageRevoke.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageRevoke.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageRevoke.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageSecret.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageSecret.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageText.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageText.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageTimeBase.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageTimeBase.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageVOIP.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageVOIP.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageVideo.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/MessageVideo.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/Message.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/Message.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/Conversation.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/Conversation.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,20 +92,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00042" summary="code">
-      <created>1612949766185</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1612949766185</updated>
-    </task>
-    <task id="LOCAL-00043" summary="code">
-      <created>1612950070421</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1612950070421</updated>
     </task>
     <task id="LOCAL-00044" summary="code">
       <created>1612950691417</created>
@@ -482,7 +422,21 @@
       <option name="project" value="LOCAL" />
       <updated>1651480168129</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="code">
+      <created>1689429447269</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1689429447270</updated>
+    </task>
+    <task id="LOCAL-00092" summary="code">
+      <created>1689430020601</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1689430020602</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
