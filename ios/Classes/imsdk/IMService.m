@@ -870,9 +870,6 @@
     Message *m = [[Message alloc] init];
     m.cmd = MSG_CUSTOMER;
     m.body = im;
-    if (im.isText) {
-        m.flag = MSG_FLAG_TEXT;
-    }
     BOOL r = [self sendMessage:m];
     
     if (r) {

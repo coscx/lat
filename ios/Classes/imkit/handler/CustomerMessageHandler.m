@@ -42,7 +42,7 @@
 -(BOOL)handleMessage:(CustomerMessage*)msg {
     int64_t peerAppId;
     int64_t peer;
-    ICustomerMessage *m = [[ICustomerMessage alloc] init];
+    IMessage *m = [[IMessage alloc] init];
     m.senderAppID = msg.senderAppID;
     m.sender = msg.sender;
     m.receiverAppID = msg.receiverAppID;
@@ -59,7 +59,7 @@
         peer = msg.sender;
         m.isOutgoing = NO;
     }
-    
+
     if (msg.isSelf) {
         [self repairFailureMessage:m.uuid];
         return YES;
@@ -76,6 +76,7 @@
         BOOL r = [[CustomerMessageDB instance] insertMessage:m uid:peer appid:peerAppId];
         if (r) {
             msg.msgLocalID = m.msgId;
+
         }
         return r;
     }

@@ -74,8 +74,8 @@ return self;
     return nil;
 }
 
--(ICustomerMessage*)readMessage:(FMResultSet*)rs {
-    ICustomerMessage *msg = [[ICustomerMessage alloc] init];
+-(IMessage*)readMessage:(FMResultSet*)rs {
+    IMessage *msg = [[IMessage alloc] init];
     msg.senderAppID = [rs longLongIntForColumn:@"sender_appid"];
     msg.sender = [rs longLongIntForColumn:@"sender"];
     msg.receiverAppID = [rs longLongIntForColumn:@"receiver_appid"];
@@ -102,8 +102,8 @@ return self;
     return m;
 }
 
--(ICustomerMessage*)readMessage:(FMResultSet*)rs {
-    ICustomerMessage *msg = [[ICustomerMessage alloc] init];
+-(IMessage*)readMessage:(FMResultSet*)rs {
+    IMessage *msg = [[IMessage alloc] init];
     msg.senderAppID = [rs longLongIntForColumn:@"sender_appid"];
     msg.sender = [rs longLongIntForColumn:@"sender"];
     msg.receiverAppID = [rs longLongIntForColumn:@"receiver_appid"];
@@ -163,7 +163,7 @@ return self;
     return msgId;
 }
 -(BOOL)insertMessage:(IMessage*)msg uid:(int64_t)peer appid:(int64_t)peerAppId {
-    ICustomerMessage *cm = (ICustomerMessage*)msg;
+    IMessage *cm = (IMessage*)msg;
     NSString *uuid = cm.uuid ? cm.uuid : nil;
     NSString *sql = @"INSERT INTO customer_message (peer_appid, peer, store_id, sender_appid, sender, receiver_appid, receiver,\
         timestamp, flags, uuid, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -178,7 +178,7 @@ return self;
         }
         msg.msgId = [db lastInsertRowId];
     }];
-   
+
     return msgId;
 }
 
@@ -191,7 +191,7 @@ return self;
             msgId= NO;
             return;
         }
-        
+
         r = [db executeUpdate:@"DELETE FROM customer_message_fts WHERE rowid=?", @(msgLocalID)];
         if (!r) {
             NSLog(@"error = %@", [db lastErrorMessage]);
@@ -199,7 +199,7 @@ return self;
             return;;
         }
     }];
-   
+
     return msgId;
 }
 
@@ -212,7 +212,7 @@ return self;
         msgId=  NO;
     }
     }];
-   
+
     return msgId;
 }
 
@@ -225,7 +225,7 @@ return self;
         msgId=  NO;
     }
    }];
-  
+
    return msgId;
 }
 
@@ -238,23 +238,23 @@ return self;
         msgId=  NO;
     }
     }];
-   
+
     return msgId;
 }
 
 -(BOOL)updateMessageContent:(int64_t)msgLocalID content:(NSString*)content {
     __block bool msgId = YES;
     [self.db inDatabase:^(FMDatabase *db) {
-    
+
         BOOL r = [db executeUpdate:@"UPDATE group_message SET content=? WHERE id=?", content, @(msgLocalID)];
         if (!r) {
             NSLog(@"error = %@", [db lastErrorMessage]);
             msgId=  NO;
         }
-    
+
         msgId= [db changes] == 1;
     }];
-   
+
     return msgId;
 }
 
@@ -267,7 +267,7 @@ return self;
         msgId= NO;
     }
     }];
-   
+
     return msgId;
 }
 
@@ -298,18 +298,18 @@ return self;
     if ([rs next]) {
         int flags = [rs intForColumn:@"flags"];
         flags |= f;
-        
-        
+
+
         BOOL r = [db executeUpdate:@"UPDATE customer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
         if (!r) {
             NSLog(@"error = %@", [db lastErrorMessage]);
             msgId= NO;
         }
     }
-    
+
     [rs close];
     }];
-   
+
     return msgId;
 }
 
@@ -324,36 +324,36 @@ return self;
     }
     if ([rs next]) {
         int flags = [rs intForColumn:@"flags"];
-        
+
         int f = MESSAGE_FLAG_FAILURE;
         flags &= ~f;
-        
+
         BOOL r = [db executeUpdate:@"UPDATE customer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
         if (!r) {
             NSLog(@"error = %@", [db lastErrorMessage]);
             msgId=  NO;
         }
     }
-    
+
     [rs close];
     }];
-   
+
     return msgId;
-    
+
 }
 
 
 -(BOOL)updateFlags:(int64_t)msgLocalID flags:(int)flags {
     __block bool msgId = YES;
     [self.db inDatabase:^(FMDatabase *db) {
-    
+
     BOOL r = [db executeUpdate:@"UPDATE customer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
     if (!r) {
         NSLog(@"error = %@", [db lastErrorMessage]);
         msgId= NO;
     }
     }];
-   
+
     return msgId;
 }
 
@@ -374,10 +374,13 @@ return self;
     return [[SQLCustomerMessageIterator alloc] initWithDB:self.db uid:uid appID:appID position:lastMsgID];
 }
 
+-(id<IMessageIterator>)newBackForwardMessageIterator:(int64_t)uid appID:(int64_t)appID last:(int64_t)lastMsgID {
+    return [[SQLCustomerMessageIterator alloc] initWithDB:self.db uid:uid appID:appID position:lastMsgID];
+}
 
 
 -(BOOL)saveMessage:(IMessage*)msg {
-    ICustomerMessage *cm = (ICustomerMessage*)msg;
+    IMessage *cm = (IMessage*)msg;
     return [self insertMessage:msg uid:cm.receiver appid:cm.receiverAppID];
 }
 

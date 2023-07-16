@@ -88,7 +88,7 @@
         }
         memcpy(p, s, l);
         return [NSData dataWithBytes:buf length:HEAD_SIZE + 24 +l];
-    } else if (self.cmd == MSG_CUSTOMER || self.cmd == MSG_CUSTOMER_SUPPORT) {
+    } else if (self.cmd == MSG_CUSTOMER) {
         CustomerMessage *m = (CustomerMessage*)self.body;
         writeInt64(m.senderAppID, p);
        p += 8;

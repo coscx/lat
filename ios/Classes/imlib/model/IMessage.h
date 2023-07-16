@@ -52,6 +52,8 @@
 @property(nonatomic) int flags;
 @property(nonatomic) int64_t sender;
 @property(nonatomic) int64_t receiver;
+@property(nonatomic) int64_t senderAppID;
+@property(nonatomic) int64_t receiverAppID;
 @property(nonatomic) BOOL secret;
 @property(nonatomic) NSString *rawContent;
 @property(nonatomic, readonly) int type;

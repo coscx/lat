@@ -24,6 +24,7 @@
 -(id<IConversationIterator>)getConvIterator:(int64_t)ids;
 -(BOOL)addConversation:(Conversation*)conv;
 -(BOOL)removeConversation:(Conversation*)conv;
+-(Conversation*)getConversation:(int64_t)rowid;
 -(Conversation*)getConversation:(int)cid type:(int)type;
 -(Conversation*)getConversation:(int)cid appid:(int)appid type:(int)type;
 -(NSMutableArray*)getConversations:(int)cid;

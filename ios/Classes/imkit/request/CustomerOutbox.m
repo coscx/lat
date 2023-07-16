@@ -31,21 +31,21 @@
 
 
 - (void)sendMessage:(IMessage*)m{
-    ICustomerMessage *msg = (ICustomerMessage*)m;
-    CustomerMessage *im = [[CustomerMessage alloc] init];
+    IMessage *msg = (IMessage*)m;
+    IMessage *im = [[IMessage alloc] init];
 
     im.senderAppID = msg.senderAppID;
     im.receiverAppID = msg.receiverAppID;
     im.sender = msg.sender;
     im.receiver = msg.receiver;
-    im.msgLocalID = msg.msgId;
-    im.content = msg.rawContent;
-    
-    [[IMService instance] sendCustomerMessageAsync:im];
+    im.msgId = msg.msgId;
+    im.content = msg.content;
+
+    [[IMService instance] sendCustomerMessageAsync:(CustomerMessage *)im];
 }
 
 -(void)markMessageFailure:(IMessage*)msg {
-    ICustomerMessage *cm = (ICustomerMessage*)msg;
+    IMessage *cm = (IMessage*)msg;
     [[CustomerMessageDB instance] markMessageFailure:cm.msgId];
 }
 

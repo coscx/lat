@@ -213,32 +213,33 @@ GroupMessageObserver>
 
 #pragma mark - api
 - (void)deleteConversation:(NSDictionary *)args result:(FlutterResult)result {
-    int cid = [self getIntValueFromArgs:args forKey:@"cid"];
-    int type = [self getIntValueFromArgs:args forKey:@"type"];
-    NSMutableArray *convs = [NSMutableArray arrayWithArray:self.conversations];
-    for (Conversation *con in self.conversations) {
-        if (con.cid == cid) {
-            [convs removeObject:con];
+    int rowid = [self getIntValueFromArgs:args forKey:@"rowid"];
+    Conversation *con = [[ConversationDB instance] getConversation:rowid];
+    if(con){
+        if(con.type==1){
+
+            if (con) {
+                [[ConversationDB instance] removeConversation:con];
+                [[PeerMessageDB instance] clearConversation:con.cid];
+            }
         }
-        if (con.type == CONVERSATION_PEER) {
-            [[PeerMessageDB instance] clearConversation:con.cid];
-        } else if (con.type == CONVERSATION_GROUP){
-            [[GroupMessageDB instance] clearConversation:con.cid];
+        if(con.type==2){
+            Conversation *con = [[ConversationDB instance] getConversation:rowid];
+               if (con) {
+                   [[ConversationDB instance] removeConversation:con];
+                   [[GroupMessageDB instance] clearConversation:con.cid];
+               }
+        }
+        if(con.type==3){
+            int appid = [self getIntValueFromArgs:args forKey:@"appid"];
+
+               if (con) {
+                   [[ConversationDB instance] removeConversation:con];
+                   [[CustomerMessageDB instance] clearConversation:con.cid appID:appid];
+               }
         }
     }
-    self.conversations = convs;
-    if(type==0){
-     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
-        if (con) {
-            [[ConversationDB instance] removeConversation:con];
-        }
-    }
-    if(type==1){
-        Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
-           if (con) {
-               [[ConversationDB instance] removeConversation:con];
-           }
-    }
+
     result([self resultSuccess:@"完成"]);
 }
 
@@ -273,7 +274,7 @@ GroupMessageObserver>
     int cid = [self getIntValueFromArgs:args forKey:@"cid"];
     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
         if (con) {
-            [[ConversationDB instance] setNewCount:con.id count:0];
+            [[ConversationDB instance] setNewCount:con.rowid count:0];
         }
 
     result([self resultSuccess:@"完成"]);
@@ -282,7 +283,7 @@ GroupMessageObserver>
     int cid = [self getIntValueFromArgs:args forKey:@"cid"];
     Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
         if (con) {
-            [[ConversationDB instance] setNewCount:con.id count:0];
+            [[ConversationDB instance] setNewCount:con.rowid count:0];
         }
 
     result([self resultSuccess:@"完成"]);
@@ -292,7 +293,7 @@ GroupMessageObserver>
     int cid = [self getIntValueFromArgs:args forKey:@"cid"];
     Conversation *con = [[ConversationDB instance] getConversation:cid appid:appid type:CONVERSATION_CUSTOMER_SERVICE];
         if (con) {
-            [[ConversationDB instance] setNewCount:con.id count:0];
+            [[ConversationDB instance] setNewCount:con.rowid count:0];
         }
 
     result([self resultSuccess:@"完成"]);
@@ -384,12 +385,12 @@ GroupMessageObserver>
     msg.secret = [self getBoolValueFromArgs:args forKey:@"secret"];
     return msg;
 }
-- (ICustomerMessage *)newCustomerOutMessage:(NSDictionary *)args {
-    ICustomerMessage *msg = [[ICustomerMessage alloc] init];
+- (IMessage *)newCustomerOutMessage:(NSDictionary *)args {
+    IMessage *msg = [[IMessage alloc] init];
     msg.sender = [self getIntValueFromArgs:args forKey:@"sender"];
     msg.receiver = [self getIntValueFromArgs:args forKey:@"receiver"];
-    msg.senderAppID = [self getBoolValueFromArgs:args forKey:@"sender_appid"];
-    msg.receiverAppID = [self getBoolValueFromArgs:args forKey:@"receiver_appid"];
+    msg.senderAppID = [self getIntValueFromArgs:args forKey:@"sender_appid"];
+    msg.receiverAppID = [self getIntValueFromArgs:args forKey:@"receiver_appid"];
     return msg;
 }
 - (void)sendMessage:(NSDictionary *)args result:(FlutterResult)result {
@@ -769,7 +770,7 @@ GroupMessageObserver>
 -(void)sendFlutterCustomerMessage:(NSDictionary *)args result:(FlutterResult)result {
     int type = [self getIntValueFromArgs:args forKey:@"type"];
     NSDictionary *params = args[@"message"];
-    ICustomerMessage *message = [self newCustomerOutMessage:params];
+    IMessage *message = [self newCustomerOutMessage:params];
 
     if (type == MESSAGE_TEXT) {
         MessageTextContent *content = [[MessageTextContent alloc] initWithText:[self getStringValueFromArgs:params forKey:@"rawContent"]];
@@ -1469,7 +1470,7 @@ GroupMessageObserver>
         if (self.currentUID == msg.receiver) {
             Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
              if (con) {
-                            [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
+                            [[ConversationDB instance] setNewCount:con.rowid count:con.newMsgCount +1];
 
              }
         }
@@ -1521,7 +1522,7 @@ GroupMessageObserver>
       Conversation *con_db = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
       if (con_db) {
          if (self.currentUID != msg.sender) {
-              [[ConversationDB instance] setNewCount:con_db.id count:con_db.newMsgCount +1];
+              [[ConversationDB instance] setNewCount:con_db.rowid count:con_db.newMsgCount +1];
             }
         } else{
 
@@ -1564,14 +1565,14 @@ GroupMessageObserver>
     }]];
 }
 
--(void)onNewCustomerMessage:(ICustomerMessage*)msg cid:(int64_t)cid appid:(int64_t)appid{
+-(void)onNewCustomerMessage:(IMessage*)msg cid:(int64_t)cid appid:(int64_t)appid{
 
     Conversation *con = [[ConversationDB instance] getConversation:cid  appid:appid type:CONVERSATION_CUSTOMER_SERVICE];
 
 
     if (con != nil) {
         if (self.currentUID == msg.receiver) {
-        [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
+        [[ConversationDB instance] setNewCount:con.rowid count:con.newMsgCount +1];
         }
     } else {
         Conversation *con = [[Conversation alloc] init];
@@ -1579,15 +1580,8 @@ GroupMessageObserver>
         con.appid = appid;
         con.cid = cid;
         con.message = msg;
-
-        [self updateConvNotificationDesc:con];
-        [self updateConversationDetail:con];
-
-        if (self.currentUID == msg.receiver) {
-            con.newMsgCount += 1;
-        }
         [[ConversationDB instance] addConversation:con];
-        [self.conversations insertObject:con atIndex:0];
+
     }
     [self callFlutter:[self resultSuccess:@{
         @"type": @"onNewCustomerMessage"
@@ -1643,7 +1637,7 @@ GroupMessageObserver>
 
 #pragma mark - CustomerMessageObserver
 - (void)onCustomerMessage:(CustomerMessage *)im {
-    ICustomerMessage *m = [[ICustomerMessage alloc] init];
+    IMessage *m = [[IMessage alloc] init];
     m.sender = im.sender;
     m.receiver = im.receiver;
     m.senderAppID =im.senderAppID;
@@ -1673,15 +1667,14 @@ GroupMessageObserver>
 
     [self onNewCustomerMessage:m cid:cid appid:m.senderAppID];
 }
-- (void)onCustomerMessageACK:(ICustomerMessage *)im error:(int)error {
+- (void)onCustomerMessageACK:(CustomerMessage *)im{
     [self callFlutter:[self resultSuccess:@{
         @"type": @"onCustomerMessageACK",
-        @"error": @(error),
         @"result": [im mj_keyValues]
     }]];
 }
 
-- (void)onCustomerMessageFailure:(ICustomerMessage *)msg {
+- (void)onCustomerMessageFailure:(CustomerMessage *)msg {
     [self callFlutter:[self resultSuccess:@{
         @"type": @"onCustomerMessageFailure",
         @"result": [msg mj_keyValues]
@@ -1961,7 +1954,7 @@ GroupMessageObserver>
     int count = 0;
     id<IMessageIterator> iterator;
     CustomerMessageDB *db = (CustomerMessageDB *)self.messageDB;
-    ICustomerMessage *msg = [db getMessage:messageID];
+    IMessage *msg = [db getMessage:messageID];
     if (!msg) {
         return nil;
     }
@@ -2013,8 +2006,8 @@ GroupMessageObserver>
     int count = 0;
     int pageSize;
     id<IMessageIterator> iterator;
-
-    iterator = [self.messageDB newMessageIterator: self.conversationID];
+    SQLCustomerMessageDB *db = (SQLCustomerMessageDB*)self.messageDB;
+    iterator = [db newMessageIterator: uid appID:appId];
     pageSize = PAGE_COUNT;
 
 
@@ -2131,7 +2124,7 @@ GroupMessageObserver>
         im.msgLocalID = message.msgId;
         im.isText = YES;
         im.content = message.rawContent;
-       
+
         BOOL r = YES;
         if (secret) {
             r = [self encrypt:im];
@@ -2174,7 +2167,7 @@ GroupMessageObserver>
         im.msgLocalID = message.msgId;
         im.isText = YES;
         im.content = message.rawContent;
-    
+
         BOOL r = YES;
         if (secret) {
             r = [self encrypt:im];
@@ -2186,14 +2179,14 @@ GroupMessageObserver>
     }
 }
 - (void)sendFlutterMessage:(IMessage *)message secret:(BOOL)secret{
-   
+
         IMMessage *im = [[IMMessage alloc] init];
         im.sender = message.sender;
         im.receiver = message.receiver;
         im.msgLocalID = message.msgId;
         im.isText = YES;
         im.content = message.rawContent;
-        
+
 
         BOOL r = YES;
         if (secret) {
@@ -2203,17 +2196,17 @@ GroupMessageObserver>
             [[IMService instance] sendPeerMessageAsync:im];
         }
         [self onNewMessage:message cid:message.receiver];
-    
+
 }
 - (void)sendFlutterGroupMessage:(IMessage *)message secret:(BOOL)secret{
-    
+
         IMMessage *im = [[IMMessage alloc] init];
         im.sender = message.sender;
         im.receiver = message.receiver;
         im.msgLocalID = message.msgId;
         im.isText = YES;
         im.content = message.rawContent;
-       
+
 
         BOOL r = YES;
         if (secret) {
@@ -2223,20 +2216,21 @@ GroupMessageObserver>
             [[IMService instance] sendGroupMessageAsync:im];
         }
         [self onNewGroupMessage:message cid:message.receiver];
-    
+
 }
-- (void)sendFlutterCustomerMessage:(ICustomerMessage *)message secret:(BOOL)secret{
+- (void)sendFlutterCustomerMessage:(IMessage *)message secret:(BOOL)secret{
 
         CustomerMessage *im = [[CustomerMessage alloc] init];
-        im.senderAppID = message.sender;
-        im.receiver = message.receiver;
-        im.receiverAppID = message.sender;
+        im.senderAppID = message.senderAppID;
+        im.sender = message.sender;
+        im.receiverAppID = message.receiverAppID;
         im.receiver = message.receiver;
         im.msgLocalID = message.msgId;
         im.content = message.rawContent;
         [[IMService instance] sendCustomerMessageAsync:im];
-    
-        [self onNewCustomerMessage:(ICustomerMessage*)im cid:im.receiver appid:im.receiverAppID];
+
+
+        [self onNewCustomerMessage:(IMessage*)im cid:im.sender appid:im.senderAppID];
 
 }
 
