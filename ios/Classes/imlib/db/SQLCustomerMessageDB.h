@@ -26,11 +26,11 @@
 -(id<IMessageIterator>)newForwardMessageIterator:(int64_t)storeID last:(int64_t)lastMsgID;
 
 -(id<IMessageIterator>)newMessageIterator:(int64_t)uid appID:(int64_t)appID;
--(id<IMessageIterator>)newForwardMessageIterator:(int64_t)uid appID:(int64_t)appID last:(int64_t)lastMsgID;
-
--(IMessage*)getLastMessage:(int64_t)uid appID:(int64_t)appID;
--(IMessage*)getLastMessage:(int64_t)storeID;
--(IMessage*)getMessage:(int64_t)msgID;
+-(id<IMessageIterator>)newForwardMessageIterator:(int64_t)uid appID:(int64_t)appID messageID:(int64_t)lastMsgID;
+-(id<IMessageIterator>)newBackwardMessageIterator:(int64_t)uid appID:(int64_t)appID messageID:(int64_t)lastMsgID;
+-(ICustomerMessage*)getLastMessage:(int64_t)uid appID:(int64_t)appID;
+-(ICustomerMessage*)getLastMessage:(int64_t)storeID;
+-(ICustomerMessage*)getMessage:(int64_t)msgID;
 -(int64_t)getMessageId:(NSString*)uuid;
 -(BOOL)insertMessage:(IMessage*)msg uid:(int64_t)peer appid:(int64_t)peerAppId;
 -(BOOL)removeMessage:(int64_t)msgLocalID;

@@ -25,7 +25,18 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code" />
+    <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/Database.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/Database.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imkit/handler/GroupMessageHandler.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imkit/handler/GroupMessageHandler.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/EPeerMessageDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/EPeerMessageDB.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/Message.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/Message.m" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -88,13 +99,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00046" summary="code">
-      <created>1613026128550</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1613026128550</updated>
     </task>
     <task id="LOCAL-00047" summary="code">
       <created>1613031431687</created>
@@ -432,7 +436,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689432242158</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="code">
+      <created>1689432540116</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1689432540117</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

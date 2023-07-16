@@ -261,13 +261,7 @@
     [self pong];
 }
 
--(void)handleVOIPControl:(Message*)msg {
-    VOIPControl *ctl = (VOIPControl*)msg.body;
-    id<VOIPObserver> ob = [self.voipObservers lastObject];
-    if (ob) {
-        [ob onVOIPControl:ctl];
-    }
-}
+
 -(void)handleRoomMessage:(Message*)msg {
     RoomMessage *rm = (RoomMessage*)msg.body;
     [self publishRoomMessage:rm];
@@ -610,9 +604,7 @@
         [self handleCustomerMessage:msg];
     } else if (msg.cmd == MSG_RT) {
         [self handleRTMessage:msg];
-    } else if (msg.cmd == MSG_VOIP_CONTROL) {
-        [self handleVOIPControl:msg];
-    }else if (msg.cmd == MSG_SYNC_NOTIFY) {
+    } else if (msg.cmd == MSG_SYNC_NOTIFY) {
         [self handleSyncNotify:msg];
     } else if (msg.cmd == MSG_SYNC_BEGIN) {
         [self handleSyncBegin:msg];
@@ -629,7 +621,7 @@
     } else {
         NSLog(@"cmd:%d no handler", msg.cmd);
     }
-    
+
     if (msg.flag & MSG_FLAG_PUSH) {
         //保存synckey
         int64_t newSyncKey = metadata.syncKey;
@@ -639,9 +631,9 @@
             }
             IMMessage *m = (IMMessage*)msg.body;
             int64_t groupID = m.receiver;
-            
+
             GroupSync *s = [self.groupSyncKeys objectForKey:@(groupID)];
-            
+
             if (newSyncKey != s.syncKey) {
                 s.syncKey = newSyncKey;
                 [self.syncKeyHandler saveGroupSyncKey:newSyncKey gid:groupID];
@@ -755,20 +747,7 @@
     [self.rtObservers removeObject:value];
 }
 
--(void)pushVOIPObserver:(id<VOIPObserver>)ob {
-    [self.voipObservers addObject:ob];
-}
 
--(void)popVOIPObserver:(id<VOIPObserver>)ob {
-    NSInteger count = [self.voipObservers count];
-    if (count == 0) {
-        return;
-    }
-    id<VOIPObserver> top = [self.voipObservers objectAtIndex:count-1];
-    if (top == ob) {
-        [self.voipObservers removeObject:top];
-    }
-}
 -(void)removeSuperGroupSyncKey:(int64_t)gid {
     NSNumber *k = [NSNumber numberWithLongLong:gid];
     [self.groupSyncKeys removeObjectForKey:k];

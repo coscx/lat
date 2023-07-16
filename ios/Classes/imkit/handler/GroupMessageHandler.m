@@ -28,13 +28,13 @@
 -(void)repairFailureMessage:(NSString*)uuid {
     GroupMessageDB *db = [GroupMessageDB instance];
     if (uuid.length > 0) {
-        int msgId = [db getMessageId:uuid];
+        int64_t msgId = [db getMessageId:uuid];
         IMessage *mm = [db getMessage:msgId];
         if (mm != nil) {
             if ((mm.flags & MESSAGE_FLAG_FAILURE) != 0 || (mm.flags & MESSAGE_FLAG_ACK) == 0) {
                 mm.flags = mm.flags & (~MESSAGE_FLAG_FAILURE);
                 mm.flags = mm.flags | MESSAGE_FLAG_ACK;
-                [db updateFlags:mm.msgLocalID flags:mm.flags];
+                [db updateFlags:mm.msgId flags:mm.flags];
             }
         }
     }
@@ -73,7 +73,7 @@
             [self repairFailureMessage:m.uuid];
         } else if (m.type == MESSAGE_REVOKE) {
             MessageRevoke *revoke = m.revokeContent;
-            int msgId = [[GroupMessageDB instance] getMessageId:revoke.msgid];
+            int64_t msgId = [[GroupMessageDB instance] getMessageId:revoke.msgid];
             if (msgId > 0) {
                 [[GroupMessageDB instance] updateMessageContent:msgId content:im.content];
                 [[GroupMessageDB instance] removeMessageIndex:msgId];
@@ -89,7 +89,7 @@
     for (NSInteger i = 0; i < insertedMsgs.count; i++) {
         IMessage *imsg = [imsgs objectAtIndex:i];
         IMMessage *im = [insertedMsgs objectAtIndex:i];
-        im.msgLocalID = imsg.msgLocalID;
+        im.msgLocalID = imsg.msgId;
     }
     return YES;
 }
@@ -103,7 +103,7 @@
             MessageContent *content = [IMessage fromRaw:msg.content];
             if (content.type == MESSAGE_REVOKE) {
                 MessageRevoke *revoke = (MessageRevoke*)content;
-                int revokedMsgId = [[GroupMessageDB instance] getMessageId:revoke.msgid];
+                int64_t revokedMsgId = [[GroupMessageDB instance] getMessageId:revoke.msgid];
                 if (revokedMsgId > 0) {
                     [[GroupMessageDB instance]  updateMessageContent:revokedMsgId content:msg.content];
                     [[GroupMessageDB instance] removeMessageIndex:revokedMsgId];

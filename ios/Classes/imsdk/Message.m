@@ -90,16 +90,16 @@
         return [NSData dataWithBytes:buf length:HEAD_SIZE + 24 +l];
     } else if (self.cmd == MSG_CUSTOMER || self.cmd == MSG_CUSTOMER_SUPPORT) {
         CustomerMessage *m = (CustomerMessage*)self.body;
-        writeInt64(m.customerAppID, p);
-        p += 8;
-        writeInt64(m.customerID, p);
-        p += 8;
-        writeInt64(m.storeID, p);
-        p += 8;
-        writeInt64(m.sellerID, p);
-        p += 8;
-        writeInt32(m.timestamp, p);
-        p += 4;
+        writeInt64(m.senderAppID, p);
+       p += 8;
+       writeInt64(m.sender, p);
+       p += 8;
+       writeInt64(m.receiverAppID, p);
+       p += 8;
+       writeInt64(m.receiver, p);
+       p += 8;
+       writeInt32(m.timestamp, p);
+       p += 4;
         const char *s = [m.content UTF8String];
         size_t l = strlen(s);
         if ((l + 36) >= 32*1024) {
@@ -180,16 +180,16 @@
         m.content = [[NSString alloc] initWithBytes:p length:data.length-32 encoding:NSUTF8StringEncoding];
         self.body = m;
         return YES;
-    } else if (self.cmd == MSG_CUSTOMER || self.cmd == MSG_CUSTOMER_SUPPORT) {
+    } else if (self.cmd == MSG_CUSTOMER ) {
         CustomerMessage *m = [[CustomerMessage alloc] init];
-        m.customerAppID = readInt64(p);
-        p += 8;
-        m.customerID = readInt64(p);
-        p += 8;
-        m.storeID = readInt64(p);
-        p += 8;
-        m.sellerID = readInt64(p);
-        p += 8;
+        m.senderAppID = readInt64(p);
+       p += 8;
+       m.sender = readInt64(p);
+       p += 8;
+       m.receiverAppID = readInt64(p);
+       p += 8;
+       m.receiver = readInt64(p);
+       p += 8;
         m.timestamp = readInt32(p);
         p += 4;
         m.content = [[NSString alloc] initWithBytes:p length:data.length- HEAD_SIZE - 36 encoding:NSUTF8StringEncoding];

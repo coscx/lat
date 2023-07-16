@@ -1,659 +1,401 @@
-#import "SQLConversionsDB.h"
-#import "Conversation.h"
-#import "NSString+JSMessagesView.h"
+#import "SQLCustomerMessageDB.h"
 
-@interface SQLConversionsIterator : NSObject<IConversationIterator>
+@interface SQLCustomerMessageIterator : NSObject<IMessageIterator>
 
--(SQLConversionsIterator*)initWithDB:(FMDatabaseQueue*)db peer:(int64_t)peer secret:(BOOL)secret;
+-(SQLCustomerMessageIterator*)initWithDB:(FMDatabaseQueue*)db store:(int64_t)store;
 
--(SQLConversionsIterator*)initWithDB:(FMDatabaseQueue*)db peer:(int64_t)peer position:(int)msgID secret:(BOOL)secret;
+-(SQLCustomerMessageIterator*)initWithDB:(FMDatabaseQueue*)db store:(int64_t)store position:(int64_t)msgID;
 
-@property(nonatomic, strong) FMResultSet *rs;
+-(SQLCustomerMessageIterator*)initWithDB:(FMDatabaseQueue*)db uid:(int64_t)uid appID:(int64_t)appID;
+
+-(SQLCustomerMessageIterator*)initWithDB:(FMDatabaseQueue*)db uid:(int64_t)uid appID:(int64_t)appID position:(int64_t)msgID;
+
+@property(nonatomic) FMResultSet *rs;
 @end
 
-@implementation SQLConversionsIterator
+@implementation SQLCustomerMessageIterator
 
 //thread safe problem
 -(void)dealloc {
     [self.rs close];
 }
--(SQLConversionsIterator*)initWithDB:(FMDatabaseQueue*)db {
-    
+
+-(SQLCustomerMessageIterator*)initWithDB:(FMDatabaseQueue*)db store:(int64_t)store {
     self = [super init];
     if (self) {
         [db inDatabase:^(FMDatabase *db) {
-            NSString *sql = @"SELECT * FROM conversation   ORDER BY id DESC";
-            FMResultSet *rs = [db executeQuery:sql];
-            self.rs=rs;
-            [rs close];
-        }];
-    }
-    return self;
-    
-}
--(SQLConversionsIterator*)initWithDB:(FMDatabaseQueue*)db peer:(int64_t)peer secret:(BOOL)secret {
-    
-    self = [super init];
-    if (self) {
-        [db inDatabase:^(FMDatabase *db) {
-            int s = secret ? 1 : 0;
-            NSString *sql = @"SELECT id, sender, receiver, timestamp, secret, flags, content FROM peer_message WHERE peer = ? AND secret = ? ORDER BY id DESC";
-            FMResultSet *rs = [db executeQuery:sql, @(peer), @(s)];
-            self.rs=rs;
-            [rs close];
+            NSString *sql = @"SELECT id, sender_appid, sender, receiver_appid, receiver, timestamp, flags, content FROM customer_message WHERE store_id = ? ORDER BY id DESC";
+            self.rs = [db executeQuery:sql, @(store)];
         }];
     }
     return self;
 
 }
 
--(SQLConversionsIterator*)initWithDB:(FMDatabaseQueue*)db peer:(int64_t)peer position:(int)msgID secret:(BOOL)secret {
-    
-    self = [super init];
-    __block BOOL secrets = secret;
-    if (self) {
-        [db inDatabase:^(FMDatabase *db) {
-            int s = secrets ? 1 : 0;
-            NSString *sql = @"SELECT id, sender, receiver, timestamp, secret, flags, content FROM peer_message WHERE peer = ? AND secret = ? AND id < ? ORDER BY id DESC";
-            FMResultSet *rs = [db executeQuery:sql, @(peer), @(s), @(msgID)];
-            self.rs=rs;
-            [rs close];
-        }];
-    }
-    return self;
- 
-}
-
-
-//上拉刷新
--(SQLConversionsIterator*)initWithDB:(FMDatabaseQueue*)db peer:(int64_t)peer last:(int)msgID secret:(BOOL)secret {
+-(SQLCustomerMessageIterator*)initWithDB:(FMDatabaseQueue*)db store:(int64_t)store position:(int64_t)msgID {
     self = [super init];
     if (self) {
         [db inDatabase:^(FMDatabase *db) {
-            int s = secret ? 1 : 0;
-            NSString *sql = @"SELECT id, sender, receiver, timestamp, secret, flags, content FROM peer_message WHERE peer = ? AND secret = ? AND id>? ORDER BY id";
-            FMResultSet *rs = [db executeQuery:sql, @(peer), @(s), @(msgID)];
-            self.rs=rs;
-            [rs close];
+        NSString *sql = @"SELECT id, sender_appid, sender, receiver_appid, receiver, timestamp, flags, content FROM customer_message WHERE store_id = ? AND id < ? ORDER BY id DESC";
+        self.rs = [db executeQuery:sql, @(store), @(msgID)];
         }];
     }
     return self;
-
 }
 
--(Conversation*)next {
+-(SQLCustomerMessageIterator*)initWithDB:(FMDatabaseQueue*)db uid:(int64_t)uid appID:(int64_t)appID {
+    self = [super init];
+    if (self) {
+        [db inDatabase:^(FMDatabase *db) {
+        NSString *sql = @"SELECT id, sender_appid, sender, receiver_appid, receiver, timestamp, flags, content FROM customer_message WHERE peer_appid = ? AND peer = ? ORDER BY id DESC";
+        self.rs = [db executeQuery:sql, @(appID), @(uid)];
+        }];
+    }
+    return self;
+}
+
+-(SQLCustomerMessageIterator*)initWithDB:(FMDatabaseQueue*)db uid:(int64_t)uid appID:(int64_t)appID position:(int64_t)msgID {
+    self = [super init];
+    if (self) {
+        [db inDatabase:^(FMDatabase *db) {
+        NSString *sql = @"SELECT id, sender_appid, sender, receiver_appid, receiver, timestamp, flags, content FROM customer_message WHERE peer_appid = ? AND peer = ? AND id < ? ORDER BY id DESC";
+        self.rs = [db executeQuery:sql, @(appID), @(uid),  @(msgID)];
+    }];
+}
+return self;
+}
+
+
+-(IMessage*)next {
     BOOL r = [self.rs next];
-    if (!r) {
-        return nil;
+    if (r) {
+        return [self readMessage:self.rs];
     }
+    return nil;
+}
 
-    Conversation *con = [[Conversation alloc] init];
-    con.type = CONVERSATION_PEER;
-    con.id = [self.rs longLongIntForColumn:@"id"];
-    con.cid = [self.rs longLongIntForColumn:@"cid"];
-    con.type = [self.rs intForColumn:@"type"];
-    con.name = [self.rs stringForColumn:@"name"];
-    con.newMsgCount = [self.rs intForColumn:@"unread"];
-    return  con;
-    
+-(ICustomerMessage*)readMessage:(FMResultSet*)rs {
+    ICustomerMessage *msg = [[ICustomerMessage alloc] init];
+    msg.senderAppID = [rs longLongIntForColumn:@"sender_appid"];
+    msg.sender = [rs longLongIntForColumn:@"sender"];
+    msg.receiverAppID = [rs longLongIntForColumn:@"receiver_appid"];
+    msg.receiver = [rs longLongIntForColumn:@"receiver"];
+    msg.timestamp = [rs intForColumn:@"timestamp"];
+    msg.flags = [rs intForColumn:@"flags"];
+    msg.rawContent = [rs stringForColumn:@"content"];
+    msg.msgId = [rs longLongIntForColumn:@"id"];
+    return msg;
 }
 
 @end
 
 
-
-@implementation SQLConversionsDB
-
--(BOOL)addConversation:(Conversation *)con{
-   
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-            
-            [db executeUpdate:@"INSERT INTO conversation (cid, type, name, state, unread) VALUES (?, ?, ?, ?, ?)",
-                      @(con.cid), @(con.type), con.name, @(0), @(con.newMsgCount)];
-            
-           
-            
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
+@implementation SQLCustomerMessageDB
++(SQLCustomerMessageDB*)instance {
+    static SQLCustomerMessageDB *m;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!m) {
+            m = [[SQLCustomerMessageDB alloc] init];
         }
-        
-    }];
-    return  isSuccess;
-
+    });
+    return m;
 }
--(BOOL)removeConversation:(Conversation *)con {
 
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            long long id =[con id];
-        @try {
-            
-            [db executeUpdate:@"DELETE FROM conversation WHERE id=?", @(id) ];
-            
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
-
+-(ICustomerMessage*)readMessage:(FMResultSet*)rs {
+    ICustomerMessage *msg = [[ICustomerMessage alloc] init];
+    msg.senderAppID = [rs longLongIntForColumn:@"sender_appid"];
+    msg.sender = [rs longLongIntForColumn:@"sender"];
+    msg.receiverAppID = [rs longLongIntForColumn:@"receiver_appid"];
+    msg.receiver = [rs longLongIntForColumn:@"receiver"];
+    msg.timestamp = [rs intForColumn:@"timestamp"];
+    msg.flags = [rs intForColumn:@"flags"];
+    msg.rawContent = [rs stringForColumn:@"content"];
+    msg.msgId = [rs longLongIntForColumn:@"id"];
+    return msg;
 }
--(Conversation*)getConversation:(int)cid type:(int)type {
-    __block    Conversation *con = [[Conversation alloc] init];
+
+-(ICustomerMessage*)getLastMessage:(int64_t)uid appID:(int64_t)appID {
+    __block ICustomerMessage *msg = [[ICustomerMessage alloc] init];
     [self.db inDatabase:^(FMDatabase *db) {
-            
-        FMResultSet *rs = [db executeQuery:@"SELECT * FROM conversation WHERE cid = ? AND type = ?", @(cid), @(type)];
+        FMResultSet *rs = [db executeQuery:@"SELECT id, sender_appid, sender, receiver_appid, receiver, timestamp, flags, content FROM customer_message WHERE peer= ? AND peer_appid=? ORDER BY id DESC", @(uid), @(appID)];
         if ([rs next]) {
-         
-            con.type = CONVERSATION_PEER;
-            con.id = [rs longLongIntForColumn:@"id"];
-            con.cid = [rs longLongIntForColumn:@"cid"];
-            con.type = [rs intForColumn:@"type"];
-            con.name = [rs stringForColumn:@"name"];
-            con.newMsgCount = [rs intForColumn:@"unread"];
-    
-        
-        }else{
-            con = nil;
-        }
-        [rs close];
-    }];
-    return con;
-
-}
--(Conversation*)getConversation:(int)cid appid:(int)appid type:(int)type {
-    __block    Conversation *con = [[Conversation alloc] init];
-    [self.db inDatabase:^(FMDatabase *db) {
-
-        FMResultSet *rs = [db executeQuery:@"SELECT * FROM conversation WHERE appid =? AND  cid = ? AND type = ?", @(appid),@(cid), @(type)];
-        if ([rs next]) {
-            con.type = CONVERSATION_PEER;
-            con.id = [rs longLongIntForColumn:@"id"];
-            con.appid = [rs longLongIntForColumn:@"appid"];
-            con.cid = [rs longLongIntForColumn:@"target"];
-            con.type = [rs intForColumn:@"type"];
-            con.name = [rs stringForColumn:@"name"];
-            con.newMsgCount = [rs intForColumn:@"unread"];
-            con.attrs = [rs stringForColumn:@"attrs"];
-            con.flags = [rs intForColumn:@"flags"];
-            con.detail = [rs stringForColumn:@"detail"];
-            con.state = [rs intForColumn:@"state"];
-            con.timestamp = [rs intForColumn:@"timestamp"];
-        }else{
-            con = nil;
-        }
-        [rs close];
-    }];
-    return con;
-
-}
--(NSMutableArray*)getConversations:(int)cid {
-    NSMutableArray *convs = [NSMutableArray arrayWithCapacity:30];
-    [self.db inDatabase:^(FMDatabase *db) {
-            
-        NSString *sql = @"SELECT * FROM conversation   ORDER BY id DESC";
-        FMResultSet *rs = [db executeQuery:sql];
-        while ([rs next]) {
-            Conversation *con = [[Conversation alloc] init];
-            con.type = CONVERSATION_PEER;
-            con.id = [rs longLongIntForColumn:@"id"];
-            con.cid = [rs longLongIntForColumn:@"cid"];
-            con.type = [rs intForColumn:@"type"];
-            con.name = [rs stringForColumn:@"name"];
-            con.newMsgCount = [rs intForColumn:@"unread"];
-            con.attrs = [rs stringForColumn:@"attrs"];
-            con.flags = [rs intForColumn:@"flags"];
-            con.detail = [rs stringForColumn:@"detail"];
-            con.state = [rs intForColumn:@"state"];
-            con.timestamp = [rs intForColumn:@"timestamp"];
-            [convs addObject:con];
-            
-        }
-
-        [rs close];
-    }];
-    return convs;
-
-}
--(BOOL)setNewCount:(long long)rowid count:(int)count {
-
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-
-            [db executeUpdate:@"UPDATE conversation SET unread=? WHERE id=?", @(count), @(rowid)];
-                  
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
- 
-}
-
--(BOOL)setState:(int)id state:(int)state {
-
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-
-            [db executeUpdate:@"UPDATE conversation SET state=? WHERE id=?", @(state), @(id)];
-                  
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
-
-}
--(BOOL)resetState:(int)state {
-    
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-
-            [db executeUpdate:@"UPDATE conversation SET state=? ", @(state)];
-                  
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
-  
-}
-
--(BOOL)insertMessage:(IMessage*)msg uid:(int64_t)uid{
-   
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-            
-            int secret = self.secret ? 1 : 0;
-            NSString *uuid = msg.uuid ? msg.uuid : @"";
-            [db executeUpdate:@"INSERT INTO peer_message (peer, sender, receiver, timestamp, secret, flags, uuid, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                      @(uid), @(msg.sender), @(msg.receiver), @(msg.timestamp), @(secret), @(msg.flags), uuid, msg.rawContent];
-            
-            
-            int64_t rowID = [db lastInsertRowId];
-            msg.msgId = rowID;
-            
-            if (msg.textContent) {
-                NSString *text = [msg.textContent.text tokenizer];
-                [db executeUpdate:@"INSERT INTO peer_message_fts (docid, content) VALUES (?, ?)", @(rowID), text];
-            }
-            
-           
-            
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
-    
-    
-}
-
--(BOOL)removeMessage:(int)msgLocalID {
-    
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-            
-            [db executeUpdate:@"DELETE FROM peer_message WHERE id=?", @(msgLocalID)];
-         
-            [db executeUpdate:@"DELETE FROM peer_message_fts WHERE rowid=?", @(msgLocalID)];
-           
-           
-            
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
-
-}
-
--(BOOL)removeMessageIndex:(int)msgLocalID {
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-
-            [db executeUpdate:@"DELETE FROM peer_message_fts WHERE rowid=?", @(msgLocalID)];
-                  
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
-}
-
--(BOOL)clearConversation:(int64_t)uid {
-    
-    int secret = self.secret ? 1 : 0;
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-
-            [db executeUpdate:@"DELETE FROM peer_message WHERE peer=? AND secret=?", @(uid), @(secret)];
-                  
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
-}
-
--(BOOL)clear {
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-
-            [db executeUpdate:@"DELETE FROM peer_message"];
-                  
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
-}
-
--(BOOL)updateMessageContent:(int)msgLocalID content:(NSString*)content {
-    
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-
-            [db executeUpdate:@"UPDATE peer_message SET content=? WHERE id=?", content, @(msgLocalID)];
-                  
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
-        }
-        
-    }];
-    return  isSuccess;
-}
-
--(NSArray*)search:(NSString*)key {
-
-    NSMutableArray *array = [NSMutableArray array];
-    [self.db inDatabase:^(FMDatabase *db) {
-            
-        NSString*  keys = [key stringByReplacingOccurrencesOfString:@"'" withString:@"\'"];
-        keys = [keys tokenizer];
-        NSString *sql = [NSString stringWithFormat:@"SELECT rowid FROM peer_message_fts WHERE peer_message_fts MATCH '%@'", keys];
-        
-        FMResultSet *rs = [db executeQuery:sql];
-        
-        while ([rs next]) {
-            int64_t msgID = [rs longLongIntForColumn:@"rowid"];
-            IMessage *msg = [self getMessage:msgID];
-            if (msg) {
-                [array addObject:msg];
-            }
-        }
-        [rs close];
-    }];
-  
-    return array;
-}
-
--(IMessage*)getLastMessage:(int64_t)uid {
-    __block IMessage *msg = [[IMessage alloc] init];
-    [self.db inDatabase:^(FMDatabase *db) {
-            
-        int s = self.secret ? 1 : 0;
-        FMResultSet *rs = [db executeQuery:@"SELECT id, sender, receiver, timestamp, secret, flags, content FROM peer_message WHERE peer = ? AND secret = ? ORDER BY id DESC", @(uid), @(s)];
-        if ([rs next]) {
-            
-            msg.sender = [rs longLongIntForColumn:@"sender"];
-            msg.receiver = [rs longLongIntForColumn:@"receiver"];
-            msg.timestamp = [rs intForColumn:@"timestamp"];
-            msg.flags = [rs intForColumn:@"flags"];
-            msg.secret = [rs intForColumn:@"secret"] == 1;
-            msg.rawContent = [rs stringForColumn:@"content"];
-            msg.msgId = [rs intForColumn:@"id"];
-          
-        
-        }else{
-            msg = nil;
+            msg= [self readMessage:rs];
         }
         [rs close];
     }];
     return msg;
 }
 
--(int)getMessageId:(NSString*)uuid {
-    __block int msgId = 0;
+-(ICustomerMessage*)getLastMessage:(int64_t)storeID {
+    __block ICustomerMessage *msg = [[ICustomerMessage alloc] init];
     [self.db inDatabase:^(FMDatabase *db) {
-            
-        FMResultSet *rs = [db executeQuery:@"SELECT id FROM peer_message WHERE uuid=?", uuid];
+    FMResultSet *rs = [db executeQuery:@"SELECT id, sender_appid, sender, receiver_appid, receiver, timestamp, flags, content FROM customer_message WHERE store_id= ? ORDER BY id DESC", @(storeID)];
+    if ([rs next]) {
+        msg= [self readMessage:rs];
+    }
+        [rs close];
+    }];
+    return msg;
+}
+
+-(ICustomerMessage*)getMessage:(int64_t)msgID {
+    __block ICustomerMessage *msg = [[ICustomerMessage alloc] init];
+    [self.db inDatabase:^(FMDatabase *db) {
+    FMResultSet *rs = [db executeQuery:@"SELECT id, sender_appid, sender, receiver_appid, receiver, timestamp, flags, content FROM customer_message WHERE id= ?", @(msgID)];
+    if ([rs next]) {
+        msg= [self readMessage:rs];
+    }
+        [rs close];
+    }];
+    return msg;
+}
+
+-(int64_t)getMessageId:(NSString*)uuid {
+    __block int64_t msgId = 0;
+    [self.db inDatabase:^(FMDatabase *db) {
+        FMResultSet *rs = [db executeQuery:@"SELECT id FROM customer_message WHERE uuid= ?", uuid];
         if ([rs next]) {
             msgId = (int)[rs longLongIntForColumn:@"id"];
-            
-           
         }
         [rs close];
     }];
     return msgId;
 }
-
--(IMessage*)getMessage:(int64_t)msgID {
-
-    __block IMessage *msg = [[IMessage alloc] init];
+-(BOOL)insertMessage:(ICustomerMessage*)msg uid:(int64_t)peer appid:(int64_t)peerAppId {
+    ICustomerMessage *cm = (ICustomerMessage*)msg;
+    NSString *uuid = cm.uuid ? cm.uuid : nil;
+    NSString *sql = @"INSERT INTO customer_message (peer_appid, peer, store_id, sender_appid, sender, receiver_appid, receiver,\
+        timestamp, flags, uuid, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    __block bool msgId = YES;
     [self.db inDatabase:^(FMDatabase *db) {
-            
-        FMResultSet *rs = [db executeQuery:@"SELECT id, sender, receiver, timestamp, secret, flags, content FROM peer_message WHERE id= ?", @(msgID)];
-        if ([rs next]) {
-    
-            msg.sender = [rs longLongIntForColumn:@"sender"];
-            msg.receiver = [rs longLongIntForColumn:@"receiver"];
-            msg.timestamp = [rs intForColumn:@"timestamp"];
-            msg.flags = [rs intForColumn:@"flags"];
-            msg.secret = [rs intForColumn:@"secret"] == 1;
-            msg.rawContent = [rs stringForColumn:@"content"];
-            msg.msgId = [rs intForColumn:@"id"];
-           
-        }else{
-            msg = nil;
+        BOOL r = [db executeUpdate:sql, @(peerAppId), @(peer), @(cm.content.storeId),
+                  @(cm.senderAppID), @(cm.sender), @(cm.receiverAppID),
+                  @(cm.receiver), @(cm.timestamp), @(cm.flags), uuid, cm.rawContent];
+        if (!r) {
+            NSLog(@"error = %@", [db lastErrorMessage]);
+            msgId= NO;
         }
-        [rs close];
-        
+        msg.msgId = [db lastInsertRowId];
     }];
-    return msg;
-    
+
+    return msgId;
 }
 
--(BOOL)acknowledgeMessage:(int)msgLocalID{
+-(BOOL)removeMessage:(int64_t)msgLocalID {
+    __block bool msgId = YES;
+    [self.db inDatabase:^(FMDatabase *db) {
+        BOOL r = [db executeUpdate:@"DELETE FROM customer_message WHERE id=?", @(msgLocalID)];
+        if (!r) {
+            NSLog(@"error = %@", [db lastErrorMessage]);
+            msgId= NO;
+            return;
+        }
+
+        r = [db executeUpdate:@"DELETE FROM customer_message_fts WHERE rowid=?", @(msgLocalID)];
+        if (!r) {
+            NSLog(@"error = %@", [db lastErrorMessage]);
+            msgId= NO;
+            return;;
+        }
+    }];
+
+    return msgId;
+}
+
+-(BOOL)removeMessageIndex:(int64_t)msgLocalID {
+    __block bool msgId = YES;
+    [self.db inDatabase:^(FMDatabase *db) {
+    BOOL r = [db executeUpdate:@"DELETE FROM customer_message_fts WHERE rowid=?", @(msgLocalID)];
+    if (!r) {
+        NSLog(@"error = %@", [db lastErrorMessage]);
+        msgId=  NO;
+    }
+    }];
+
+    return msgId;
+}
+
+-(BOOL)clearConversation:(int64_t)uid appID:(int64_t)appID {
+    __block bool msgId = YES;
+   [self.db inDatabase:^(FMDatabase *db) {
+    BOOL r = [db executeUpdate:@"DELETE FROM customer_message WHERE peer=? AND peer_appid=?", @(uid), @(appID)];
+    if (!r) {
+        NSLog(@"error = %@", [db lastErrorMessage]);
+        msgId=  NO;
+    }
+   }];
+
+   return msgId;
+}
+
+-(BOOL)clearConversation:(int64_t)store {
+    __block bool msgId = YES;
+    [self.db inDatabase:^(FMDatabase *db) {
+    BOOL r = [db executeUpdate:@"DELETE FROM customer_message WHERE store=?", @(store)];
+    if (!r) {
+        NSLog(@"error = %@", [db lastErrorMessage]);
+        msgId=  NO;
+    }
+    }];
+
+    return msgId;
+}
+
+-(BOOL)updateMessageContent:(int64_t)msgLocalID content:(NSString*)content {
+    __block bool msgId = YES;
+    [self.db inDatabase:^(FMDatabase *db) {
+
+        BOOL r = [db executeUpdate:@"UPDATE group_message SET content=? WHERE id=?", content, @(msgLocalID)];
+        if (!r) {
+            NSLog(@"error = %@", [db lastErrorMessage]);
+            msgId=  NO;
+        }
+
+        msgId= [db changes] == 1;
+    }];
+
+    return msgId;
+}
+
+-(BOOL)clear {
+    __block bool msgId = YES;
+    [self.db inDatabase:^(FMDatabase *db) {
+    BOOL r = [db executeUpdate:@"DELETE FROM customer_message"];
+    if (!r) {
+        NSLog(@"error = %@", [db lastErrorMessage]);
+        msgId= NO;
+    }
+    }];
+
+    return msgId;
+}
+
+-(BOOL)acknowledgeMessage:(int64_t)msgLocalID {
     return [self addFlag:msgLocalID flag:MESSAGE_FLAG_ACK];
 }
 
--(BOOL)markMessageFailure:(int)msgLocalID {
+-(BOOL)markMessageFailure:(int64_t)msgLocalID {
     return [self addFlag:msgLocalID flag:MESSAGE_FLAG_FAILURE];
 }
 
--(BOOL)markMesageListened:(int)msgLocalID {
+-(BOOL)markMesageListened:(int64_t)msgLocalID {
     return [self addFlag:msgLocalID  flag:MESSAGE_FLAG_LISTENED];
 }
 
--(BOOL)addFlag:(int)msgLocalID flag:(int)f {
-    __block BOOL isSuccess = NO;
-    __block FMResultSet *rs =nil;
+-(BOOL)markMessageReaded:(int64_t)msgLocalID {
+    return [self addFlag:msgLocalID  flag:MESSAGE_FLAG_READED];
+}
+
+-(BOOL)addFlag:(int64_t)msgLocalID flag:(int)f {
+    __block bool msgId = YES;
     [self.db inDatabase:^(FMDatabase *db) {
-            
-        rs = [db executeQuery:@"SELECT flags FROM peer_message WHERE id=?", @(msgLocalID)];
- 
-    }];
+    FMResultSet *rs = [db executeQuery:@"SELECT flags FROM customer_message WHERE id=?", @(msgLocalID)];
     if (!rs) {
-        return isSuccess;
+        msgId= NO;
+        return;
     }
     if ([rs next]) {
         int flags = [rs intForColumn:@"flags"];
         flags |= f;
-        
-        [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-                
-            @try {
 
-                [db executeUpdate:@"UPDATE peer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
-                      
-            } @catch (NSException *exception) {
-                NSLog(@"error = %@", [exception reason]);
-                *rollback = YES;
-            } @finally {
-                isSuccess = TRUE;
-                *rollback = NO;
-                
-            }
-            
-        }];
+
+        BOOL r = [db executeUpdate:@"UPDATE customer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
+        if (!r) {
+            NSLog(@"error = %@", [db lastErrorMessage]);
+            msgId= NO;
+        }
     }
-    
+
     [rs close];
-    return isSuccess;
+    }];
+
+    return msgId;
 }
 
 
--(BOOL)eraseMessageFailure:(int)msgLocalID {
-    
-    __block BOOL isSuccess = NO;
-    __block FMResultSet *rs =nil;
+-(BOOL)eraseMessageFailure:(int64_t)msgLocalID {
+    __block bool msgId = YES;
     [self.db inDatabase:^(FMDatabase *db) {
-            
-        rs = [db executeQuery:@"SELECT flags FROM peer_message WHERE id=?", @(msgLocalID)];
- 
-    }];
+    FMResultSet *rs = [db executeQuery:@"SELECT flags FROM customer_message WHERE id=?", @(msgLocalID)];
     if (!rs) {
-        return isSuccess;
+        msgId= NO;
+        return;
     }
     if ([rs next]) {
         int flags = [rs intForColumn:@"flags"];
-        
+
         int f = MESSAGE_FLAG_FAILURE;
         flags &= ~f;
-        
-        [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-                
-            @try {
 
-                [db executeUpdate:@"UPDATE peer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
-                      
-            } @catch (NSException *exception) {
-                NSLog(@"error = %@", [exception reason]);
-                *rollback = YES;
-            } @finally {
-                isSuccess = TRUE;
-                *rollback = NO;
-                
-            }
-            
-        }];
-    }
-    
-    [rs close];
-    return isSuccess;
-    
-}
-
--(BOOL)updateFlags:(int)msgLocalID flags:(int)flags {
-
-    __block BOOL isSuccess = NO;
-    [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            
-        @try {
-
-            [db executeUpdate:@"UPDATE peer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
-                  
-        } @catch (NSException *exception) {
-            NSLog(@"error = %@", [exception reason]);
-            *rollback = YES;
-        } @finally {
-            isSuccess = TRUE;
-            *rollback = NO;
-            
+        BOOL r = [db executeUpdate:@"UPDATE customer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
+        if (!r) {
+            NSLog(@"error = %@", [db lastErrorMessage]);
+            msgId=  NO;
         }
-        
+    }
+
+    [rs close];
     }];
-    return  isSuccess;
+
+    return msgId;
+
 }
 
--(id<IConversationIterator>)getConvIterator:(int64_t)uid {
-    return [[SQLConversionsIterator alloc] initWithDB:self.db];
+
+-(BOOL)updateFlags:(int64_t)msgLocalID flags:(int)flags {
+    __block bool msgId = YES;
+    [self.db inDatabase:^(FMDatabase *db) {
+
+    BOOL r = [db executeUpdate:@"UPDATE customer_message SET flags= ? WHERE id= ?", @(flags), @(msgLocalID)];
+    if (!r) {
+        NSLog(@"error = %@", [db lastErrorMessage]);
+        msgId= NO;
+    }
+    }];
+
+    return msgId;
 }
+
+
+-(id<IMessageIterator>)newMessageIterator:(int64_t)store {
+    return [[SQLCustomerMessageIterator alloc] initWithDB:self.db store:store];
+}
+
+-(id<IMessageIterator>)newForwardMessageIterator:(int64_t)store last:(int64_t)lastMsgID {
+    return [[SQLCustomerMessageIterator alloc] initWithDB:self.db store:store position:lastMsgID];
+}
+
+-(id<IMessageIterator>)newMessageIterator:(int64_t)uid appID:(int64_t)appID {
+    return [[SQLCustomerMessageIterator alloc] initWithDB:self.db uid:uid appID:appID];
+}
+
+-(id<IMessageIterator>)newForwardMessageIterator:(int64_t)uid appID:(int64_t)appID messageID:(int64_t)lastMsgID {
+    return [[SQLCustomerMessageIterator alloc] initWithDB:self.db uid:uid appID:appID position:lastMsgID];
+}
+-(id<IMessageIterator>)newBackwardMessageIterator:(int64_t)uid appID:(int64_t)appID messageID:(int64_t)lastMsgID {
+    return [[SQLCustomerMessageIterator alloc] initWithDB:self.db uid:uid appID:appID position:lastMsgID];
+}
+
+
+-(BOOL)saveMessage:(IMessage*)msg {
+    ICustomerMessage *cm = (ICustomerMessage*)msg;
+    return [self insertMessage:msg uid:cm.receiver appid:cm.receiverAppID];
+}
+
+- (id<IMessageIterator>)newBackwardMessageIterator:(int64_t)conversationID messageID:(int64_t)messageID {
+    return nil;
+}
+
+
+- (id<IMessageIterator>)newMiddleMessageIterator:(int64_t)conversationID messageID:(int64_t)messageID {
+    return nil;
+}
+
+- (id<IMessageIterator>)newForwardMessageIterator:(int64_t)conversationID messageID:(int64_t)messageID {
+    return nil;
+}
+
 
 
 

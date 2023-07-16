@@ -58,6 +58,7 @@
 static int flt_im_uptime = 0;
 
 @interface FltImPlugin()<PeerMessageObserver,
+CustomerMessageObserver,
 TCPConnectionObserver,
 AudioDownloaderObserver,
 OutboxObserver,
@@ -202,6 +203,9 @@ GroupMessageObserver>
     else if ([@"clearGroupReadCount" isEqualToString:call.method]) {
         [self clearGroupReadCount:call.arguments result:result];
     }
+    else if ([@"clearCustomerReadCount" isEqualToString:call.method]) {
+        [self clearCustomerReadCount:call.arguments result:result];
+    }
     else {
         result(FlutterMethodNotImplemented);
     }
@@ -283,29 +287,39 @@ GroupMessageObserver>
 
     result([self resultSuccess:@"完成"]);
 }
+- (void)clearCustomerReadCount:(NSDictionary *)args result:(FlutterResult)result {
+    int appid = [self getIntValueFromArgs:args forKey:@"appid"];
+    int cid = [self getIntValueFromArgs:args forKey:@"cid"];
+    Conversation *con = [[ConversationDB instance] getConversation:cid appid:appid type:CONVERSATION_CUSTOMER_SERVICE];
+        if (con) {
+            [[ConversationDB instance] setNewCount:con.id count:0];
+        }
+
+    result([self resultSuccess:@"完成"]);
+}
 - (void)getConversations:(NSDictionary *)args result:(FlutterResult)result {
     NSMutableArray *convs = [NSMutableArray arrayWithCapacity:30];
     NSMutableArray *convs_new = [NSMutableArray arrayWithCapacity:30];
     convs = [[ConversationDB instance] getConversations:0];
-    
+
     for(Conversation *con in convs){
-        
+
                 if (con.type == CONVERSATION_PEER) {
-        
-        
+
+
                     IMessage *msg = [[PeerMessageDB instance] getLastMessage:con.cid];
                     con.message = msg;
                     [self updateConvNotificationDesc:con];
                     [self updateConversationDetail:con];
                     [convs_new insertObject:con atIndex:0];
-        
+
                 } else if (con.type == CONVERSATION_GROUP) {
                     IMessage *msg = [[GroupMessageDB instance] getLastMessage:con.cid];
                     con.message = msg;
                     [self updateConvNotificationDesc:con];
                     [self updateConversationDetail:con];
                     [convs_new insertObject:con atIndex:0];
-        
+
                 }else if (con.type == CONVERSATION_CUSTOMER_SERVICE) {
                      IMessage *msg = [[CustomerMessageDB instance] getLastMessage:con.cid appID:con.appid];
                      con.message = msg;
@@ -314,8 +328,8 @@ GroupMessageObserver>
                      [convs_new insertObject:con atIndex:0];
 
                  }
-        
-        
+
+
     }
 //    int count = 0;
 //    id<IConversationIterator> iterator;
@@ -572,12 +586,12 @@ GroupMessageObserver>
     } else if (type == MESSAGE_LOCATION) {
         double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
         double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
-      
+
         CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
         MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
         message.rawContent = content.raw;
         content = message.locationContent;
-    
+
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
         [self saveMessage:message];
@@ -608,7 +622,7 @@ GroupMessageObserver>
         result([self resultSuccess:[message mj_keyValues]]);
     } else if (type == MESSAGE_IMAGE) {
         NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
-      
+
 
         MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path width:0 height:0];
         message.rawContent = content.raw;
@@ -635,7 +649,7 @@ GroupMessageObserver>
                     [self loadSenderInfo:message];
                     [self sendFlutterMessage:message secret:message.secret];
                     result([self resultSuccess:[message mj_keyValues]]);
-        
+
 
     } else if (type == MESSAGE_AUDIO) {
         NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
@@ -652,12 +666,12 @@ GroupMessageObserver>
     } else if (type == MESSAGE_LOCATION) {
         double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
         double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
-       
+
         CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
         MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
         message.rawContent = content.raw;
         content = message.locationContent;
-      
+
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
         [self saveMessage:message];
@@ -688,7 +702,7 @@ GroupMessageObserver>
         result([self resultSuccess:[message mj_keyValues]]);
     } else if (type == MESSAGE_IMAGE) {
         NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
-    
+
 
         MessageImageContent *content = [[MessageImageContent alloc] initWithImageURL:path width:0 height:0];
         message.rawContent = content.raw;
@@ -715,7 +729,7 @@ GroupMessageObserver>
                     [self loadSenderInfo:message];
                     [self sendFlutterGroupMessage:message secret:message.secret];
                     result([self resultSuccess:[message mj_keyValues]]);
-        
+
 
     } else if (type == MESSAGE_AUDIO) {
         NSString *path = [self getStringValueFromArgs:params forKey:@"path"];
@@ -732,12 +746,12 @@ GroupMessageObserver>
     } else if (type == MESSAGE_LOCATION) {
         double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
         double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
-   
+
         CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
         MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
         message.rawContent = content.raw;
         content = message.locationContent;
-       
+
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
         [self saveMessage:message];
@@ -810,12 +824,12 @@ GroupMessageObserver>
     } else if (type == MESSAGE_LOCATION) {
         double latitude  = [[self getStringValueFromArgs:params forKey:@"latitude"] doubleValue];
         double longitude = [[self getStringValueFromArgs:params forKey:@"longitude"] doubleValue];
-       
+
         CLLocationCoordinate2D location = CLLocationCoordinate2DMake(latitude, longitude);
         MessageLocationContent *content = [[MessageLocationContent alloc] initWithLocation:location];
         message.rawContent = content.raw;
         content = message.locationContent;
-      
+
         message.timestamp = (int)time(NULL);
         message.isOutgoing = YES;
         [self saveMessage:message];
@@ -859,11 +873,13 @@ GroupMessageObserver>
 
 - (void)loadCustomerData:(NSDictionary *)args result:(FlutterResult)result {
     int msgID = [self getIntValueFromArgs:args forKey:@"messageID"];
+    int appId = [self getIntValueFromArgs:args forKey:@"appId"];
+    int uid = [self getIntValueFromArgs:args forKey:@"uid"];
     NSArray *messages;
     if (msgID > 0) {
-        messages = [self loadCustomerConversationData:msgID];
+        messages = [self loadCustomerConversationData:appId uid :uid messageID: msgID];
     } else {
-        messages = [self loadCustomerConversationData];
+        messages = [self loadCustomerConversationData :appId uid :uid];
     }
     [self wrapperMessages:messages];
     result([self resultSuccess:[IMessage mj_keyValuesArrayWithObjectArray:messages]]);
@@ -888,7 +904,7 @@ GroupMessageObserver>
     NSData *data = [rt.content dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error = nil;
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    
+
     NSDictionary *obj = [dict objectForKey:@"voip"];
     if (!obj) {
         return;
@@ -900,7 +916,7 @@ GroupMessageObserver>
   //  if ([self.channelIDs containsObject:command.channelID]) {
   //      return;
   //  }
-    
+
 // if (command.cmd == VOIP_COMMAND_DIAL) {
 //
 // [self.channelIDs addObject:command.channelID];
@@ -985,23 +1001,23 @@ GroupMessageObserver>
 //展示视频用
 - (UIViewController *)rootViewControllers{
     UIViewController *rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
-    
+
     UIViewController *parent = rootVC;
     while((parent = rootVC.presentingViewController) != nil){
         rootVC = parent;
     }
-    
+
     while ([rootVC isKindOfClass:[UINavigationController class]]) {
         rootVC = [(UINavigationController *)rootVC topViewController];
     }
-    
+
     return rootVC;
 }
 - (void)createConversion:(NSDictionary *)args result:(FlutterResult)result {
     NSString *currentUID = [self getStringValueFromArgs:args forKey:@"currentUID"];
     NSString *peerUID = [self getStringValueFromArgs:args forKey:@"peerUID"];
     BOOL secret = [self getBoolValueFromArgs:args forKey:@"secret"];
-    
+
     self.messageDB = secret ? [EPeerMessageDB instance] : [PeerMessageDB instance];
     self.conversationID = [peerUID integerValue];
     self.currentUID = [currentUID integerValue];
@@ -1053,14 +1069,14 @@ GroupMessageObserver>
     //调用app自身的服务器获取连接im服务必须的access token
     NSString *uid = [self getStringValueFromArgs:args forKey:@"uid"];
     long long l_uid = [uid longLongValue];
-    
+
     NSString *token = nil;
     if (args[@"token"] && ![args[@"token"] isKindOfClass:[NSNull class]]) {
         token = [self getStringValueFromArgs:args forKey:@"token"];
     } else {
         token = [self login: l_uid];
     }
-    
+
     if (token.length == 0) {
         result([self resultError:@"login fail" code:1]);
         return ;
@@ -1078,22 +1094,22 @@ GroupMessageObserver>
     [PeerMessageHandler instance].uid = l_uid;
     [GroupMessageHandler instance].uid = l_uid;
     [CustomerMessageHandler instance].uid = l_uid;
-    
+
     [IMHttpAPI instance].accessToken = token;
     [IMService instance].token = token;
 
-    
+
     path = [self getDocumentPath];
     dbPath = [NSString stringWithFormat:@"%@/%lld", path, l_uid];
     [self mkdir:dbPath];
-    
+
     NSString *fileName = [NSString stringWithFormat:@"%@/synckey", dbPath];
     SyncKeyHandler *handler = [[SyncKeyHandler alloc] initWithFileName:fileName];
     [IMService instance].syncKeyHandler = handler;
-    
+
     [IMService instance].syncKey = [handler syncKey];
     NSLog(@"sync key:%lld", [handler syncKey]);
-    
+
     [[IMService instance] clearSuperGroupSyncKey];
     NSDictionary *groups = [handler superGroupSyncKeys];
     for (NSNumber *k in groups) {
@@ -1101,9 +1117,9 @@ GroupMessageObserver>
         NSLog(@"group id:%@ sync key:%@", k, v);
         [[IMService instance] addSuperGroupSyncKey:[v longLongValue] gid:[k longLongValue]];
     }
-    
+
     [[IMService instance] start];
-    
+
     if (self.deviceToken.length > 0) {
         [IMHttpAPI bindDeviceToken:[self getDeviceTokenStr]
                            success:^{
@@ -1122,7 +1138,7 @@ GroupMessageObserver>
     [[IMService instance] addGroupMessageObserver:self];
     [[IMService instance] addSystemMessageObserver:self];
     [[IMService instance] addRTMessageObserver:self];
-    
+    [[IMService instance] addCustomerMessageObserver:self];
     result([self resultSuccess:@"login success"]);
 }
 
@@ -1237,20 +1253,20 @@ GroupMessageObserver>
     //调用app自身的服务器获取连接im服务必须的access token
     NSString *hosts =[IMHttpAPI instance].apiURL;
     NSString *url = [hosts stringByAppendingString:@"/v1/login/GetAuth"];
-    
+
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                                                               cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                           timeoutInterval:60];
-    
-    
+
+
     [urlRequest setHTTPMethod:@"POST"];
-    
+
     NSDictionary *headers = [NSDictionary dictionaryWithObject:@"application/json" forKey:@"Content-Type"];
 
     [urlRequest setAllHTTPHeaderFields:headers];
 
 
-    
+
 #if TARGET_IPHONE_SIMULATOR
     NSString *deviceID = @"7C8A8F5B-E5F4-4797-8758-05367D2A4D61";
     NSLog(@"device id:%@", @"7C8A8F5B-E5F4-4797-8758-05367D2A4D61");
@@ -1258,14 +1274,14 @@ GroupMessageObserver>
     NSString *deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
     NSLog(@"device id:%@", [[[UIDevice currentDevice] identifierForVendor] UUIDString]);
 #endif
-    
-    
+
+
     NSMutableDictionary *obj = [NSMutableDictionary dictionary];
     [obj setObject:[NSNumber numberWithLongLong:uid] forKey:@"uid"];
     [obj setObject:[NSString stringWithFormat:@"测试用户%lld", uid] forKey:@"user_name"];
     [obj setObject:[NSNumber numberWithInt:PLATFORM_IOS] forKey:@"platform_id"];
     [obj setObject:deviceID forKey:@"device_id"];
-    
+
     NSData *postBody = [NSJSONSerialization dataWithJSONObject:obj options:0 error:nil];
 
     [urlRequest setHTTPBody:postBody];
@@ -1273,7 +1289,7 @@ GroupMessageObserver>
     NSURLResponse *response = nil;
 
     NSError *error = nil;
-    
+
     NSData *data = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
     if (error != nil) {
         NSLog(@"error:%@", error);
@@ -1298,13 +1314,13 @@ GroupMessageObserver>
     if (![fileManager fileExistsAtPath:path]) {
         NSError *err;
         BOOL r = [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&err];
-        
+
         if (!r) {
             NSLog(@"mkdir err:%@", err);
         }
        return r;
     }
-    
+
     return YES;
 }
 
@@ -1479,7 +1495,7 @@ GroupMessageObserver>
 
         [self updateConvNotificationDesc:con];
         [self updateConversationDetail:con];
-        
+
         if (self.currentUID == msg.receiver) {
             con.newMsgCount += 1;
         }
@@ -1549,30 +1565,13 @@ GroupMessageObserver>
 }
 
 -(void)onNewCustomerMessage:(ICustomerMessage*)msg cid:(int64_t)cid appid:(int64_t)appid{
-    int index = -1;
 
-   Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_CUSTOMER_SERVICE];
+    Conversation *con = [[ConversationDB instance] getConversation:cid  appid:appid type:CONVERSATION_CUSTOMER_SERVICE];
 
-    if (self.currentUID == msg.receiver) {
-        Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_CUSTOMER_SERVICE];
-         if (con) {
-                        [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
 
-         }
-    }
     if (con != nil) {
-        Conversation *con = [self.conversations objectAtIndex:index];
-        con.message = msg;
-        [self updateConversationDetail:con];
-
         if (self.currentUID == msg.receiver) {
-            con.newMsgCount += 1;
-        }
-
-        if (index != 0) {
-            //置顶
-            [self.conversations removeObjectAtIndex:index];
-            [self.conversations insertObject:con atIndex:0];
+        [[ConversationDB instance] setNewCount:con.id count:con.newMsgCount +1];
         }
     } else {
         Conversation *con = [[Conversation alloc] init];
@@ -1640,6 +1639,54 @@ GroupMessageObserver>
     [self onNewGroupMessage:m cid:m.receiver];
 }
 
+
+
+#pragma mark - CustomerMessageObserver
+- (void)onCustomerMessage:(CustomerMessage *)im {
+    ICustomerMessage *m = [[ICustomerMessage alloc] init];
+    m.sender = im.sender;
+    m.receiver = im.receiver;
+    m.senderAppID =im.senderAppID;
+    m.receiverAppID=im.receiverAppID;
+    m.secret = NO;
+    m.msgId = im.msgLocalID;
+    m.rawContent = im.content;
+    m.timestamp = im.timestamp;
+    m.isOutgoing = (im.sender == self.currentUID);
+    if (im.sender == self.currentUID) {
+            m.flags = m.flags | MESSAGE_FLAG_ACK;
+        }
+    [self loadSenderInfo:m];
+    [self downloadMessageContent:m];
+    [self updateNotificationDesc:m];
+    [self callFlutter:[self resultSuccess:@{
+        @"type": @"onCustomerMessage",
+        @"result": [m mj_keyValues]
+    }]];
+
+    int64_t cid;
+    if (self.currentUID == m.sender) {
+        cid = m.receiver;
+    } else {
+        cid = m.sender;
+    }
+
+    [self onNewCustomerMessage:m cid:cid appid:m.senderAppID];
+}
+- (void)onCustomerMessageACK:(ICustomerMessage *)im error:(int)error {
+    [self callFlutter:[self resultSuccess:@{
+        @"type": @"onCustomerMessageACK",
+        @"error": @(error),
+        @"result": [im mj_keyValues]
+    }]];
+}
+
+- (void)onCustomerMessageFailure:(ICustomerMessage *)msg {
+    [self callFlutter:[self resultSuccess:@{
+        @"type": @"onCustomerMessageFailure",
+        @"result": [msg mj_keyValues]
+    }]];
+}
 #pragma mark - TCPConnectionObserver
 // 同IM服务器连接的状态变更通知
 - (void)onConnectState:(int)state {
@@ -1909,18 +1956,18 @@ GroupMessageObserver>
 
 #pragma mark - Customer
 //navigator from search
-- (NSArray*)loadCustomerConversationData:(int)messageID {
+- (NSArray*)loadCustomerConversationData: (int64_t)appId uid:(int64_t)uid messageID:(int64_t)messageID {
     NSMutableArray *messages = [NSMutableArray array];
     int count = 0;
     id<IMessageIterator> iterator;
-
-    IMessage *msg = [self.messageDB getMessage:messageID];
+    CustomerMessageDB *db = (CustomerMessageDB *)self.messageDB;
+    ICustomerMessage *msg = [db getMessage:messageID];
     if (!msg) {
         return nil;
     }
     [messages addObject:msg];
 
-    iterator = [self.messageDB newBackwardMessageIterator:self.conversationID  messageID:messageID];
+    iterator = [db newBackwardMessageIterator:uid appID:appId messageID:messageID];
     msg = [iterator next];
     while (msg) {
         if (msg.type == MESSAGE_ATTACHMENT) {
@@ -1958,7 +2005,7 @@ GroupMessageObserver>
     return messages;
 }
 
-- (NSArray*)loadCustomerConversationData {
+- (NSArray*)loadCustomerConversationData: (int64_t)appId uid:(int64_t)uid {
 
     NSMutableArray *messages = [NSMutableArray array];
 

@@ -118,7 +118,7 @@ return self;
 -(IMessage*)getLastMessage:(int64_t)uid appID:(int64_t)appID {
     __block IMessage *msg = [[IMessage alloc] init];
     [self.db inDatabase:^(FMDatabase *db) {
-        FMResultSet *rs = [db executeQuery:@"SELECT id, sender_appid, sender, receiver_appid, receiver, timestamp, flags, content FROM customer_message WHERE customer_id= ? AND customer_appid=? ORDER BY id DESC", @(uid), @(appID)];
+        FMResultSet *rs = [db executeQuery:@"SELECT id, sender_appid, sender, receiver_appid, receiver, timestamp, flags, content FROM customer_message WHERE peer= ? AND peer_appid=? ORDER BY id DESC", @(uid), @(appID)];
         if ([rs next]) {
             msg= [self readMessage:rs];
         }
@@ -219,7 +219,7 @@ return self;
 -(BOOL)clearConversation:(int64_t)uid appID:(int64_t)appID {
     __block bool msgId = YES;
    [self.db inDatabase:^(FMDatabase *db) {
-    BOOL r = [db executeUpdate:@"DELETE FROM customer_message WHERE customer_id=? AND customer_appid=?", @(uid), @(appID)];
+    BOOL r = [db executeUpdate:@"DELETE FROM customer_message WHERE peer=? AND peer_appid=?", @(uid), @(appID)];
     if (!r) {
         NSLog(@"error = %@", [db lastErrorMessage]);
         msgId=  NO;
