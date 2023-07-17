@@ -36,8 +36,8 @@ class FltImPlugin {
   /// 登录
   /// uid 用户id（数字），
   /// token: 用户token,
-  Future<Map?> login({required String uid, required String token}) async {
-    return _methodChannel.invokeMapMethod('login', {'uid': uid, 'token': token});
+  Future<Map?> login({required String appid,required String uid, required String token}) async {
+    return _methodChannel.invokeMapMethod('login', {'appid': appid,'uid': uid, 'token': token});
   }
 
   Future<Map?> createConversion({

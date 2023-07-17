@@ -153,6 +153,7 @@ public class FltImPlugin implements FlutterPlugin,
     private Lifecycle lifecycle;
     private long currentUID;
     private long memberId;
+    private long appId;
     private long conversationID;
     private boolean calling = false;
     protected ArrayList<IMessage> messages = new ArrayList<IMessage>();
@@ -590,10 +591,12 @@ public class FltImPlugin implements FlutterPlugin,
     private void login(Object arg, final Result result) {
         Map map = convertToMap(arg);
         String uid = (String) map.get("uid");
+        String appid = (String) map.get("appid");
         long l_uid = 0;
+        long l_appid = 0;
         try {
             l_uid = Long.parseLong(uid);
-
+            l_appid = Long.parseLong(appid);
         } catch (Exception e) {
             result.success(resultError("login fail", 1));
         }
@@ -613,8 +616,11 @@ public class FltImPlugin implements FlutterPlugin,
             ConversationDB.getInstance().setDb(null);
             openDB(l_uid);
             this.memberId = l_uid;
+            this.appId = l_appid;
             PeerMessageHandler.getInstance().setUID(l_uid);
             GroupMessageHandler.getInstance().setUID(l_uid);
+            CustomerMessageHandler.getInstance().setUID(l_uid);
+            CustomerMessageHandler.getInstance().setAppId(l_appid);
             IMHttpAPI.setToken(token);
             IMService.getInstance().setToken(token);
 
@@ -1764,7 +1770,17 @@ public class FltImPlugin implements FlutterPlugin,
         map.put("type", "onCustomerMessage");
         map.put("result", convertToMap(imsg));
         this.callFlutter(resultSuccess(map));
-        onNewCustomerMessage(imsg,msg.senderAppID,msg.sender);
+        long appid=0;
+        long uid =0;
+        if(this.appId ==msg.senderAppID && this.memberId == msg.sender ){
+            appid = msg.receiverAppID;
+            uid = msg.receiver;
+        }else{
+            appid = msg.senderAppID;
+            uid = msg.sender;
+        }
+
+        onNewCustomerMessage(imsg,appid,uid);
     }
 
     @Override
