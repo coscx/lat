@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <fmdb/FMDB.h>
+#import "FMDatabaseQueue.h"
 @class FMDatabase;
 @interface Database : NSObject
-+ (FMDatabase*)openMessageDB:(NSString*)dbPath;
++ (FMDatabaseQueue*)openMessageDB:(NSString*)dbPath;
 
 @end

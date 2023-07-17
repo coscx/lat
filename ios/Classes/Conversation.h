@@ -15,7 +15,7 @@
 #define CONVERSATION_CUSTOMER_SERVICE 3
 
 @interface Conversation : NSObject
-@property(nonatomic, assign) int64_t id;
+@property(nonatomic, assign) int64_t rowid;
 @property(nonatomic) int type;
 @property(nonatomic, assign) int64_t appid;
 @property(nonatomic, assign) int64_t cid;
@@ -27,7 +27,6 @@
 @property(nonatomic) int timestamp;
 @property(nonatomic) int flags;
 @property(nonatomic, copy) NSString *attrs;
-@property(nonatomic, copy) NSString *detail;
 @property(nonatomic) int state;
 @end
 

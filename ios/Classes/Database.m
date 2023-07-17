@@ -61,56 +61,48 @@
 
 @implementation Database
 
-+(void)createDatabaseTable:(FMDatabase*)db2 {
-    [db2 beginTransaction];
-    [db2 executeUpdate:PEER_MESSAGE];
-    [db2 executeUpdate:GROUP_MESSAGE];
-    [db2 executeUpdate:CUSTOMER_MESSAGE];
-    
-    [db2 executeUpdate:PEER_MESSAGE_FTS];
-    [db2 executeUpdate:GROUP_MESSAGE_FTS];
-    [db2 executeUpdate:CUSTOMER_MESSAGE_FTS];
-    
-    [db2 executeUpdate:PEER_MESSAGE_IDX];
-    [db2 executeUpdate:GROUP_MESSAGE_IDX];
-    [db2 executeUpdate:CUSTOMER_MESSAGE_IDX];
-    
-    [db2 executeUpdate:CUSTOMER_MESSAGE_STORE_IDX];
-    
-    [db2 executeUpdate:PEER_MESSAGE_UUID_IDX];
-    [db2 executeUpdate:GROUP_MESSAGE_UUID_IDX];
-    [db2 executeUpdate:CUSTOMER_MESSAGE_UUID_IDX];
-    
-    [db2 executeUpdate:CONVERSATION];
-    [db2 executeUpdate:CONVERSATION_IDX];
-    
-    [db2 executeUpdate:GROUP_MESSAGE_READED];
-    
-    [db2 setUserVersion:DATABASE_VERSION];
-    [db2 commit];
++(void)createDatabaseTable:(FMDatabaseQueue*)db {
+    [db inDatabase:^(FMDatabase *db2) {
+        [db2 beginTransaction];
+        [db2 executeUpdate:PEER_MESSAGE];
+        [db2 executeUpdate:GROUP_MESSAGE];
+        [db2 executeUpdate:CUSTOMER_MESSAGE];
+        
+        [db2 executeUpdate:PEER_MESSAGE_FTS];
+        [db2 executeUpdate:GROUP_MESSAGE_FTS];
+        [db2 executeUpdate:CUSTOMER_MESSAGE_FTS];
+        
+        [db2 executeUpdate:PEER_MESSAGE_IDX];
+        [db2 executeUpdate:GROUP_MESSAGE_IDX];
+        [db2 executeUpdate:CUSTOMER_MESSAGE_IDX];
+        
+        [db2 executeUpdate:CUSTOMER_MESSAGE_STORE_IDX];
+        
+        [db2 executeUpdate:PEER_MESSAGE_UUID_IDX];
+        [db2 executeUpdate:GROUP_MESSAGE_UUID_IDX];
+        [db2 executeUpdate:CUSTOMER_MESSAGE_UUID_IDX];
+        
+        [db2 executeUpdate:CONVERSATION];
+        [db2 executeUpdate:CONVERSATION_IDX];
+        
+        [db2 executeUpdate:GROUP_MESSAGE_READED];
+        
+        [db2 setUserVersion:DATABASE_VERSION];
+        [db2 commit];
+    }];
+   
 }
 
-+(FMDatabase*)openMessageDB:(NSString*)dbPath {
++(FMDatabaseQueue*)openMessageDB:(NSString*)dbPath {
     //检查数据库文件是否已经存在
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL dbExists = [fileManager fileExistsAtPath:dbPath];
-    FMDatabaseQueue *db2 = [[FMDatabaseQueue alloc] initWithPath:dbPath];
-    BOOL r = [db2 openWithFlags:SQLITE_OPEN_CREATE|SQLITE_OPEN_READWRITE|SQLITE_OPEN_WAL vfs:nil];
-    if (!r) {
-        NSLog(@"open database error:%@", [db2 lastError]);
-        NSAssert(NO, @"");
-        return nil;
-    }
-    
+    FMDatabaseQueue *db2 = [[FMDatabaseQueue alloc] initWithPath:dbPath flags:(int)SQLITE_OPEN_CREATE|SQLITE_OPEN_READWRITE|SQLITE_OPEN_WAL];
     if (!dbExists) {
         //create db
         [self createDatabaseTable:db2];
     }
     
-    uint32_t version = [db2 userVersion];
-    
-    
-    NSAssert(version == DATABASE_VERSION, @"database version");
     return db2;
 }
 

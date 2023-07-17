@@ -304,7 +304,7 @@
     return msg;
 }
 
--(int)getMessageId:(NSString*)uuid {
+-(int64_t)getMessageId:(NSString*)uuid {
     
     __block int msgId = 0;
     [self.db inDatabase:^(FMDatabase *db) {
@@ -333,7 +333,7 @@
             msg.flags = [rs intForColumn:@"flags"];
             msg.secret = [rs intForColumn:@"secret"] == 1;
             msg.rawContent = [rs stringForColumn:@"content"];
-            msg.msgLocalID = [rs intForColumn:@"id"];
+            msg.msgId = [rs intForColumn:@"id"];
            
         }else{
             msg = nil;
@@ -345,21 +345,21 @@
 
 }
 
--(BOOL)acknowledgeMessage:(int64_t)msgLocalID{
+-(int)acknowledgeMessage:(int64_t)msgLocalID{
     return [self addFlag:msgLocalID flag:MESSAGE_FLAG_ACK];
 }
 
--(BOOL)markMessageFailure:(int64_t)msgLocalID {
+-(int)markMessageFailure:(int64_t)msgLocalID {
     return [self addFlag:msgLocalID flag:MESSAGE_FLAG_FAILURE];
 }
 
--(BOOL)markMesageListened:(int64_t)msgLocalID {
+-(int)markMesageListened:(int64_t)msgLocalID {
     return [self addFlag:msgLocalID  flag:MESSAGE_FLAG_LISTENED];
 }
 -(int)markMessageReaded:(int64_t)msgLocalID {
     return [self addFlag:msgLocalID  flag:MESSAGE_FLAG_READED];
 }
--(int)addFlag:(int)msgLocalID flag:(int)f {
+-(int)addFlag:(int64_t)msgLocalID flag:(int)f {
     
     __block BOOL isSuccess = 0;
 

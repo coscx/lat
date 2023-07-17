@@ -27,13 +27,17 @@
   <component name="ChangeListManager">
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imkit/handler/CustomerMessageHandler.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imkit/handler/CustomerMessageHandler.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imkit/request/CustomerOutbox.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imkit/request/CustomerOutbox.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/IMessage.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/IMessage.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/Message.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/Message.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/Message.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/Message.m" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,48 +101,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00042" summary="code">
-      <created>1612949766185</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1612949766185</updated>
-    </task>
-    <task id="LOCAL-00043" summary="code">
-      <created>1612950070421</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1612950070421</updated>
-    </task>
-    <task id="LOCAL-00044" summary="code">
-      <created>1612950691417</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1612950691417</updated>
-    </task>
-    <task id="LOCAL-00045" summary="code">
-      <created>1612956939892</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1612956939892</updated>
-    </task>
-    <task id="LOCAL-00046" summary="code">
-      <created>1613026128550</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1613026128550</updated>
-    </task>
-    <task id="LOCAL-00047" summary="code">
-      <created>1613031431687</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1613031431687</updated>
     </task>
     <task id="LOCAL-00048" summary="code">
       <created>1613031908104</created>
@@ -441,8 +403,60 @@
       <option name="project" value="LOCAL" />
       <updated>1651480168129</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="code">
+      <created>1689429447269</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1689429447270</updated>
+    </task>
+    <task id="LOCAL-00092" summary="code">
+      <created>1689430020601</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1689430020602</updated>
+    </task>
+    <task id="LOCAL-00093" summary="code">
+      <created>1689431925378</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1689431925379</updated>
+    </task>
+    <task id="LOCAL-00094" summary="code">
+      <created>1689432242158</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1689432242158</updated>
+    </task>
+    <task id="LOCAL-00095" summary="code">
+      <created>1689432540116</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1689432540117</updated>
+    </task>
+    <task id="LOCAL-00096" summary="code">
+      <created>1689494376094</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1689494376095</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

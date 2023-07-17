@@ -18,7 +18,7 @@
 @interface SQLGroupMessageDB : NSObject<IMessageDB>
 +(SQLGroupMessageDB*)instance;
 
-@property(nonatomic, strong) FMDatabase *db;
+
 @property(nonatomic, strong) FMDatabaseQueue *db;
 
 -(id<IMessageIterator>)newMessageIterator:(int64_t)gid;

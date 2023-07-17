@@ -9,7 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ICustomerMessage.h"
+#import "IMessage.h"
 #import "IMessageIterator.h"
 #import "IMessageDB.h"
 
@@ -19,14 +19,16 @@
 @interface SQLCustomerMessageDB : NSObject<IMessageDB>
 +(SQLCustomerMessageDB*)instance;
 
-@property(nonatomic, strong) FMDatabase *db;
+@property(nonatomic, strong) FMDatabaseQueue *db;
 
 
 -(id<IMessageIterator>)newMessageIterator:(int64_t)storeID;
 -(id<IMessageIterator>)newForwardMessageIterator:(int64_t)storeID last:(int64_t)lastMsgID;
 
 -(id<IMessageIterator>)newMessageIterator:(int64_t)uid appID:(int64_t)appID;
--(id<IMessageIterator>)newForwardMessageIterator:(int64_t)uid appID:(int64_t)appID last:(int64_t)lastMsgID;
+
+-(id<IMessageIterator>)newForwardMessageIterator:(int64_t)uid appID:(int64_t)appID messageID:(int64_t)lastMsgID;
+-(id<IMessageIterator>)newBackwardMessageIterator:(int64_t)uid appID:(int64_t)appID messageID:(int64_t)lastMsgID;
 
 -(IMessage*)getLastMessage:(int64_t)uid appID:(int64_t)appID;
 -(IMessage*)getLastMessage:(int64_t)storeID;

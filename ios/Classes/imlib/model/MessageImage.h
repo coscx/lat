@@ -10,7 +10,7 @@
 
 @interface MessageImage : MessageContent
 - (id)initWithImageURL:(NSString *)imageURL width:(int)width height:(int)height;
-- (id)initWithImageURL:(NSString *)imageURL thumb:(NSString *)thumb width:(int)width height:(int)height;
+
 @property(nonatomic, readonly) NSString *imageURL;
 @property(nonatomic, readonly) NSString *littleImageURL;
 
