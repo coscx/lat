@@ -72,6 +72,7 @@ GroupMessageObserver>
 @property (strong, nonatomic) NSData *deviceToken;
 @property(nonatomic) int64_t myUID;
 @property(nonatomic) int64_t peerUID;
+@property(nonatomic) int64_t appID;
 @property (nonatomic) id<IMessageDB> messageDB;
 @property (nonatomic) id<IConversitionDB> conversationDB;
 @property (nonatomic, assign) NSInteger conversationID;
@@ -102,7 +103,7 @@ GroupMessageObserver>
     FltImPlugin* instance = [[FltImPlugin alloc] init];
     [registrar addApplicationDelegate:instance];
     [registrar addMethodCallDelegate:instance channel:channel];
-    
+
     FlutterEventChannel *eventChannel = [FlutterEventChannel eventChannelWithName:@"flt_im_plugin_event" binaryMessenger:[registrar messenger]];
     [eventChannel setStreamHandler:instance];
 }
@@ -1069,8 +1070,10 @@ GroupMessageObserver>
 - (void)login:(NSDictionary *)args result:(FlutterResult)result {
     //调用app自身的服务器获取连接im服务必须的access token
     NSString *uid = [self getStringValueFromArgs:args forKey:@"uid"];
-    long long l_uid = [uid longLongValue];
 
+    long long l_uid = [uid longLongValue];
+    NSString *appid = [self getStringValueFromArgs:args forKey:@"appid"];
+    long long l_appid = [appid longLongValue];
     NSString *token = nil;
     if (args[@"token"] && ![args[@"token"] isKindOfClass:[NSNull class]]) {
         token = [self getStringValueFromArgs:args forKey:@"token"];
@@ -1083,7 +1086,8 @@ GroupMessageObserver>
         return ;
     }
     NSLog(@"token:%@", token);
-    self.myUID = [uid intValue];
+    self.myUID = [uid longLongValue];
+    self.appID = [appid longLongValue];
     NSString *path = [self getDocumentPath];
     NSString *dbPath = [NSString stringWithFormat:@"%@/gobelieve_%lld.db", path, l_uid];
     FMDatabaseQueue *db = [Database openMessageDB:dbPath];
@@ -1095,7 +1099,7 @@ GroupMessageObserver>
     [PeerMessageHandler instance].uid = l_uid;
     [GroupMessageHandler instance].uid = l_uid;
     [CustomerMessageHandler instance].uid = l_uid;
-
+    [CustomerMessageHandler instance].appid = l_appid;
     [IMHttpAPI instance].accessToken = token;
     [IMService instance].token = token;
 
@@ -1658,14 +1662,16 @@ GroupMessageObserver>
         @"result": [m mj_keyValues]
     }]];
 
-    int64_t cid;
-    if (self.currentUID == m.sender) {
+    int64_t cid,appid;
+    if (self.myUID == m.sender && self.appID == m.senderAppID) {
         cid = m.receiver;
+        appid= m.receiverAppID;
     } else {
         cid = m.sender;
+        appid= m.senderAppID;
     }
 
-    [self onNewCustomerMessage:m cid:cid appid:m.senderAppID];
+    [self onNewCustomerMessage:m cid:cid appid:appid];
 }
 - (void)onCustomerMessageACK:(CustomerMessage *)im{
     [self callFlutter:[self resultSuccess:@{

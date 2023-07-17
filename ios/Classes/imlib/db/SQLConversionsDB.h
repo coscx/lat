@@ -25,26 +25,26 @@
 -(BOOL)addConversation:(Conversation*)conv;
 -(BOOL)removeConversation:(Conversation*)conv;
 -(Conversation*)getConversation:(int64_t)rowid;
--(Conversation*)getConversation:(int)cid type:(int)type;
--(Conversation*)getConversation:(int)cid appid:(int)appid type:(int)type;
--(NSMutableArray*)getConversations:(int)cid;
+-(Conversation*)getConversation:(int64_t)cid type:(int)type;
+-(Conversation*)getConversation:(int64_t)cid appid:(int64_t)appid type:(int)type;
+-(NSMutableArray*)getConversations:(int64_t)cid;
 -(BOOL)setNewCount:(long long)rowid count: (int)count;
--(BOOL)setState:(int)rowid state:(int)state;
+-(BOOL)setState:(long long)rowid state:(int)state;
 -(BOOL)resetState:(int)state;
 //获取最新的消息
 -(IMessage*)getLastMessage:(int64_t)uid;
 -(IMessage*)getMessage:(int64_t)msgID;
 -(int)getMessageId:(NSString*)uuid;
 -(BOOL)insertMessage:(IMessage*)msg uid:(int64_t)uid;
--(BOOL)removeMessage:(int)msgLocalID;
--(BOOL)removeMessageIndex:(int)msgLocalID;
+-(BOOL)removeMessage:(int64_t)msgLocalID;
+-(BOOL)removeMessageIndex:(int64_t)msgLocalID;
 -(BOOL)clearConversation:(int64_t)uid;
 -(BOOL)clear;
 -(NSArray*)search:(NSString*)key;
--(BOOL)updateMessageContent:(int)msgLocalID content:(NSString*)content;
--(BOOL)acknowledgeMessage:(int)msgLocalID;
--(BOOL)markMessageFailure:(int)msgLocalID;
--(BOOL)markMesageListened:(int)msgLocalID;
--(BOOL)eraseMessageFailure:(int)msgLocalID;
--(BOOL)updateFlags:(int)msgLocalID flags:(int)flags;
+-(BOOL)updateMessageContent:(int64_t)msgLocalID content:(NSString*)content;
+-(BOOL)acknowledgeMessage:(int64_t)msgLocalID;
+-(BOOL)markMessageFailure:(int64_t)msgLocalID;
+-(BOOL)markMesageListened:(int64_t)msgLocalID;
+-(BOOL)eraseMessageFailure:(int64_t)msgLocalID;
+-(BOOL)updateFlags:(int64_t)msgLocalID flags:(int)flags;
 @end

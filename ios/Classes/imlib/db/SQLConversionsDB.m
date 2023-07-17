@@ -281,7 +281,7 @@
 
 }
 
--(BOOL)setState:(int64_t)id state:(int)state {
+-(BOOL)setState:(long long)id state:(int)state {
 
     __block BOOL isSuccess = NO;
     [self.db inTransaction:^(FMDatabase *db, BOOL *rollback) {

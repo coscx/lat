@@ -28,16 +28,8 @@
     <list default="true" id="079145ae-cabb-4030-bc64-d89dfde6f60c" name="Default Changelist" comment="code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/FltImPlugin.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imkit/handler/CustomerMessageHandler.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imkit/handler/CustomerMessageHandler.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imkit/request/CustomerOutbox.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imkit/request/CustomerOutbox.m" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLConversionsDB.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/db/SQLCustomerMessageDB.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imlib/model/IMessage.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imlib/model/IMessage.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/IMService.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/Message.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/Message.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/imsdk/Message.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/imsdk/Message.m" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,13 +93,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602730476319</updated>
-    </task>
-    <task id="LOCAL-00048" summary="code">
-      <created>1613031908104</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1613031908104</updated>
     </task>
     <task id="LOCAL-00049" summary="code">
       <created>1613093021967</created>
@@ -445,7 +430,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689494376095</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="code">
+      <created>1689505740065</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1689505740066</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
