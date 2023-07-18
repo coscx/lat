@@ -1328,7 +1328,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         PeerOutbox.getInstance().sendMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewMessage(imsg,0, imsg.receiver);
+        onNewMessage(imsg,0, imsg.receiver,1);
     }
     void _sendFlutterMessage(IMessage imsg, final Result result) {
         imsg.timestamp = now();
@@ -1337,7 +1337,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         PeerOutbox.getInstance().sendFlutterMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewMessage(imsg, 0,imsg.receiver);
+        onNewMessage(imsg, 0,imsg.receiver,1);
     }
     void _sendFlutterCustomerMessage(ICustomerMessage imsg, final Result result) {
         imsg.timestamp = now();
@@ -1346,7 +1346,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         CustomerOutbox.getInstance().sendFlutterMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewCustomerMessage(imsg,imsg.receiverAppID, imsg.receiver);
+        onNewCustomerMessage(imsg,imsg.receiverAppID, imsg.receiver,1);
     }
 
     private void sendGroupMessage(Object arg, final Result result) {
@@ -1607,7 +1607,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         GroupOutbox.getInstance().sendMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewGroupMessage(imsg,0, imsg.receiver);
+        onNewGroupMessage(imsg,0, imsg.receiver,1);
     }
     void _sendFlutterGroupMessage(IMessage imsg, final Result result) {
         imsg.timestamp = now();
@@ -1616,7 +1616,7 @@ public class FltImPlugin implements FlutterPlugin,
         loadUserName(imsg);
         GroupOutbox.getInstance().sendFlutterMessage(imsg);
         result.success(resultSuccess(convertToMap(imsg)));
-        onNewGroupMessage(imsg, 0,imsg.receiver);
+        onNewGroupMessage(imsg, 0,imsg.receiver,1);
     }
     private void getLocalCacheImage(Object arg, final Result result) {
         Map argMap = convertToMap(arg);
@@ -1780,7 +1780,7 @@ public class FltImPlugin implements FlutterPlugin,
             uid = msg.sender;
         }
 
-        onNewCustomerMessage(imsg,appid,uid);
+        onNewCustomerMessage(imsg,appid,uid,0);
     }
 
     @Override
@@ -2069,7 +2069,7 @@ public class FltImPlugin implements FlutterPlugin,
         } else {
             cid = msg.sender;
         }
-        onNewMessage(imsg,0, cid);
+        onNewMessage(imsg,0, cid,0);
     }
 
     public void onPeerSecretMessage(IMMessage msg) {
@@ -2104,47 +2104,83 @@ public class FltImPlugin implements FlutterPlugin,
         } else {
             cid = msg.sender;
         }
-        onNewMessage(imsg, 0,cid);
+        onNewMessage(imsg, 0,cid,0);
     }
 
-    private void onNewMessage(IMessage imsg,long appid, long cid) {
-        Conversation conv =  ConversationDB.getInstance().getConversation(appid,cid, Conversation.CONVERSATION_PEER);
-        Conversation conversation = null;
-        if (conv == null) {
-            conversation = newPeerConversation(cid);
-        } else {
-            conversation = conv;
+    private void onNewMessage(IMessage imsg,long appid, long cid,int isSend) {
+        if(isSend == 1){
+            Conversation conv =  ConversationDB.getInstance().getConversation(appid,imsg.receiver, Conversation.CONVERSATION_PEER);
+            Conversation conversation = null;
+            if (conv == null) {
+                conversation = newPeerConversation(imsg.receiver);
+            } else {
+                conversation = conv;
+            }
+            conversation.message = imsg;
+            if (memberId == imsg.receiver && currentUID != imsg.receiver) {
+                //conversation.setUnreadCount(conversation.getUnreadCount());
+                ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
+            }
+            updateConversationDetail(conversation);
+            if (conv == null) {
+                conversations.add(0, conversation);
+            }
+        }else {
+            Conversation conv =  ConversationDB.getInstance().getConversation(appid,cid, Conversation.CONVERSATION_PEER);
+            Conversation conversation = null;
+            if (conv == null) {
+                conversation = newPeerConversation(cid);
+            } else {
+                conversation = conv;
+            }
+            conversation.message = imsg;
+            if (memberId == imsg.receiver && currentUID != imsg.receiver) {
+                //conversation.setUnreadCount(conversation.getUnreadCount());
+                ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
+            }
+            updateConversationDetail(conversation);
+            if (conv == null) {
+                conversations.add(0, conversation);
+            }
         }
-        conversation.message = imsg;
-        if (memberId == imsg.receiver && currentUID != imsg.receiver) {
-            //conversation.setUnreadCount(conversation.getUnreadCount());
-            ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
-        }
-        updateConversationDetail(conversation);
-        if (conv == null) {
-            conversations.add(0, conversation);
-        }
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("type", "onNewMessage");
         this.callFlutter(resultSuccess(map));
     }
-    private void onNewCustomerMessage(ICustomerMessage imsg,long appid, long cid) {
-        Conversation conv = ConversationDB.getInstance().getConversation(appid,cid, Conversation.CONVERSATION_CUSTOMER_SERVICE);
-        Conversation conversation = null;
-        if (conv==null) {
-            conversation = newCustomerConversation(appid,cid);
-        } else {
-            conversation = conv;
+    private void onNewCustomerMessage(ICustomerMessage imsg,long appid, long cid,int isSend) {
+        if(isSend == 1){
+            Conversation conv = ConversationDB.getInstance().getConversation(imsg.receiverAppID,imsg.receiver, Conversation.CONVERSATION_CUSTOMER_SERVICE);
+            Conversation conversation = null;
+            if (conv==null) {
+                conversation = newCustomerConversation(imsg.receiverAppID,imsg.receiver);
+            } else {
+                conversation = conv;
+            }
+            conversation.message = imsg;
+            updateConversationDetail(conversation);
+            if (conv== null) {
+                conversations.add(0, conversation);
+            }
+        }else{
+            Conversation conv = ConversationDB.getInstance().getConversation(appid,cid, Conversation.CONVERSATION_CUSTOMER_SERVICE);
+            Conversation conversation = null;
+            if (conv==null) {
+                conversation = newCustomerConversation(appid,cid);
+            } else {
+                conversation = conv;
+            }
+            conversation.message = imsg;
+            if (memberId == imsg.receiver) {
+                //conversation.setUnreadCount(conversation.getUnreadCount());
+                ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
+            }
+            updateConversationDetail(conversation);
+            if (conv== null) {
+                conversations.add(0, conversation);
+            }
         }
-        conversation.message = imsg;
-        if (memberId == imsg.receiver) {
-            //conversation.setUnreadCount(conversation.getUnreadCount());
-            ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
-        }
-        updateConversationDetail(conversation);
-        if (conv== null) {
-            conversations.add(0, conversation);
-        }
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("type", "onNewCustomerMessage");
         this.callFlutter(resultSuccess(map));
@@ -2258,26 +2294,42 @@ public class FltImPlugin implements FlutterPlugin,
         //} else {
         //  cid = msg.sender;
         //}
-        onNewGroupMessage(imsg, 0,cid);
+        onNewGroupMessage(imsg, 0,cid,1);
     }
 
-    private void onNewGroupMessage(IMessage imsg,long appid, long cid) {
-        Conversation conv =  ConversationDB.getInstance().getConversation(appid,cid, Conversation.CONVERSATION_GROUP);
-        Conversation conversation = null;
-        if (conv == null) {
-            conversation = newGroupConversation(cid);
-        } else {
-            conversation = conv;
+    private void onNewGroupMessage(IMessage imsg,long appid, long cid,int isSend) {
+        if(isSend == 1){
+            Conversation conv =  ConversationDB.getInstance().getConversation(appid,imsg.receiver, Conversation.CONVERSATION_GROUP);
+            Conversation conversation = null;
+            if (conv == null) {
+                conversation = newGroupConversation(imsg.receiver);
+            } else {
+                conversation = conv;
+            }
+            conversation.message = imsg;
+            updateConversationDetail(conversation);
+            if (conv == null) {
+                conversations.add(0, conversation);
+            }
+        }else{
+            Conversation conv =  ConversationDB.getInstance().getConversation(appid,cid, Conversation.CONVERSATION_GROUP);
+            Conversation conversation = null;
+            if (conv == null) {
+                conversation = newGroupConversation(cid);
+            } else {
+                conversation = conv;
+            }
+            conversation.message = imsg;
+            if (currentUID == imsg.receiver) {
+                //conversation.setUnreadCount(conversation.getUnreadCount());
+                ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
+            }
+            updateConversationDetail(conversation);
+            if (conv == null) {
+                conversations.add(0, conversation);
+            }
         }
-        conversation.message = imsg;
-        if (currentUID == imsg.receiver) {
-            //conversation.setUnreadCount(conversation.getUnreadCount());
-            ConversationDB.getInstance().setNewCount(conversation.rowid, conversation.getUnreadCount() + 1);
-        }
-        updateConversationDetail(conversation);
-        if (conv == null) {
-            conversations.add(0, conversation);
-        }
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("type", "onNewGroupMessage");
         this.callFlutter(resultSuccess(map));
