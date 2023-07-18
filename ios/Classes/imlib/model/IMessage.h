@@ -47,7 +47,7 @@
 @interface IMessage : NSObject <NSCopying>
 +(MessageContent*)fromRawDict:(NSDictionary *)dict;
 +(MessageContent*)fromRaw:(NSString*)raw;
-
+@property(nonatomic) int64_t msgLocalID;
 @property(nonatomic) int64_t msgId;
 @property(nonatomic) int flags;
 @property(nonatomic) int64_t sender;
