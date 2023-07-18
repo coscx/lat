@@ -9,8 +9,6 @@
 
 #import "MessageAudioView.h"
 #import "FileCache.h"
-#import "MessageViewController.h"
-#import <QuartzCore/QuartzCore.h>
 #import <Masonry/Masonry.h>
 
 #define kblank 5
