@@ -1569,24 +1569,41 @@ GroupMessageObserver>
     }]];
 }
 
--(void)onNewCustomerMessage:(IMessage*)msg cid:(int64_t)cid appid:(int64_t)appid{
+-(void)onNewCustomerMessage:(IMessage*)msg cid:(int64_t)cid appid:(int64_t)appid is_send:(int)is_send{
+    if(is_send){
+        Conversation *con = [[ConversationDB instance] getConversation:msg.receiver  appid:msg.receiverAppID type:CONVERSATION_CUSTOMER_SERVICE];
 
-    Conversation *con = [[ConversationDB instance] getConversation:cid  appid:appid type:CONVERSATION_CUSTOMER_SERVICE];
 
+        if (con != nil) {
 
-    if (con != nil) {
-        if (self.currentUID == msg.receiver) {
-        [[ConversationDB instance] setNewCount:con.rowid count:con.newMsgCount +1];
+        } else {
+            Conversation *con = [[Conversation alloc] init];
+            con.type = CONVERSATION_CUSTOMER_SERVICE;
+            con.appid = msg.receiverAppID;
+            con.cid = msg.receiver;
+            con.message = msg;
+            [[ConversationDB instance] addConversation:con];
+
         }
-    } else {
-        Conversation *con = [[Conversation alloc] init];
-        con.type = CONVERSATION_CUSTOMER_SERVICE;
-        con.appid = appid;
-        con.cid = cid;
-        con.message = msg;
-        [[ConversationDB instance] addConversation:con];
+    }else{
+        Conversation *con = [[ConversationDB instance] getConversation:cid  appid:appid type:CONVERSATION_CUSTOMER_SERVICE];
 
+
+        if (con != nil) {
+
+            [[ConversationDB instance] setNewCount:con.rowid count:con.newMsgCount +1];
+
+        } else {
+            Conversation *con = [[Conversation alloc] init];
+            con.type = CONVERSATION_CUSTOMER_SERVICE;
+            con.appid = appid;
+            con.cid = cid;
+            con.message = msg;
+            [[ConversationDB instance] addConversation:con];
+
+        }
     }
+
     [self callFlutter:[self resultSuccess:@{
         @"type": @"onNewCustomerMessage"
     }]];
@@ -1671,7 +1688,7 @@ GroupMessageObserver>
         appid= m.senderAppID;
     }
 
-    [self onNewCustomerMessage:m cid:cid appid:appid];
+    [self onNewCustomerMessage:m cid:cid appid:appid is_send:1];
 }
 - (void)onCustomerMessageACK:(CustomerMessage *)im{
     [self callFlutter:[self resultSuccess:@{
@@ -2236,7 +2253,7 @@ GroupMessageObserver>
         [[IMService instance] sendCustomerMessageAsync:im];
 
 
-        [self onNewCustomerMessage:(IMessage*)im cid:im.sender appid:im.senderAppID];
+        [self onNewCustomerMessage:(IMessage*)im cid:im.sender appid:im.senderAppID is_send:0];
 
 }
 
