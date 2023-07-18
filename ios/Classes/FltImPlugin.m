@@ -1430,7 +1430,7 @@ GroupMessageObserver>
         cid = m.sender;
     }
 
-    [self onNewMessage:m cid:cid];
+    [self onNewMessage:m cid:cid is_send:0];
 }
 
 - (void)onPeerSecretMessage:(IMMessage *)im {
@@ -1458,112 +1458,69 @@ GroupMessageObserver>
         cid = m.sender;
     }
 
-    [self onNewMessage:m cid:cid];
+    [self onNewMessage:m cid:cid is_send:0];
 }
 
--(void)onNewMessage:(IMessage*)msg cid:(int64_t)cid{
-    int index = -1;
-    for (int i = 0; i < [self.conversations count]; i++) {
-        Conversation *con = [self.conversations objectAtIndex:i];
-        if (con.type == CONVERSATION_PEER && con.cid == cid) {
-            index = i;
-            break;
-        }
-    }
+-(void)onNewMessage:(IMessage*)msg cid:(int64_t)cid is_send:(int)is_send{
 
-        if (self.currentUID == msg.receiver) {
-            Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
-             if (con) {
-                            [[ConversationDB instance] setNewCount:con.rowid count:con.newMsgCount +1];
+ if(is_send){
+  Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
+     if (con != nil) {
 
-             }
-        }
-    if (index != -1) {
-        Conversation *con = [self.conversations objectAtIndex:index];
-        con.message = msg;
-        [self updateConversationDetail:con];
+     } else {
+         Conversation *con = [[Conversation alloc] init];
+         con.type = CONVERSATION_PEER;
+         con.cid = cid;
+         con.message = msg;
+         [[ConversationDB instance] addConversation:con];
 
-        if (self.currentUID == msg.receiver) {
-            con.newMsgCount += 1;
-        }
+     }
+ }else{
+  Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
+     if (con != nil) {
+          [[ConversationDB instance] setNewCount:con.rowid count:con.newMsgCount +1];
+     } else {
+         Conversation *con = [[Conversation alloc] init];
+         con.type = CONVERSATION_PEER;
+         con.cid = cid;
+         con.message = msg;
+         [[ConversationDB instance] addConversation:con];
 
-        if (index != 0) {
-            //置顶
-            [self.conversations removeObjectAtIndex:index];
-            [self.conversations insertObject:con atIndex:0];
-        }
-    } else {
-        Conversation *con = [[Conversation alloc] init];
-        con.type = CONVERSATION_PEER;
-        con.cid = cid;
-        con.message = msg;
+     }
+ }
 
-        [self updateConvNotificationDesc:con];
-        [self updateConversationDetail:con];
-
-        if (self.currentUID == msg.receiver) {
-            con.newMsgCount += 1;
-        }
-        [[ConversationDB instance] addConversation:con];
-        [self.conversations insertObject:con atIndex:0];
-    }
     [self callFlutter:[self resultSuccess:@{
         @"type": @"onNewMessage"
     }]];
 }
 
--(void)onNewGroupMessage:(IMessage*)msg cid:(int64_t)cid{
-    int index = -1;
-    for (int i = 0; i < [self.conversations count]; i++) {
-        Conversation *con = [self.conversations objectAtIndex:i];
-        if (con.type == CONVERSATION_GROUP && con.cid == cid) {
-            index = i;
-            break;
-        }
-    }
+-(void)onNewGroupMessage:(IMessage*)msg cid:(int64_t)cid is_send:(int)is_send{
+  if(is_send){
+    Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
+       if (con != nil) {
 
-
-      Conversation *con_db = [[ConversationDB instance] getConversation:cid type:CONVERSATION_GROUP];
-      if (con_db) {
-         if (self.currentUID != msg.sender) {
-              [[ConversationDB instance] setNewCount:con_db.rowid count:con_db.newMsgCount +1];
-            }
-        } else{
-
+       } else {
+           Conversation *con = [[Conversation alloc] init];
+           con.type = CONVERSATION_GROUP;
+           con.cid = cid;
+           con.message = msg;
+           [[ConversationDB instance] addConversation:con];
 
        }
+   }else{
+    Conversation *con = [[ConversationDB instance] getConversation:cid type:CONVERSATION_PEER];
+       if (con != nil) {
+            [[ConversationDB instance] setNewCount:con.rowid count:con.newMsgCount +1];
+       } else {
+           Conversation *con = [[Conversation alloc] init];
+           con.type = CONVERSATION_GROUP;
+           con.cid = cid;
+           con.message = msg;
+           [[ConversationDB instance] addConversation:con];
 
-    if (index != -1) {
-        Conversation *con = [self.conversations objectAtIndex:index];
-        con.message = msg;
-        [self updateConversationDetail:con];
+       }
+   }
 
-        if (self.currentUID != msg.sender) {
-            con.newMsgCount += 1;
-         }
-
-        if (index != 0) {
-            //置顶
-            [self.conversations removeObjectAtIndex:index];
-            [self.conversations insertObject:con atIndex:0];
-        }
-    } else {
-        Conversation *con = [[Conversation alloc] init];
-        con.type = CONVERSATION_GROUP;
-        con.cid = cid;
-        con.message = msg;
-
-        [self updateConvNotificationDesc:con];
-        [self updateConversationDetail:con];
-
-       if (self.currentUID != msg.sender) {
-            con.newMsgCount += 1;
-        }
-        if (!con_db) {
-            [[ConversationDB instance] addConversation:con];
-        }
-        [self.conversations insertObject:con atIndex:0];
-    }
     [self callFlutter:[self resultSuccess:@{
         @"type": @"onNewGroupMessage"
     }]];
@@ -1651,7 +1608,7 @@ GroupMessageObserver>
     //}
 
 
-    [self onNewGroupMessage:m cid:m.receiver];
+    [self onNewGroupMessage:m cid:m.receiver is_send:0];
 }
 
 
@@ -2123,7 +2080,7 @@ GroupMessageObserver>
         } else {
             [[PeerOutbox instance] uploadAudio:message];
         }
-        [self onNewMessage:message cid:message.receiver];
+        [self onNewMessage:message cid:message.receiver  is_send:1];
     } else if (message.type == MESSAGE_IMAGE) {
         message.uploading = YES;
         if (secret) {
@@ -2131,7 +2088,7 @@ GroupMessageObserver>
         } else {
             [[PeerOutbox instance] uploadImage:message];
         }
-        [self onNewMessage:message cid:message.receiver];
+        [self onNewMessage:message cid:message.receiver is_send:1];
     } else if (message.type == MESSAGE_VIDEO) {
         message.uploading = YES;
         if (secret) {
@@ -2139,7 +2096,7 @@ GroupMessageObserver>
         } else {
             [[PeerOutbox instance] uploadVideo:message];
         }
-        [self onNewMessage:message cid:message.receiver];
+        [self onNewMessage:message cid:message.receiver is_send:1];
     } else {
         IMMessage *im = [[IMMessage alloc] init];
         im.sender = message.sender;
@@ -2155,7 +2112,7 @@ GroupMessageObserver>
         if (r) {
             [[IMService instance] sendPeerMessageAsync:im];
         }
-        [self onNewMessage:message cid:message.receiver];
+        [self onNewMessage:message cid:message.receiver is_send:1];
     }
 }
 - (void)sendGroupMessage:(IMessage *)message secret:(BOOL)secret{
@@ -2166,7 +2123,7 @@ GroupMessageObserver>
         } else {
             [[GroupOutbox instance] uploadAudio:message];
         }
-        [self onNewMessage:message cid:message.receiver];
+        [self onNewMessage:message cid:message.receiver is_send:1];
     } else if (message.type == MESSAGE_IMAGE) {
         message.uploading = YES;
         if (secret) {
@@ -2174,7 +2131,7 @@ GroupMessageObserver>
         } else {
             [[GroupOutbox instance] uploadImage:message];
         }
-        [self onNewMessage:message cid:message.receiver];
+        [self onNewMessage:message cid:message.receiver is_send:1];
     } else if (message.type == MESSAGE_VIDEO) {
         message.uploading = YES;
         if (secret) {
@@ -2182,7 +2139,7 @@ GroupMessageObserver>
         } else {
             [[GroupOutbox instance] uploadVideo:message];
         }
-        [self onNewMessage:message cid:message.receiver];
+        [self onNewMessage:message cid:message.receiver is_send:1];
     } else {
         IMMessage *im = [[IMMessage alloc] init];
         im.sender = message.sender;
@@ -2198,7 +2155,7 @@ GroupMessageObserver>
         if (r) {
             [[IMService instance] sendGroupMessageAsync:im];
         }
-        [self onNewGroupMessage:message cid:message.receiver];
+        [self onNewGroupMessage:message cid:message.receiver is_send:1];
     }
 }
 - (void)sendFlutterMessage:(IMessage *)message secret:(BOOL)secret{
@@ -2218,7 +2175,7 @@ GroupMessageObserver>
         if (r) {
             [[IMService instance] sendPeerMessageAsync:im];
         }
-        [self onNewMessage:message cid:message.receiver];
+        [self onNewMessage:message cid:message.receiver is_send:1];
 
 }
 - (void)sendFlutterGroupMessage:(IMessage *)message secret:(BOOL)secret{
@@ -2238,7 +2195,7 @@ GroupMessageObserver>
         if (r) {
             [[IMService instance] sendGroupMessageAsync:im];
         }
-        [self onNewGroupMessage:message cid:message.receiver];
+        [self onNewGroupMessage:message cid:message.receiver is_send:1];
 
 }
 - (void)sendFlutterCustomerMessage:(IMessage *)message secret:(BOOL)secret{
