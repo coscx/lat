@@ -1688,7 +1688,7 @@ GroupMessageObserver>
         appid= m.senderAppID;
     }
 
-    [self onNewCustomerMessage:m cid:cid appid:appid is_send:1];
+    [self onNewCustomerMessage:m cid:cid appid:appid is_send:0];
 }
 - (void)onCustomerMessageACK:(CustomerMessage *)im{
     [self callFlutter:[self resultSuccess:@{
@@ -2253,7 +2253,7 @@ GroupMessageObserver>
         [[IMService instance] sendCustomerMessageAsync:im];
 
 
-        [self onNewCustomerMessage:(IMessage*)im cid:im.sender appid:im.senderAppID is_send:0];
+        [self onNewCustomerMessage:(IMessage*)im cid:im.sender appid:im.senderAppID is_send:1];
 
 }
 
