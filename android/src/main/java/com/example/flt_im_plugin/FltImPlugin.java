@@ -680,9 +680,9 @@ public class FltImPlugin implements FlutterPlugin,
             return;
         }
 
-        if (VOIPActivity.activityCount > 0) {
-            return;
-        }
+//        if (VOIPActivity.activityCount > 0) {
+//            return;
+//        }
 
         JSONObject obj = null;
         try {
@@ -697,57 +697,57 @@ public class FltImPlugin implements FlutterPlugin,
             return;
         }
 
-        VOIPCommand command = new VOIPCommand(obj);
+//        VOIPCommand command = new VOIPCommand(obj);
+//
+//        if (channelIDs.contains(command.channelID)) {
+//            return;
+//        }
+//        if (command.cmd == VOIPCommand.VOIP_COMMAND_DIAL) {
+//
+//
+//            calling = true;
+//            channelIDs.add(command.channelID);
+//            Intent intent = new Intent();
+//            intent.setClass(activity, VOIPVoiceActivity.class);
+//            intent.putExtra("peer_uid", rt.sender);
+//            intent.putExtra("peer_name", "语音聊天");
+//            intent.putExtra("current_uid", this.memberId);
+//            intent.putExtra("token", "deBug");
+//            intent.putExtra("is_caller", false);
+//            intent.putExtra("channel_id", command.channelID);
+//            activity.startActivityForResult(intent, 1);
 
-        if (channelIDs.contains(command.channelID)) {
-            return;
-        }
-        if (command.cmd == VOIPCommand.VOIP_COMMAND_DIAL) {
 
+       // } else if (command.cmd == VOIPCommand.VOIP_COMMAND_DIAL_VIDEO) {
 
-            calling = true;
-            channelIDs.add(command.channelID);
-            Intent intent = new Intent();
-            intent.setClass(activity, VOIPVoiceActivity.class);
-            intent.putExtra("peer_uid", rt.sender);
-            intent.putExtra("peer_name", "语音聊天");
-            intent.putExtra("current_uid", this.memberId);
-            intent.putExtra("token", "deBug");
-            intent.putExtra("is_caller", false);
-            intent.putExtra("channel_id", command.channelID);
-            activity.startActivityForResult(intent, 1);
+//            calling = true;
+//            channelIDs.add(command.channelID);
+//            Intent intent = new Intent();
+//            intent.setClass(activity, VOIPVideoActivity.class);
+//            intent.putExtra("peer_uid", rt.sender);
+//            intent.putExtra("peer_name", "视频聊天");
+//            intent.putExtra("current_uid", this.memberId);
+//            intent.putExtra("token", "deBug");
+//            intent.putExtra("is_caller", false);
+//            intent.putExtra("channel_id", command.channelID);
+//            activity.startActivityForResult(intent, 1);
 
-
-        } else if (command.cmd == VOIPCommand.VOIP_COMMAND_DIAL_VIDEO) {
-
-            calling = true;
-            channelIDs.add(command.channelID);
-            Intent intent = new Intent();
-            intent.setClass(activity, VOIPVideoActivity.class);
-            intent.putExtra("peer_uid", rt.sender);
-            intent.putExtra("peer_name", "视频聊天");
-            intent.putExtra("current_uid", this.memberId);
-            intent.putExtra("token", "deBug");
-            intent.putExtra("is_caller", false);
-            intent.putExtra("channel_id", command.channelID);
-            activity.startActivityForResult(intent, 1);
-
-        }
+       // }
     }
 
     private void voice_call(Object arg, final Result result) {
         Map argMap = convertToMap(arg);
         long uid = Long.parseLong(argMap.get("uid").toString());
         long peer_id = Long.parseLong(argMap.get("peer_id").toString());
-        Intent intent = new Intent();
-        intent.setClass(activity, VOIPVoiceActivity.class);
-        intent.putExtra("peer_uid", peer_id);
-        intent.putExtra("peer_name", "聊天");
-        intent.putExtra("current_uid", this.memberId);
-        intent.putExtra("token", "deBug");
-        intent.putExtra("is_caller", true);
-        intent.putExtra("channel_id", UUID.randomUUID().toString());
-        activity.startActivity(intent);
+//        Intent intent = new Intent();
+//        intent.setClass(activity, VOIPVoiceActivity.class);
+//        intent.putExtra("peer_uid", peer_id);
+//        intent.putExtra("peer_name", "聊天");
+//        intent.putExtra("current_uid", this.memberId);
+//        intent.putExtra("token", "deBug");
+//        intent.putExtra("is_caller", true);
+//        intent.putExtra("channel_id", UUID.randomUUID().toString());
+//        activity.startActivity(intent);
 
 
     }
@@ -757,15 +757,15 @@ public class FltImPlugin implements FlutterPlugin,
         long uid = Long.parseLong(argMap.get("uid").toString());
         long peer_id = Long.parseLong(argMap.get("peer_id").toString());
         String channel_id = (String) argMap.get("channel_id");
-        Intent intent = new Intent();
-        intent.setClass(activity, VOIPVoiceActivity.class);
-        intent.putExtra("peer_uid", peer_id);
-        intent.putExtra("peer_name", "聊天");
-        intent.putExtra("current_uid", this.memberId);
-        intent.putExtra("token", "deBug");
-        intent.putExtra("is_caller", false);
-        intent.putExtra("channel_id", channel_id);
-        activity.startActivity(intent);
+//        Intent intent = new Intent();
+//        intent.setClass(activity, VOIPVoiceActivity.class);
+//        intent.putExtra("peer_uid", peer_id);
+//        intent.putExtra("peer_name", "聊天");
+//        intent.putExtra("current_uid", this.memberId);
+//        intent.putExtra("token", "deBug");
+//        intent.putExtra("is_caller", false);
+//        intent.putExtra("channel_id", channel_id);
+//        activity.startActivity(intent);
 
 
     }
@@ -774,15 +774,15 @@ public class FltImPlugin implements FlutterPlugin,
         Map argMap = convertToMap(arg);
         long uid = Long.parseLong(argMap.get("uid").toString());
         long peer_id = Long.parseLong(argMap.get("peer_id").toString());
-        Intent intent = new Intent();
-        intent.setClass(activity, VOIPVideoActivity.class);
-        intent.putExtra("peer_uid", peer_id);
-        intent.putExtra("peer_name", "聊天");
-        intent.putExtra("current_uid", this.memberId);
-        intent.putExtra("token", "deBug");
-        intent.putExtra("is_caller", true);
-        intent.putExtra("channel_id", UUID.randomUUID().toString());
-        activity.startActivity(intent);
+//        Intent intent = new Intent();
+//        intent.setClass(activity, VOIPVideoActivity.class);
+//        intent.putExtra("peer_uid", peer_id);
+//        intent.putExtra("peer_name", "聊天");
+//        intent.putExtra("current_uid", this.memberId);
+//        intent.putExtra("token", "deBug");
+//        intent.putExtra("is_caller", true);
+//        intent.putExtra("channel_id", UUID.randomUUID().toString());
+//        activity.startActivity(intent);
 
 
     }
@@ -792,15 +792,15 @@ public class FltImPlugin implements FlutterPlugin,
         long uid = Long.parseLong(argMap.get("uid").toString());
         long peer_id = Long.parseLong(argMap.get("peer_id").toString());
         String channel_id = (String) argMap.get("channel_id");
-        Intent intent = new Intent();
-        intent.setClass(activity, VOIPVideoActivity.class);
-        intent.putExtra("peer_uid", peer_id);
-        intent.putExtra("peer_name", "聊天");
-        intent.putExtra("current_uid", this.memberId);
-        intent.putExtra("token", "deBug");
-        intent.putExtra("is_caller", false);
-        intent.putExtra("channel_id", channel_id);
-        activity.startActivity(intent);
+//        Intent intent = new Intent();
+//        intent.setClass(activity, VOIPVideoActivity.class);
+//        intent.putExtra("peer_uid", peer_id);
+//        intent.putExtra("peer_name", "聊天");
+//        intent.putExtra("current_uid", this.memberId);
+//        intent.putExtra("token", "deBug");
+//        intent.putExtra("is_caller", false);
+//        intent.putExtra("channel_id", channel_id);
+//        activity.startActivity(intent);
 
 
     }

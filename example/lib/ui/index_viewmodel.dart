@@ -13,7 +13,7 @@ class IndexViewModel extends ChangeNotifier {
       showToast('发送用户id 必须填写');
       return;
     }
-    final res = await FltImPlugin().login(uid: tfSender, token: '');
+    final res = await FltImPlugin().login(uid: tfSender, token: '', appid: '');
     logger.d(res);
     int code = ValueUtil.toInt(res?['code']);
     if (code == 0) {
